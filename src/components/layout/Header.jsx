@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight, Sparkles } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Sparkles, User, LayoutDashboard } from 'lucide-react';
 import PageContainer from './PageContainer';
 import Button from '../ui/Button';
 
 /**
  * Reusable luxury Header component with brand logo, desktop navigation,
- * action button, and functional mobile drawer.
+ * action buttons, sign-in links, and functional mobile drawer.
  */
-export default function Header({ onOpenPhaseNotice }) {
+export default function Header({ onOpenPhaseNotice, onNavigate }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -59,6 +59,29 @@ export default function Header({ onOpenPhaseNotice }) {
     }
   };
 
+  const handleGetStarted = () => {
+    setMobileMenuOpen(false);
+    if (onNavigate) {
+      onNavigate('signin');
+    } else if (onOpenPhaseNotice) {
+      onOpenPhaseNotice('Sign In');
+    }
+  };
+
+  const handleSignIn = () => {
+    setMobileMenuOpen(false);
+    if (onNavigate) {
+      onNavigate('signin');
+    }
+  };
+
+  const handleOpenDashboard = () => {
+    setMobileMenuOpen(false);
+    if (onNavigate) {
+      onNavigate('dashboard');
+    }
+  };
+
   return (
     <header
       className={`site-header ${scrolled ? 'site-header-scrolled' : ''}`}
@@ -70,15 +93,15 @@ export default function Header({ onOpenPhaseNotice }) {
           href="#home"
           className="brand-logo-link"
           onClick={(e) => handleNavClick('home', e)}
-          aria-label="Tailzy — Home"
+          aria-label="Tailzey — Home"
         >
           <img
             src="/assets/tailzy-logo.png"
-            alt="Tailzy luxury fashion-tech logo"
+            alt="Tailzey luxury fashion-tech logo"
             className="brand-logo-image"
           />
           <div className="brand-identity">
-            <span className="brand-title">TAILZY</span>
+            <span className="brand-title">TAILZEY</span>
             <span className="brand-tagline-micro">CUSTOM ✦ STYLISH ✦ YOU</span>
           </div>
         </a>
@@ -125,12 +148,31 @@ export default function Header({ onOpenPhaseNotice }) {
           </ul>
         </nav>
 
-        {/* Action Button & Mobile Toggle */}
+        {/* Action Buttons & Mobile Toggle */}
         <div className="header-actions">
+          <button
+            type="button"
+            className="nav-link"
+            onClick={handleSignIn}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              fontSize: 'var(--font-size-sm)',
+              fontWeight: 500,
+            }}
+          >
+            <User size={15} aria-hidden="true" style={{ color: 'var(--color-gold)' }} />
+            <span>Sign In</span>
+          </button>
+
           <Button
             variant="primary"
             size="sm"
-            onClick={() => onOpenPhaseNotice ? onOpenPhaseNotice('Outfit Design Studio') : null}
+            onClick={handleGetStarted}
             className="header-cta-btn"
             icon={Sparkles}
           >
@@ -164,7 +206,7 @@ export default function Header({ onOpenPhaseNotice }) {
       >
         <div className="mobile-drawer-header">
           <div className="brand-identity">
-            <span className="brand-title">TAILZY</span>
+            <span className="brand-title">TAILZEY</span>
             <span className="brand-tagline-micro">CUSTOM ✦ STYLISH ✦ YOU</span>
           </div>
           <button
@@ -219,17 +261,38 @@ export default function Header({ onOpenPhaseNotice }) {
                 <ArrowUpRight size={18} className="nav-arrow" />
               </a>
             </li>
+            <li>
+              <button
+                type="button"
+                className="mobile-nav-link"
+                onClick={handleOpenDashboard}
+                style={{ width: '100%', background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-gold)' }}>
+                  <LayoutDashboard size={18} />
+                  Demo Dashboard
+                </span>
+                <ArrowUpRight size={18} className="nav-arrow" />
+              </button>
+            </li>
           </ul>
         </nav>
 
         <div className="mobile-drawer-footer">
           <Button
+            variant="outline"
+            size="md"
+            onClick={handleSignIn}
+            style={{ width: '100%', marginBottom: '0.5rem' }}
+            icon={User}
+          >
+            Sign In
+          </Button>
+
+          <Button
             variant="primary"
             size="md"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              if (onOpenPhaseNotice) onOpenPhaseNotice('Outfit Design Studio');
-            }}
+            onClick={handleGetStarted}
             style={{ width: '100%' }}
             icon={Sparkles}
           >

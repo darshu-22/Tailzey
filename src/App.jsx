@@ -1,23 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home';
-import { Sparkles, X, Info } from 'lucide-react';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Dashboard from './pages/Dashboard';
+import { Sparkles, X } from 'lucide-react';
 import './styles/variables.css';
 import './styles/global.css';
 import './styles/components.css';
+import './styles/auth.css';
+import './styles/dashboard.css';
 
 /**
- * Main Tailzy Application Component
- * Coordinates layout, header, footer, page view, and interactive phase notices
+ * Main Tailzey Application Component (Phase 2)
+ * Coordinates page views (Home, SignIn, SignUp, Dashboard),
+ * browser hash navigation, and interactive phase notices.
  */
 export default function App() {
+  const [currentPage, setCurrentPage] = useState('home');
   const [phaseNotice, setPhaseNotice] = useState(null);
+
+  // Sync hash routing on mount and hash changes
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (['signin', 'signup', 'dashboard', 'home'].includes(hash)) {
+        setCurrentPage(hash);
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const navigateTo = (page) => {
+    setCurrentPage(page);
+    window.location.hash = page === 'home' ? '' : page;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleOpenPhaseNotice = (featureTitle) => {
     setPhaseNotice({
       title: featureTitle,
-      message: 'This feature is slated for upcoming phases. Phase 1 establishes the visual branding, typography, and reusable UI foundation.',
+      message: 'This feature is slated for upcoming phases. Phase 2 introduces Sign-In, Sign-Up, and the Studio Dashboard workspace.',
     });
   };
 
@@ -27,11 +54,47 @@ export default function App() {
 
   return (
     <div className="tailzy-app">
-      <Header onOpenPhaseNotice={handleOpenPhaseNotice} />
-      
-      <Home onOpenPhaseNotice={handleOpenPhaseNotice} />
+      {/* Route: Sign In */}
+      {currentPage === 'signin' && (
+        <SignIn
+          onNavigate={navigateTo}
+          onOpenPhaseNotice={handleOpenPhaseNotice}
+        />
+      )}
 
-      <Footer onOpenPhaseNotice={handleOpenPhaseNotice} />
+      {/* Route: Sign Up */}
+      {currentPage === 'signup' && (
+        <SignUp
+          onNavigate={navigateTo}
+          onOpenPhaseNotice={handleOpenPhaseNotice}
+        />
+      )}
+
+      {/* Route: Dashboard */}
+      {currentPage === 'dashboard' && (
+        <Dashboard
+          onNavigate={navigateTo}
+          onOpenPhaseNotice={handleOpenPhaseNotice}
+        />
+      )}
+
+      {/* Route: Home */}
+      {currentPage === 'home' && (
+        <>
+          <Header
+            onNavigate={navigateTo}
+            onOpenPhaseNotice={handleOpenPhaseNotice}
+          />
+          <Home
+            onNavigate={navigateTo}
+            onOpenPhaseNotice={handleOpenPhaseNotice}
+          />
+          <Footer
+            onNavigate={navigateTo}
+            onOpenPhaseNotice={handleOpenPhaseNotice}
+          />
+        </>
+      )}
 
       {/* Floating Phase Notice Toast for Non-Implemented Future Features */}
       {phaseNotice && (
