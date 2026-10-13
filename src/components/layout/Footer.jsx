@@ -14,6 +14,10 @@ export default function Footer({ onOpenPhaseNotice, onNavigate }) {
 
   const handleLinkClick = (e, featureName, targetId) => {
     e.preventDefault();
+    if (featureName === 'Dream Outfit Design' && onNavigate) {
+      onNavigate('designer');
+      return;
+    }
     if (targetId) {
       const el = document.getElementById(targetId);
       if (el) {

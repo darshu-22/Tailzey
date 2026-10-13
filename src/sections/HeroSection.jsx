@@ -7,9 +7,11 @@ import Button from '../components/ui/Button';
  * Hero section introducing Tailzy with prominent logo branding,
  * high-converting luxury headline, and clear action pathways.
  */
-export default function HeroSection({ onOpenPhaseNotice }) {
+export default function HeroSection({ onOpenPhaseNotice, onNavigate }) {
   const handlePrimaryAction = () => {
-    if (onOpenPhaseNotice) {
+    if (onNavigate) {
+      onNavigate('designer');
+    } else if (onOpenPhaseNotice) {
       onOpenPhaseNotice('Outfit Design Studio (Dream Design)');
     }
   };

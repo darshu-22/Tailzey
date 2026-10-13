@@ -9,7 +9,7 @@ import StatusBadge from '../components/ui/StatusBadge';
 /**
  * Three polished feature cards showcasing the core pillars of Tailzy
  */
-export default function FeaturesSection({ onOpenPhaseNotice }) {
+export default function FeaturesSection({ onOpenPhaseNotice, onNavigate }) {
   const features = [
     {
       id: 'dream-design',
@@ -46,6 +46,16 @@ export default function FeaturesSection({ onOpenPhaseNotice }) {
     },
   ];
 
+  const handleCardClick = (feature) => {
+    if (feature.id === 'dream-design' && onNavigate) {
+      onNavigate('designer');
+      return;
+    }
+    if (onOpenPhaseNotice) {
+      onOpenPhaseNotice(feature.phaseName);
+    }
+  };
+
   return (
     <section className="section-padding" id="features" aria-label="Tailzy Features">
       <PageContainer>
@@ -65,9 +75,7 @@ export default function FeaturesSection({ onOpenPhaseNotice }) {
                 id={feature.id}
                 interactive
                 className="feature-card"
-                onClick={() =>
-                  onOpenPhaseNotice ? onOpenPhaseNotice(feature.phaseName) : null
-                }
+                onClick={() => handleCardClick(feature)}
               >
                 <CardHeader>
                   <div
@@ -112,7 +120,7 @@ export default function FeaturesSection({ onOpenPhaseNotice }) {
                     ariaLabel={`${feature.actionLabel} - ${feature.title}`}
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (onOpenPhaseNotice) onOpenPhaseNotice(feature.phaseName);
+                      handleCardClick(feature);
                     }}
                   />
                 </CardFooter>

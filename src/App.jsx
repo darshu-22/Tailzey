@@ -5,16 +5,18 @@ import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
+import Designer from './pages/Designer';
 import { Sparkles, X } from 'lucide-react';
 import './styles/variables.css';
 import './styles/global.css';
 import './styles/components.css';
 import './styles/auth.css';
 import './styles/dashboard.css';
+import './styles/designer.css';
 
 /**
- * Main Tailzey Application Component (Phase 2)
- * Coordinates page views (Home, SignIn, SignUp, Dashboard),
+ * Main Tailzey Application Component (Phase 3)
+ * Coordinates page views (Home, SignIn, SignUp, Dashboard, Designer),
  * browser hash navigation, and interactive phase notices.
  */
 export default function App() {
@@ -25,8 +27,8 @@ export default function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['signin', 'signup', 'dashboard', 'home'].includes(hash)) {
-        setCurrentPage(hash);
+      if (['signin', 'signup', 'dashboard', 'home', 'designer', 'dream-design'].includes(hash)) {
+        setCurrentPage(hash === 'dream-design' ? 'designer' : hash);
       }
     };
 
@@ -44,7 +46,7 @@ export default function App() {
   const handleOpenPhaseNotice = (featureTitle) => {
     setPhaseNotice({
       title: featureTitle,
-      message: 'This feature is slated for upcoming phases. Phase 2 introduces Sign-In, Sign-Up, and the Studio Dashboard workspace.',
+      message: 'This feature is slated for upcoming phases. Phase 3 introduces the interactive Dream Outfit Designer studio.',
     });
   };
 
@@ -73,6 +75,14 @@ export default function App() {
       {/* Route: Dashboard */}
       {currentPage === 'dashboard' && (
         <Dashboard
+          onNavigate={navigateTo}
+          onOpenPhaseNotice={handleOpenPhaseNotice}
+        />
+      )}
+
+      {/* Route: Dream Outfit Designer (Phase 3) */}
+      {currentPage === 'designer' && (
+        <Designer
           onNavigate={navigateTo}
           onOpenPhaseNotice={handleOpenPhaseNotice}
         />

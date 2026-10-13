@@ -101,7 +101,7 @@ export default function Dashboard({ onNavigate, onOpenPhaseNotice }) {
               badgeVariant="gold"
               icon={Palette}
               actionLabel="Launch Outfit Designer"
-              onClick={() => handleActionClick('Dream Outfit Designer Studio')}
+              onClick={() => (onNavigate ? onNavigate('designer') : handleActionClick('Dream Outfit Designer Studio'))}
             />
 
             <DashboardActionCard
@@ -135,7 +135,7 @@ export default function Dashboard({ onNavigate, onOpenPhaseNotice }) {
                   title="No Designs Created Yet"
                   description="Your customized garments will be saved here once you start crafting outfits in the studio."
                   actionLabel="Create First Design"
-                  onAction={() => handleActionClick('Dream Outfit Designer Studio')}
+                  onAction={() => (onNavigate ? onNavigate('designer') : handleActionClick('Dream Outfit Designer Studio'))}
                 />
               </div>
             </div>

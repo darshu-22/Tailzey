@@ -46,6 +46,13 @@ export default function Header({ onOpenPhaseNotice, onNavigate }) {
     if (e) e.preventDefault();
     setMobileMenuOpen(false);
 
+    if (featureName === 'Dream Design' || sectionId === 'dream-design') {
+      if (onNavigate) {
+        onNavigate('designer');
+        return;
+      }
+    }
+
     if (sectionId) {
       const el = document.getElementById(sectionId);
       if (el) {
