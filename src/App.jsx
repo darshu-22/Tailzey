@@ -6,6 +6,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
 import Designer from './pages/Designer';
+import SmartMeasurement from './pages/SmartMeasurement';
 import { Sparkles, X } from 'lucide-react';
 import './styles/variables.css';
 import './styles/global.css';
@@ -13,10 +14,11 @@ import './styles/components.css';
 import './styles/auth.css';
 import './styles/dashboard.css';
 import './styles/designer.css';
+import './styles/measurement.css';
 
 /**
- * Main Tailzey Application Component (Phase 3)
- * Coordinates page views (Home, SignIn, SignUp, Dashboard, Designer),
+ * Main Tailzey Application Component (Phase 4)
+ * Coordinates page views (Home, SignIn, SignUp, Dashboard, Designer, SmartMeasurement),
  * browser hash navigation, and interactive phase notices.
  */
 export default function App() {
@@ -27,8 +29,14 @@ export default function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['signin', 'signup', 'dashboard', 'home', 'designer', 'dream-design'].includes(hash)) {
-        setCurrentPage(hash === 'dream-design' ? 'designer' : hash);
+      if (['signin', 'signup', 'dashboard', 'home', 'designer', 'dream-design', 'measurement', 'smart-measurement'].includes(hash)) {
+        if (hash === 'dream-design') {
+          setCurrentPage('designer');
+        } else if (hash === 'smart-measurement') {
+          setCurrentPage('measurement');
+        } else {
+          setCurrentPage(hash);
+        }
       }
     };
 
@@ -46,7 +54,7 @@ export default function App() {
   const handleOpenPhaseNotice = (featureTitle) => {
     setPhaseNotice({
       title: featureTitle,
-      message: 'This feature is slated for upcoming phases. Phase 3 introduces the interactive Dream Outfit Designer studio.',
+      message: 'This feature is slated for upcoming phases. Phase 4 introduces the Guided Smart Measurement studio experience.',
     });
   };
 
@@ -83,6 +91,14 @@ export default function App() {
       {/* Route: Dream Outfit Designer (Phase 3) */}
       {currentPage === 'designer' && (
         <Designer
+          onNavigate={navigateTo}
+          onOpenPhaseNotice={handleOpenPhaseNotice}
+        />
+      )}
+
+      {/* Route: Guided Smart Measurement (Phase 4) */}
+      {currentPage === 'measurement' && (
+        <SmartMeasurement
           onNavigate={navigateTo}
           onOpenPhaseNotice={handleOpenPhaseNotice}
         />

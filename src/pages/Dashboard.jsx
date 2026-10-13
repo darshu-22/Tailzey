@@ -111,7 +111,7 @@ export default function Dashboard({ onNavigate, onOpenPhaseNotice }) {
               badgeVariant="bronze"
               icon={Ruler}
               actionLabel="Begin Fit Review"
-              onClick={() => handleActionClick('Smart Measurement Experience')}
+              onClick={() => (onNavigate ? onNavigate('measurement') : handleActionClick('Smart Measurement Experience'))}
             />
           </div>
 
@@ -158,7 +158,7 @@ export default function Dashboard({ onNavigate, onOpenPhaseNotice }) {
                   title="No Fit Profile on Record"
                   description="Complete a guided measurement session to store your exact chest, waist, and silhouette metrics."
                   actionLabel="Calibrate Measurements"
-                  onAction={() => handleActionClick('Smart Measurement Calibration')}
+                  onAction={() => (onNavigate ? onNavigate('measurement') : handleActionClick('Smart Measurement Calibration'))}
                 />
               </div>
             </div>

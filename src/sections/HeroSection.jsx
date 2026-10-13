@@ -17,12 +17,15 @@ export default function HeroSection({ onOpenPhaseNotice, onNavigate }) {
   };
 
   const handleSecondaryAction = () => {
-    // Smooth scroll to features or open phase notice
-    const featEl = document.getElementById('features');
-    if (featEl) {
-      featEl.scrollIntoView({ behavior: 'smooth' });
-    } else if (onOpenPhaseNotice) {
-      onOpenPhaseNotice('Smart Body Measurement');
+    if (onNavigate) {
+      onNavigate('measurement');
+    } else {
+      const featEl = document.getElementById('features');
+      if (featEl) {
+        featEl.scrollIntoView({ behavior: 'smooth' });
+      } else if (onOpenPhaseNotice) {
+        onOpenPhaseNotice('Smart Body Measurement');
+      }
     }
   };
 

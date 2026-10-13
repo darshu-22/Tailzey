@@ -18,6 +18,10 @@ export default function Footer({ onOpenPhaseNotice, onNavigate }) {
       onNavigate('designer');
       return;
     }
+    if ((featureName === 'Smart Measurement' || featureName === 'Smart Measurement Experience') && onNavigate) {
+      onNavigate('measurement');
+      return;
+    }
     if (targetId) {
       const el = document.getElementById(targetId);
       if (el) {

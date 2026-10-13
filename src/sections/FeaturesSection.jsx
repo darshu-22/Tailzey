@@ -51,6 +51,10 @@ export default function FeaturesSection({ onOpenPhaseNotice, onNavigate }) {
       onNavigate('designer');
       return;
     }
+    if (feature.id === 'smart-measurement' && onNavigate) {
+      onNavigate('measurement');
+      return;
+    }
     if (onOpenPhaseNotice) {
       onOpenPhaseNotice(feature.phaseName);
     }

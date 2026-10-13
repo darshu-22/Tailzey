@@ -53,6 +53,13 @@ export default function Header({ onOpenPhaseNotice, onNavigate }) {
       }
     }
 
+    if (featureName === 'Smart Measurement' || sectionId === 'smart-measurement') {
+      if (onNavigate) {
+        onNavigate('measurement');
+        return;
+      }
+    }
+
     if (sectionId) {
       const el = document.getElementById(sectionId);
       if (el) {

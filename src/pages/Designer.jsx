@@ -434,7 +434,7 @@ export default function Designer({ onNavigate, onOpenPhaseNotice }) {
                 <Sparkles size={24} style={{ color: 'var(--color-gold)' }} />
               </div>
               <div>
-                <StatusBadge variant="gold">Phase 4 Upcoming</StatusBadge>
+                <StatusBadge variant="gold">Phase 4 Ready</StatusBadge>
                 <h3 id="modal-continue-title" className="designer-modal-title">
                   Next Step: Smart Measurement Calibration
                 </h3>
@@ -458,9 +458,9 @@ export default function Designer({ onNavigate, onOpenPhaseNotice }) {
               <div className="designer-modal-notice-box">
                 <Info size={18} style={{ color: 'var(--color-gold)', flexShrink: 0 }} />
                 <div>
-                  <strong>Upcoming Phase 4 Workflow:</strong>
+                  <strong>Phase 4 Studio Experience:</strong>
                   <p style={{ marginTop: '0.25rem', fontSize: '0.82rem', color: 'var(--color-text-secondary)' }}>
-                    Phase 3 focuses on the frontend Outfit Designer UI. The next workflow phase is <strong>Smart Body Measurement Calibration</strong>, which will map your bespoke outfit specifications to exact anatomical metrics.
+                    Your design specification is ready. You can now launch the <strong>Smart Body Measurement Calibration</strong> experience to calibrate your tailored silhouette through 6 guided camera poses or manual tape entry.
                   </p>
                 </div>
               </div>
@@ -482,13 +482,13 @@ export default function Designer({ onNavigate, onOpenPhaseNotice }) {
               <Button
                 variant="primary"
                 size="md"
-                icon={LayoutDashboard}
+                icon={Ruler}
                 onClick={() => {
                   setContinueModalOpen(false);
-                  if (onNavigate) onNavigate('dashboard');
+                  if (onNavigate) onNavigate('measurement');
                 }}
               >
-                Back to Dashboard
+                Launch Smart Measurement
               </Button>
             </div>
           </div>
