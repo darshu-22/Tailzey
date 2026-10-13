@@ -650,6 +650,7 @@ export default function GarmentPreview({
   styleId = 'classic',
   fitId = 'slim',
   options = {},
+  onOpen3DViewer,
   className = '',
 }) {
   const [isDetailView, setIsDetailView] = useState(false);
@@ -679,17 +680,33 @@ export default function GarmentPreview({
           <span className="preview-spec-pill">{style.name}</span>
         </div>
 
-        {/* View Focus Toggle */}
-        <button
-          type="button"
-          onClick={() => setIsDetailView(!isDetailView)}
-          className="preview-view-toggle-btn"
-          aria-label={isDetailView ? 'Switch to Full Silhouette View' : 'Switch to Close-Up Tailoring View'}
-          title={isDetailView ? 'Full Silhouette View' : 'Close-up Tailoring Detail'}
-        >
-          {isDetailView ? <ZoomOut size={16} /> : <ZoomIn size={16} />}
-          <span>{isDetailView ? 'Full View' : 'Detail View'}</span>
-        </button>
+        {/* View Controls: 3D Studio & Detail Toggle */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+          {onOpen3DViewer && (
+            <button
+              type="button"
+              onClick={onOpen3DViewer}
+              className="preview-view-toggle-btn"
+              style={{ color: 'var(--color-gold)', borderColor: 'var(--color-border)' }}
+              aria-label="Inspect silhouette in Interactive 3D Avatar Studio"
+              title="Open 3D Avatar Studio"
+            >
+              <Sparkles size={14} />
+              <span>3D Studio</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setIsDetailView(!isDetailView)}
+            className="preview-view-toggle-btn"
+            aria-label={isDetailView ? 'Switch to Full Silhouette View' : 'Switch to Close-Up Tailoring View'}
+            title={isDetailView ? 'Full Silhouette View' : 'Close-up Tailoring Detail'}
+          >
+            {isDetailView ? <ZoomOut size={16} /> : <ZoomIn size={16} />}
+            <span>{isDetailView ? 'Full View' : 'Detail View'}</span>
+          </button>
+        </div>
       </div>
 
       {/* Main Atelier Canvas Presentation Box */}

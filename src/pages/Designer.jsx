@@ -374,6 +374,18 @@ export default function Designer({
                   styleId={selectedStyleId}
                   fitId={selectedFitId}
                   options={customOptions}
+                  onOpen3DViewer={() => {
+                    if (onUpdateDesignerSession) {
+                      onUpdateDesignerSession({
+                        garmentId: selectedGarmentId,
+                        colorId: selectedColorId,
+                        styleId: selectedStyleId,
+                        fitId: selectedFitId,
+                        customOptions,
+                      });
+                    }
+                    if (onNavigate) onNavigate('preview3d');
+                  }}
                 />
               </div>
 
@@ -431,6 +443,27 @@ export default function Designer({
                 ariaLabel="Return to Customization Controls"
               >
                 Back to Customization
+              </Button>
+
+              <Button
+                variant="outline"
+                size="sm"
+                icon={Sparkles}
+                onClick={() => {
+                  if (onUpdateDesignerSession) {
+                    onUpdateDesignerSession({
+                      garmentId: selectedGarmentId,
+                      colorId: selectedColorId,
+                      styleId: selectedStyleId,
+                      fitId: selectedFitId,
+                      customOptions,
+                    });
+                  }
+                  if (onNavigate) onNavigate('preview3d');
+                }}
+                ariaLabel="Inspect this bespoke design in the 3D Avatar Studio"
+              >
+                Inspect in 3D Avatar Studio
               </Button>
 
               <Button
@@ -504,6 +537,27 @@ export default function Designer({
                 onClick={() => setContinueModalOpen(false)}
               >
                 Return to Review
+              </Button>
+
+              <Button
+                variant="outline"
+                size="md"
+                icon={Sparkles}
+                onClick={() => {
+                  setContinueModalOpen(false);
+                  if (onUpdateDesignerSession) {
+                    onUpdateDesignerSession({
+                      garmentId: selectedGarmentId,
+                      colorId: selectedColorId,
+                      styleId: selectedStyleId,
+                      fitId: selectedFitId,
+                      customOptions,
+                    });
+                  }
+                  if (onNavigate) onNavigate('preview3d');
+                }}
+              >
+                3D Avatar Studio
               </Button>
 
               <Button

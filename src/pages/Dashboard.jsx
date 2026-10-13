@@ -164,7 +164,7 @@ export default function Dashboard({ onNavigate, onOpenPhaseNotice }) {
             </div>
           </div>
 
-          {/* Small "Coming Soon" Area for Future Features */}
+          {/* Phase 6 Feature Callout: 3D Outfit Studio */}
           <div className="dashboard-coming-soon-box">
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <div
@@ -180,25 +180,25 @@ export default function Dashboard({ onNavigate, onOpenPhaseNotice }) {
                   border: '1px solid var(--color-border)',
                 }}
               >
-                <Clock size={20} />
+                <Sparkles size={20} />
               </div>
               <div>
                 <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.15rem', color: 'var(--color-text-primary)' }}>
-                  Coming Soon to Your Workspace
+                  Interactive 3D Avatar & Outfit Studio
                 </h4>
                 <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-                  Virtual drape preview, fabric swatch orders, and 3D fit visualization are in active development.
+                  Orbit 360°, inspect tailored garment drape, test luxury fabric palettes, and examine contours in real time.
                 </p>
               </div>
             </div>
 
             <Button
-              variant="outline"
+              variant="primary"
               size="sm"
               icon={Sparkles}
-              onClick={() => handleActionClick('Upcoming Features Roadmap')}
+              onClick={() => onNavigate && onNavigate('preview3d')}
             >
-              View Studio Roadmap
+              Launch 3D Studio
             </Button>
           </div>
         </main>

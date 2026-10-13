@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import Designer from './pages/Designer';
 import SmartMeasurement from './pages/SmartMeasurement';
 import MeasurementResults from './pages/MeasurementResults';
+import AvatarPreview from './pages/AvatarPreview';
 import { Sparkles, X } from 'lucide-react';
 import './styles/variables.css';
 import './styles/global.css';
@@ -17,30 +18,34 @@ import './styles/dashboard.css';
 import './styles/designer.css';
 import './styles/measurement.css';
 import './styles/results.css';
+import './styles/viewer3d.css';
 
 /**
- * Main Tailzey Application Component (Phase 5)
- * Coordinates page views (Home, SignIn, SignUp, Dashboard, Designer, SmartMeasurement, MeasurementResults),
+ * Main Tailzey Application Component (Phase 6)
+ * Coordinates page views (Home, SignIn, SignUp, Dashboard, Designer, SmartMeasurement, MeasurementResults, AvatarPreview),
  * browser hash navigation, shared in-memory React session data, and interactive phase notices.
  */
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [phaseNotice, setPhaseNotice] = useState(null);
 
-  // In-memory measurement session state (shared React state across Phase 4 & Phase 5)
+  // In-memory measurement session state (shared React state across Phase 4, Phase 5 & Phase 6)
   const [measurementSession, setMeasurementSession] = useState({
     manualValues: {},
     manualUnit: 'cm',
     cameraCaptureCount: 0,
     isCameraCompleted: false,
     skippedCount: 0,
+    selectedSize: 'M',
+    selectedSizeType: 'letter',
   });
 
-  // In-memory outfit design session state (shared React state across Phase 3 & Phase 5)
+  // In-memory outfit design session state (shared React state across Phase 3, Phase 5 & Phase 6)
   const [designerSession, setDesignerSession] = useState({
     garmentId: 'jacket',
     fitId: 'regular',
-    colorId: 'obsidian',
+    colorId: 'black',
+    styleId: 'classic',
   });
 
   // Sync hash routing on mount and hash changes
@@ -60,6 +65,10 @@ export default function App() {
         'measurement-results',
         'size-selector',
         'measurement-studio',
+        'preview3d',
+        'avatar-preview',
+        '3d-preview',
+        'outfit-viewer',
       ].includes(hash)) {
         if (hash === 'dream-design') {
           setCurrentPage('designer');
@@ -67,6 +76,8 @@ export default function App() {
           setCurrentPage('measurement');
         } else if (['measurement-results', 'size-selector', 'measurement-studio'].includes(hash)) {
           setCurrentPage('results');
+        } else if (['avatar-preview', '3d-preview', 'outfit-viewer'].includes(hash)) {
+          setCurrentPage('preview3d');
         } else {
           setCurrentPage(hash);
         }
@@ -147,6 +158,18 @@ export default function App() {
           measurementSession={measurementSession}
           onUpdateMeasurementSession={setMeasurementSession}
           designerSession={designerSession}
+          onNavigate={navigateTo}
+          onOpenPhaseNotice={handleOpenPhaseNotice}
+        />
+      )}
+
+      {/* Route: Interactive 3D Avatar & Outfit Studio (Phase 6) */}
+      {currentPage === 'preview3d' && (
+        <AvatarPreview
+          designerSession={designerSession}
+          onUpdateDesignerSession={setDesignerSession}
+          measurementSession={measurementSession}
+          onUpdateMeasurementSession={setMeasurementSession}
           onNavigate={navigateTo}
           onOpenPhaseNotice={handleOpenPhaseNotice}
         />

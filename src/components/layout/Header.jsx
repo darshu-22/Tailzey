@@ -60,6 +60,13 @@ export default function Header({ onOpenPhaseNotice, onNavigate }) {
       }
     }
 
+    if (featureName === '3D Avatar Studio' || sectionId === 'preview3d') {
+      if (onNavigate) {
+        onNavigate('preview3d');
+        return;
+      }
+    }
+
     if (sectionId) {
       const el = document.getElementById(sectionId);
       if (el) {
@@ -148,6 +155,15 @@ export default function Header({ onOpenPhaseNotice, onNavigate }) {
                 onClick={(e) => handleNavClick('smart-measurement', e, 'Smart Measurement')}
               >
                 Smart Measurement
+              </a>
+            </li>
+            <li>
+              <a
+                href="#preview3d"
+                className="nav-link"
+                onClick={(e) => handleNavClick('preview3d', e, '3D Avatar Studio')}
+              >
+                3D Studio
               </a>
             </li>
             <li>
@@ -262,6 +278,16 @@ export default function Header({ onOpenPhaseNotice, onNavigate }) {
                 onClick={(e) => handleNavClick('smart-measurement', e, 'Smart Measurement')}
               >
                 <span>Smart Measurement</span>
+                <ArrowUpRight size={18} className="nav-arrow" />
+              </a>
+            </li>
+            <li>
+              <a
+                href="#preview3d"
+                className="mobile-nav-link"
+                onClick={(e) => handleNavClick('preview3d', e, '3D Avatar Studio')}
+              >
+                <span>3D Avatar Studio</span>
                 <ArrowUpRight size={18} className="nav-arrow" />
               </a>
             </li>

@@ -325,11 +325,22 @@ export default function MeasurementResults({
               onEditMeasurements={handleScrollToEdit}
               onResetAdjustments={handleResetAllAdjustments}
               onReviewSummary={() => setReviewSummaryModalOpen(true)}
-              onContinue3D={() => setContinue3DModalOpen(true)}
+              onContinue3D={() => (onNavigate ? onNavigate('preview3d') : setContinue3DModalOpen(true))}
             />
 
             {/* Navigation Shortcuts */}
             <div className="results-shortcuts-card">
+              <Button
+                variant="primary"
+                size="sm"
+                icon={Sparkles}
+                onClick={() => onNavigate && onNavigate('preview3d')}
+                style={{ width: '100%', marginBottom: '0.5rem' }}
+                ariaLabel="Launch 3D Avatar & Outfit Studio"
+              >
+                Launch 3D Avatar Studio
+              </Button>
+
               <Button
                 variant="outline"
                 size="sm"
@@ -356,7 +367,7 @@ export default function MeasurementResults({
         </div>
       </main>
 
-      {/* PHASE 6 HAND-OFF MODAL: Transparently explains Interactive 3D Avatar is in development */}
+      {/* PHASE 6 MODAL: Launch Interactive 3D Avatar Studio */}
       {continue3DModalOpen && (
         <div
           className="results-modal-overlay"
@@ -370,9 +381,9 @@ export default function MeasurementResults({
                 <Box size={24} style={{ color: 'var(--color-gold)' }} />
               </div>
               <div>
-                <StatusBadge variant="gold">Phase 6 Upcoming</StatusBadge>
+                <StatusBadge variant="gold">Phase 6 Ready</StatusBadge>
                 <h3 id="modal-3d-title" className="modal-title">
-                  Next Step: Interactive 3D Avatar Preview
+                  Interactive 3D Avatar & Outfit Studio
                 </h3>
               </div>
               <button
@@ -391,17 +402,17 @@ export default function MeasurementResults({
               </p>
 
               <div className="modal-notice-card" role="note">
-                <Info size={18} style={{ color: 'var(--color-gold)', flexShrink: 0 }} />
+                <Sparkles size={18} style={{ color: 'var(--color-gold)', flexShrink: 0 }} />
                 <div>
-                  <strong>Upcoming Phase 6 Workflow:</strong>
+                  <strong>Phase 6 Interactive 3D Experience:</strong>
                   <p style={{ marginTop: '0.25rem', fontSize: '0.82rem', color: 'var(--color-text-secondary)' }}>
-                    Phase 5 delivers your Measurement Results and Size Selector. The next workflow phase is the <strong>Interactive 3D Avatar & Garment Fitting Preview</strong>, which will generate a 3D avatar visualization and simulate real-time fabric drape based on these exact calibrated metrics.
+                    Launch the <strong>Interactive 3D Avatar & Outfit Studio</strong> to inspect your bespoke garment silhouette from any angle on our 360° atelier mannequin with real-time fabric shading, zoom controls, and fit drape customization.
                   </p>
                 </div>
               </div>
 
               <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-                No fabricated 3D models or automated fit calculations have been rendered in this phase. Your values remain safely in current React state.
+                Your tailored selections flow directly into the 3D viewer. Values remain securely in your local React state.
               </p>
             </div>
 
@@ -417,13 +428,13 @@ export default function MeasurementResults({
               <Button
                 variant="primary"
                 size="md"
-                icon={LayoutDashboard}
+                icon={Sparkles}
                 onClick={() => {
                   setContinue3DModalOpen(false);
-                  if (onNavigate) onNavigate('dashboard');
+                  if (onNavigate) onNavigate('preview3d');
                 }}
               >
-                Back to Dashboard
+                Launch 3D Avatar Studio
               </Button>
             </div>
           </div>
@@ -545,10 +556,10 @@ export default function MeasurementResults({
                 icon={Sparkles}
                 onClick={() => {
                   setReviewSummaryModalOpen(false);
-                  setContinue3DModalOpen(true);
+                  if (onNavigate) onNavigate('preview3d');
                 }}
               >
-                Continue to 3D Preview
+                Launch 3D Avatar Studio
               </Button>
             </div>
           </div>

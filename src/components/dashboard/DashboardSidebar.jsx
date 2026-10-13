@@ -28,8 +28,9 @@ export default function DashboardSidebar({
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, isImplemented: true },
     { id: 'dream-design', label: 'Dream Design', icon: Palette, isImplemented: true },
     { id: 'smart-measurement', label: 'Smart Measurement', icon: Ruler, isImplemented: true },
-    { id: 'my-designs', label: 'My Designs', icon: FolderHeart, phaseName: 'My Saved Designs Collection' },
     { id: 'my-measurements', label: 'My Measurements', icon: Sliders, isImplemented: true },
+    { id: 'avatar-3d', label: '3D Outfit Studio', icon: Sparkles, isImplemented: true },
+    { id: 'my-designs', label: 'My Designs', icon: FolderHeart, phaseName: 'My Saved Designs Collection' },
   ];
 
   const secondaryNavItems = [
@@ -49,6 +50,10 @@ export default function DashboardSidebar({
     }
     if (item.id === 'my-measurements') {
       if (onNavigate) onNavigate('results');
+      return;
+    }
+    if (item.id === 'avatar-3d') {
+      if (onNavigate) onNavigate('preview3d');
       return;
     }
     if (item.isImplemented) {
