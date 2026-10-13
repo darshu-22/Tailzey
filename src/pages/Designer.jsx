@@ -37,18 +37,29 @@ import {
  * Coordinates 3-step workflow, real-time styling updates, live visual preview,
  * design summary, and atelier review sheet.
  */
-export default function Designer({ onNavigate, onOpenPhaseNotice }) {
+export default function Designer({
+  designerSession = {},
+  onUpdateDesignerSession,
+  onNavigate,
+  onOpenPhaseNotice,
+}) {
   // 1 = Choose Garment, 2 = Customize Style, 3 = Review Design
   const [currentStep, setCurrentStep] = useState(1);
 
   // Active Garment State (default: jacket)
-  const [selectedGarmentId, setSelectedGarmentId] = useState('jacket');
+  const [selectedGarmentId, setSelectedGarmentId] = useState(
+    designerSession.garmentId || 'jacket'
+  );
 
   // Core Customization State
-  const initialGarment = getGarmentById('jacket');
-  const [selectedColorId, setSelectedColorId] = useState(initialGarment.defaultOptions.color);
+  const initialGarment = getGarmentById(designerSession.garmentId || 'jacket');
+  const [selectedColorId, setSelectedColorId] = useState(
+    designerSession.colorId || initialGarment.defaultOptions.color
+  );
   const [selectedStyleId, setSelectedStyleId] = useState(initialGarment.defaultOptions.style);
-  const [selectedFitId, setSelectedFitId] = useState(initialGarment.defaultOptions.fit);
+  const [selectedFitId, setSelectedFitId] = useState(
+    designerSession.fitId || initialGarment.defaultOptions.fit
+  );
 
   // Category-specific attributes
   const [customOptions, setCustomOptions] = useState({
@@ -82,6 +93,15 @@ export default function Designer({ onNavigate, onOpenPhaseNotice }) {
       pattern: newGarment.defaultOptions.pattern,
     });
     setIsDraftSaved(false);
+
+    if (onUpdateDesignerSession) {
+      onUpdateDesignerSession({
+        ...designerSession,
+        garmentId,
+        colorId: newGarment.defaultOptions.color,
+        fitId: newGarment.defaultOptions.fit,
+      });
+    }
   };
 
   // Update specific category control
@@ -314,6 +334,13 @@ export default function Designer({ onNavigate, onOpenPhaseNotice }) {
                   onFitChange={(fitId) => {
                     setSelectedFitId(fitId);
                     setIsDraftSaved(false);
+                    if (onUpdateDesignerSession) {
+                      onUpdateDesignerSession({
+                        ...designerSession,
+                        garmentId: selectedGarmentId,
+                        fitId,
+                      });
+                    }
                   }}
                 />
 

@@ -29,7 +29,7 @@ export default function DashboardSidebar({
     { id: 'dream-design', label: 'Dream Design', icon: Palette, isImplemented: true },
     { id: 'smart-measurement', label: 'Smart Measurement', icon: Ruler, isImplemented: true },
     { id: 'my-designs', label: 'My Designs', icon: FolderHeart, phaseName: 'My Saved Designs Collection' },
-    { id: 'my-measurements', label: 'My Measurements', icon: Sliders, phaseName: 'My Measurements Profile' },
+    { id: 'my-measurements', label: 'My Measurements', icon: Sliders, isImplemented: true },
   ];
 
   const secondaryNavItems = [
@@ -45,6 +45,10 @@ export default function DashboardSidebar({
     }
     if (item.id === 'smart-measurement') {
       if (onNavigate) onNavigate('measurement');
+      return;
+    }
+    if (item.id === 'my-measurements') {
+      if (onNavigate) onNavigate('results');
       return;
     }
     if (item.isImplemented) {

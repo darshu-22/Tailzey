@@ -29,7 +29,12 @@ import { CAPTURE_STEPS } from '../data/measurementData';
  * 5. Manual Measurement Fallback
  * 6. Honest Results Preview
  */
-export default function SmartMeasurement({ onNavigate, onOpenPhaseNotice }) {
+export default function SmartMeasurement({
+  measurementSession = {},
+  onUpdateMeasurementSession,
+  onNavigate,
+  onOpenPhaseNotice,
+}) {
   // Screen state: 'intro' | 'setup' | 'capture' | 'progress' | 'manual' | 'review'
   const [currentScreen, setCurrentScreen] = useState('intro');
 
@@ -40,8 +45,8 @@ export default function SmartMeasurement({ onNavigate, onOpenPhaseNotice }) {
   const [isCameraActive, setIsCameraActive] = useState(true);
 
   // Manual Measurement Form State
-  const [manualValues, setManualValues] = useState({});
-  const [manualUnit, setManualUnit] = useState('cm');
+  const [manualValues, setManualValues] = useState(() => measurementSession?.manualValues || {});
+  const [manualUnit, setManualUnit] = useState(() => measurementSession?.manualUnit || 'cm');
 
   // Review screen source tracker: 'camera' | 'manual' | 'both'
   const [sessionType, setSessionType] = useState('camera');
@@ -109,6 +114,14 @@ export default function SmartMeasurement({ onNavigate, onOpenPhaseNotice }) {
   const handleFinishCaptureSequence = () => {
     setIsCameraActive(false);
     setSessionType('camera');
+    if (onUpdateMeasurementSession) {
+      onUpdateMeasurementSession({
+        ...measurementSession,
+        cameraCaptureCount: Object.keys(capturedImages).length,
+        isCameraCompleted: Object.keys(capturedImages).length >= 6,
+        skippedCount: Object.keys(skippedSteps).length,
+      });
+    }
     setCurrentScreen('progress');
   };
 
@@ -117,6 +130,16 @@ export default function SmartMeasurement({ onNavigate, onOpenPhaseNotice }) {
     setManualValues(enteredValues);
     setManualUnit(enteredUnit);
     setSessionType(Object.keys(capturedImages).length > 0 ? 'both' : 'manual');
+    if (onUpdateMeasurementSession) {
+      onUpdateMeasurementSession({
+        ...measurementSession,
+        manualValues: enteredValues,
+        manualUnit: enteredUnit,
+        cameraCaptureCount: Object.keys(capturedImages).length,
+        isCameraCompleted: Object.keys(capturedImages).length >= 6,
+        skippedCount: Object.keys(skippedSteps).length,
+      });
+    }
     setCurrentScreen('review');
   };
 
@@ -324,6 +347,7 @@ export default function SmartMeasurement({ onNavigate, onOpenPhaseNotice }) {
             }}
             onReturnDashboard={() => onNavigate && onNavigate('dashboard')}
             onGoToDesigner={() => onNavigate && onNavigate('designer')}
+            onGoToResults={() => onNavigate && onNavigate('results')}
           />
         )}
       </main>

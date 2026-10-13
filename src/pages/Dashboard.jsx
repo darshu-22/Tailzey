@@ -156,9 +156,9 @@ export default function Dashboard({ onNavigate, onOpenPhaseNotice }) {
                 <EmptyState
                   icon={Scissors}
                   title="No Fit Profile on Record"
-                  description="Complete a guided measurement session to store your exact chest, waist, and silhouette metrics."
-                  actionLabel="Calibrate Measurements"
-                  onAction={() => (onNavigate ? onNavigate('measurement') : handleActionClick('Smart Measurement Calibration'))}
+                  description="Complete a guided measurement session or enter your bespoke metrics directly in the Measurement Studio."
+                  actionLabel="Open Measurement Studio"
+                  onAction={() => (onNavigate ? onNavigate('results') : handleActionClick('Measurement Studio'))}
                 />
               </div>
             </div>

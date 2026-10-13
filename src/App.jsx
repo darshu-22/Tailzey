@@ -7,6 +7,7 @@ import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
 import Designer from './pages/Designer';
 import SmartMeasurement from './pages/SmartMeasurement';
+import MeasurementResults from './pages/MeasurementResults';
 import { Sparkles, X } from 'lucide-react';
 import './styles/variables.css';
 import './styles/global.css';
@@ -15,25 +16,57 @@ import './styles/auth.css';
 import './styles/dashboard.css';
 import './styles/designer.css';
 import './styles/measurement.css';
+import './styles/results.css';
 
 /**
- * Main Tailzey Application Component (Phase 4)
- * Coordinates page views (Home, SignIn, SignUp, Dashboard, Designer, SmartMeasurement),
- * browser hash navigation, and interactive phase notices.
+ * Main Tailzey Application Component (Phase 5)
+ * Coordinates page views (Home, SignIn, SignUp, Dashboard, Designer, SmartMeasurement, MeasurementResults),
+ * browser hash navigation, shared in-memory React session data, and interactive phase notices.
  */
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [phaseNotice, setPhaseNotice] = useState(null);
 
+  // In-memory measurement session state (shared React state across Phase 4 & Phase 5)
+  const [measurementSession, setMeasurementSession] = useState({
+    manualValues: {},
+    manualUnit: 'cm',
+    cameraCaptureCount: 0,
+    isCameraCompleted: false,
+    skippedCount: 0,
+  });
+
+  // In-memory outfit design session state (shared React state across Phase 3 & Phase 5)
+  const [designerSession, setDesignerSession] = useState({
+    garmentId: 'jacket',
+    fitId: 'regular',
+    colorId: 'obsidian',
+  });
+
   // Sync hash routing on mount and hash changes
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['signin', 'signup', 'dashboard', 'home', 'designer', 'dream-design', 'measurement', 'smart-measurement'].includes(hash)) {
+      if ([
+        'signin',
+        'signup',
+        'dashboard',
+        'home',
+        'designer',
+        'dream-design',
+        'measurement',
+        'smart-measurement',
+        'results',
+        'measurement-results',
+        'size-selector',
+        'measurement-studio',
+      ].includes(hash)) {
         if (hash === 'dream-design') {
           setCurrentPage('designer');
         } else if (hash === 'smart-measurement') {
           setCurrentPage('measurement');
+        } else if (['measurement-results', 'size-selector', 'measurement-studio'].includes(hash)) {
+          setCurrentPage('results');
         } else {
           setCurrentPage(hash);
         }
@@ -54,7 +87,7 @@ export default function App() {
   const handleOpenPhaseNotice = (featureTitle) => {
     setPhaseNotice({
       title: featureTitle,
-      message: 'This feature is slated for upcoming phases. Phase 4 introduces the Guided Smart Measurement studio experience.',
+      message: 'This feature is slated for upcoming phases. Phase 5 introduces the Measurement Results & Size Selector Studio.',
     });
   };
 
@@ -91,6 +124,8 @@ export default function App() {
       {/* Route: Dream Outfit Designer (Phase 3) */}
       {currentPage === 'designer' && (
         <Designer
+          designerSession={designerSession}
+          onUpdateDesignerSession={setDesignerSession}
           onNavigate={navigateTo}
           onOpenPhaseNotice={handleOpenPhaseNotice}
         />
@@ -99,6 +134,19 @@ export default function App() {
       {/* Route: Guided Smart Measurement (Phase 4) */}
       {currentPage === 'measurement' && (
         <SmartMeasurement
+          measurementSession={measurementSession}
+          onUpdateMeasurementSession={setMeasurementSession}
+          onNavigate={navigateTo}
+          onOpenPhaseNotice={handleOpenPhaseNotice}
+        />
+      )}
+
+      {/* Route: Measurement Results & Size Selector Studio (Phase 5) */}
+      {currentPage === 'results' && (
+        <MeasurementResults
+          measurementSession={measurementSession}
+          onUpdateMeasurementSession={setMeasurementSession}
+          designerSession={designerSession}
           onNavigate={navigateTo}
           onOpenPhaseNotice={handleOpenPhaseNotice}
         />

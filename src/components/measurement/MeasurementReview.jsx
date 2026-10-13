@@ -10,6 +10,7 @@ import {
   Info,
   Ruler,
   AlertTriangle,
+  Sliders,
 } from 'lucide-react';
 import Button from '../ui/Button';
 import StatusBadge from '../ui/StatusBadge';
@@ -32,6 +33,7 @@ export default function MeasurementReview({
   onRetakeCamera,
   onReturnDashboard,
   onGoToDesigner,
+  onGoToResults,
   className = '',
 }) {
   const capturedCount = Object.keys(capturedImages).length;
@@ -192,14 +194,14 @@ export default function MeasurementReview({
           </div>
         )}
 
-        {/* Roadmap Next Phase Note */}
+        {/* Phase 5 Sizing & Measurement Studio Notice */}
         <div className="review-roadmap-box">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <Sparkles size={20} style={{ color: 'var(--color-gold)', flexShrink: 0 }} />
+            <Sliders size={20} style={{ color: 'var(--color-gold)', flexShrink: 0 }} />
             <div>
-              <h4 className="roadmap-title">Upcoming Phase 5: Size Recommendation & Drape</h4>
+              <h4 className="roadmap-title">Phase 5: Measurement Studio & Size Selector Ready</h4>
               <p className="roadmap-desc">
-                Phase 4 establishes the guided measurement capture and data foundation. Phase 5 will connect these metrics to automated size matching and tailored garment ease customization.
+                Review, edit, and fine-tune your measurements with tailoring comfort ease allowances (+1/+2) and explore ready-to-wear sizing benchmarks in Your Measurement Studio.
               </p>
             </div>
           </div>
@@ -217,16 +219,25 @@ export default function MeasurementReview({
             >
               Back to Dashboard
             </Button>
+            <Button
+              variant="ghost"
+              size="md"
+              icon={Sparkles}
+              onClick={onGoToDesigner}
+              ariaLabel="Proceed to Dream Outfit Designer"
+            >
+              Design Outfit
+            </Button>
           </div>
 
           <Button
             variant="primary"
             size="lg"
-            icon={Sparkles}
-            onClick={onGoToDesigner}
-            ariaLabel="Proceed to Dream Outfit Designer with tailored context"
+            icon={Sliders}
+            onClick={onGoToResults}
+            ariaLabel="Open Measurement Studio & Size Selector"
           >
-            Design Dream Outfit
+            Open Measurement Studio & Size Selector
           </Button>
         </div>
       </div>
