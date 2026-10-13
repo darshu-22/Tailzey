@@ -1,0 +1,116 @@
+/* Tailzy — Luxury Fashion-Tech Design System Variables */
+
+:root {
+  /* Brand Palette */
+  --color-bg-primary: #0B0908;
+  --color-bg-secondary: #15110F;
+  --color-bg-tertiary: #191411;
+  --color-bg-card: #1B1512;
+  --color-bg-card-hover: #231C18;
+  --color-bg-elevated: #261F1A;
+  --color-bg-input: #120E0C;
+
+  /* Accent Colors */
+  --color-bronze: #9B6038;
+  --color-bronze-light: #BA7B4C;
+  --color-bronze-dark: #744424;
+  --color-bronze-subtle: rgba(155, 96, 56, 0.15);
+
+  --color-gold: #D9B47A;
+  --color-gold-light: #E8CFA1;
+  --color-gold-dark: #B59052;
+  --color-gold-subtle: rgba(217, 180, 122, 0.12);
+  --color-gold-glow: rgba(217, 180, 122, 0.25);
+
+  /* Typography Colors */
+  --color-text-primary: #F4EEE5;
+  --color-text-secondary: #E3D9CC;
+  --color-text-muted: #A99C90;
+  --color-text-faint: #6A6055;
+  --color-text-inverse: #0B0908;
+
+  /* Status Colors */
+  --color-status-success: #7EB88A;
+  --color-status-success-bg: rgba(126, 184, 138, 0.12);
+  --color-status-error: #D66D67;
+  --color-status-error-bg: rgba(214, 109, 103, 0.12);
+  --color-status-info: #79A7D9;
+  --color-status-info-bg: rgba(121, 167, 217, 0.12);
+
+  /* Borders & Dividers */
+  --color-border: rgba(217, 180, 122, 0.20);
+  --color-border-subtle: rgba(217, 180, 122, 0.10);
+  --color-border-hover: rgba(217, 180, 122, 0.40);
+  --color-border-focus: #D9B47A;
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', Garamond, 'Didot', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Typography Sizing & Hierarchy */
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: 1.875rem;   /* 30px */
+  --font-size-4xl: 2.25rem;    /* 36px */
+  --font-size-5xl: 3rem;       /* 48px */
+  --font-size-6xl: 3.75rem;    /* 60px */
+
+  --line-height-tight: 1.15;
+  --line-height-snug: 1.3;
+  --line-height-normal: 1.6;
+  --line-height-relaxed: 1.8;
+
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0em;
+  --letter-spacing-wide: 0.05em;
+  --letter-spacing-wider: 0.1em;
+  --letter-spacing-widest: 0.2em;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+
+  /* Radii */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 16px 36px -8px rgba(0, 0, 0, 0.75);
+  --shadow-gold-subtle: 0 4px 20px rgba(217, 180, 122, 0.15);
+  --shadow-gold-hover: 0 8px 30px rgba(217, 180, 122, 0.25);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container-max-width: 1240px;
+  --container-narrow: 840px;
+  --header-height: 80px;
+}
