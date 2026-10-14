@@ -67,6 +67,20 @@ export default function Header({ onOpenPhaseNotice, onNavigate }) {
       }
     }
 
+    if (featureName === 'Measurement Studio' || sectionId === 'results') {
+      if (onNavigate) {
+        onNavigate('results');
+        return;
+      }
+    }
+
+    if (featureName === 'Design Report' || sectionId === 'design-report') {
+      if (onNavigate) {
+        onNavigate('design-report');
+        return;
+      }
+    }
+
     if (sectionId) {
       const el = document.getElementById(sectionId);
       if (el) {
@@ -232,6 +246,7 @@ export default function Header({ onOpenPhaseNotice, onNavigate }) {
       <div
         className={`mobile-drawer ${mobileMenuOpen ? 'is-open' : ''}`}
         role="dialog"
+        aria-modal="true"
         aria-label="Mobile Navigation"
       >
         <div className="mobile-drawer-header">
@@ -283,11 +298,31 @@ export default function Header({ onOpenPhaseNotice, onNavigate }) {
             </li>
             <li>
               <a
+                href="#results"
+                className="mobile-nav-link"
+                onClick={(e) => handleNavClick('results', e, 'Measurement Studio')}
+              >
+                <span>Measurement & Size Studio</span>
+                <ArrowUpRight size={18} className="nav-arrow" />
+              </a>
+            </li>
+            <li>
+              <a
                 href="#preview3d"
                 className="mobile-nav-link"
                 onClick={(e) => handleNavClick('preview3d', e, '3D Avatar Studio')}
               >
                 <span>3D Avatar Studio</span>
+                <ArrowUpRight size={18} className="nav-arrow" />
+              </a>
+            </li>
+            <li>
+              <a
+                href="#design-report"
+                className="mobile-nav-link"
+                onClick={(e) => handleNavClick('design-report', e, 'Design Report')}
+              >
+                <span>Design Spec Report</span>
                 <ArrowUpRight size={18} className="nav-arrow" />
               </a>
             </li>

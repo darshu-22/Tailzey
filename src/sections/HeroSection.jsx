@@ -30,7 +30,7 @@ export default function HeroSection({ onOpenPhaseNotice, onNavigate }) {
   };
 
   return (
-    <section className="hero-section" id="home" aria-label="Introduction to Tailzy">
+    <section className="hero-section" id="home" aria-label="Introduction to Tailzey">
       <div className="hero-backdrop-glow" aria-hidden="true" />
 
       <PageContainer>
@@ -40,11 +40,11 @@ export default function HeroSection({ onOpenPhaseNotice, onNavigate }) {
             <div className="hero-brand-card">
               <img
                 src="/assets/tailzy-logo.png"
-                alt="Tailzy official monogram logo"
+                alt="Tailzey official monogram logo"
                 className="hero-logo-img"
               />
               <div className="hero-brand-meta">
-                <span className="hero-brand-title">TAILZY</span>
+                <span className="hero-brand-title">TAILZEY</span>
                 <span className="hero-brand-tagline">CUSTOM ✦ STYLISH ✦ YOU</span>
               </div>
             </div>

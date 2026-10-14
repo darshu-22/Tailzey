@@ -55,7 +55,7 @@ export default function Dashboard({ onNavigate, onOpenPhaseNotice }) {
         />
 
         {/* Main Content Area */}
-        <main className="dashboard-main" id="dashboard-content">
+        <main className="dashboard-main" id="main-content">
           {/* Greeting Hero Card */}
           <div className="dashboard-hero-card">
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
@@ -63,7 +63,7 @@ export default function Dashboard({ onNavigate, onOpenPhaseNotice }) {
                 Atelier Workspace
               </StatusBadge>
               <StatusBadge variant="neutral">
-                Phase 2 Prototype
+                Tailzey Atelier
               </StatusBadge>
             </div>
 

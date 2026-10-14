@@ -215,7 +215,7 @@ export default function Designer({
       </div>
 
       {/* Main Designer Workspace */}
-      <main className="designer-main-container" id="designer-workspace">
+      <main className="designer-main-container" id="main-content">
         {/* STEP 1: CHOOSE GARMENT */}
         {currentStep === 1 && (
           <section className="designer-step-section" aria-label="Step 1: Choose Garment">
@@ -530,7 +530,7 @@ export default function Designer({
                 <Sparkles size={24} style={{ color: 'var(--color-gold)' }} />
               </div>
               <div>
-                <StatusBadge variant="gold">Phase 4 Ready</StatusBadge>
+                <StatusBadge variant="gold">Measurement Ready</StatusBadge>
                 <h3 id="modal-continue-title" className="designer-modal-title">
                   Next Step: Smart Measurement Calibration
                 </h3>
@@ -554,7 +554,7 @@ export default function Designer({
               <div className="designer-modal-notice-box">
                 <Info size={18} style={{ color: 'var(--color-gold)', flexShrink: 0 }} />
                 <div>
-                  <strong>Phase 4 Studio Experience:</strong>
+                  <strong>Measurement Calibration:</strong>
                   <p style={{ marginTop: '0.25rem', fontSize: '0.82rem', color: 'var(--color-text-secondary)' }}>
                     Your design specification is ready. You can now launch the <strong>Smart Body Measurement Calibration</strong> experience to calibrate your tailored silhouette through 6 guided camera poses or manual tape entry.
                   </p>

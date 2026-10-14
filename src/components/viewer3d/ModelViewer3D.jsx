@@ -253,6 +253,24 @@ export default function ModelViewer3D({
   const [lightingMode, setLightingMode] = useState('atelier'); // 'atelier' | 'dramatic' | 'pure'
   const [isLoading, setIsLoading] = useState(true);
   const [hasWebGLError, setHasWebGLError] = useState(false);
+  const [canvasResizeKey, setCanvasResizeKey] = useState(0);
+
+  // Resize listener to adapt canvas resolution
+  useEffect(() => {
+    let resizeTimer = null;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        setCanvasResizeKey((k) => k + 1);
+      }, 100);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   // Mouse drag coordinates tracking
   const dragStartRef = useRef({ x: 0, y: 0, yaw: 0, pitch: 0 });
@@ -538,7 +556,7 @@ export default function ModelViewer3D({
       gl.deleteBuffer(iBuf);
       gl.deleteProgram(prog);
     };
-  }, [garmentId, fitId, color.hex, yaw, pitch, zoom, isWireframe, lightingMode]);
+  }, [garmentId, fitId, color.hex, yaw, pitch, zoom, isWireframe, lightingMode, canvasResizeKey]);
 
   // ORBIT CONTROLS EVENT HANDLERS
   const handlePointerDown = (e) => {
@@ -582,6 +600,36 @@ export default function ModelViewer3D({
     return () => el.removeEventListener('wheel', handleWheel);
   }, [handleWheel]);
 
+  // Keyboard navigation for rotation and zoom
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      setIsAutoRotating(false);
+      setYaw((prev) => prev - 0.12);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      setIsAutoRotating(false);
+      setYaw((prev) => prev + 0.12);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setIsAutoRotating(false);
+      setPitch((prev) => Math.min(0.75, prev + 0.08));
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setIsAutoRotating(false);
+      setPitch((prev) => Math.max(-0.45, prev - 0.08));
+    } else if (e.key === '+' || e.key === '=') {
+      e.preventDefault();
+      setZoom((prev) => Math.max(1.6, prev - 0.25));
+    } else if (e.key === '-' || e.key === '_') {
+      e.preventDefault();
+      setZoom((prev) => Math.min(4.2, prev + 0.25));
+    } else if (e.key === 'r' || e.key === 'R') {
+      e.preventDefault();
+      handleResetView();
+    }
+  };
+
   // PRESET VIEW ANGLE CONTROLS
   const setPresetAngle = (targetYaw, targetPitch = 0.06) => {
     setIsAutoRotating(false);
@@ -601,7 +649,9 @@ export default function ModelViewer3D({
       ref={containerRef}
       className={`viewer3d-stage-card ${className}`.trim()}
       role="region"
-      aria-label="3D Avatar & Outfit Interactive Stage"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      aria-label="3D Avatar & Outfit Interactive Stage. Use Arrow keys to rotate, plus or minus to zoom, and R to reset perspective."
     >
       {/* Top Overlay: Badges and Mode Toggles */}
       <div className="viewer3d-top-overlay">

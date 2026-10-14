@@ -26,7 +26,7 @@ export default function AuthLayout({
               <span>Back to Home</span>
             </button>
             <span style={{ fontSize: '0.75rem', color: 'var(--color-gold)', letterSpacing: '0.15em' }}>
-              PHASE 2 PREVIEW
+              TAILZEY ATELIER
             </span>
           </div>
 

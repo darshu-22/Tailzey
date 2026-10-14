@@ -170,7 +170,7 @@ export default function SmartMeasurement({
           </a>
 
           <StatusBadge variant="gold" dot className="measurement-phase-badge">
-            Phase 4 Guided Fit
+            Guided Fit Calibration
           </StatusBadge>
         </div>
 
@@ -205,7 +205,7 @@ export default function SmartMeasurement({
       </header>
 
       {/* Main Measurement Content Area */}
-      <main className="measurement-main-container" id="measurement-content">
+      <main className="measurement-main-container" id="main-content">
         {/* SCREEN 1: INTRO & CONSENT */}
         {currentScreen === 'intro' && (
           <MeasurementIntro

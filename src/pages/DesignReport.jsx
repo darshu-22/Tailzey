@@ -110,7 +110,7 @@ export default function DesignReport({
       />
 
       {/* 2. Main Printable Document Container */}
-      <main className="report-document-container" id="report-printable-area">
+      <main className="report-document-container" id="main-content">
         <article className="report-document-sheet" aria-label="Atelier Design Dossier">
           {/* Quick Highlights Summary Strip */}
           <div className="report-highlights-grid" aria-label="Key Design Metrics">

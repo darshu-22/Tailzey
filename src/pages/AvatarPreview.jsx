@@ -101,7 +101,7 @@ export default function AvatarPreview({
           </a>
 
           <StatusBadge variant="gold" dot className="studio-header-badge">
-            Phase 6 Interactive 3D
+            3D Fit Studio
           </StatusBadge>
         </div>
 
@@ -160,7 +160,7 @@ export default function AvatarPreview({
       </header>
 
       {/* Main Workspace */}
-      <main className="avatar-studio-main" id="studio-viewport">
+      <main className="avatar-studio-main" id="main-content">
         {/* Hero Section Header */}
         <section className="avatar-studio-hero" aria-label="3D Studio Overview">
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>

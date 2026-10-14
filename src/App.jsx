@@ -53,40 +53,24 @@ export default function App() {
   // Sync hash routing on mount and hash changes
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '');
-      if ([
-        'signin',
-        'signup',
-        'dashboard',
-        'home',
-        'designer',
-        'dream-design',
-        'measurement',
-        'smart-measurement',
-        'results',
-        'measurement-results',
-        'size-selector',
-        'measurement-studio',
-        'preview3d',
-        'avatar-preview',
-        '3d-preview',
-        'outfit-viewer',
-        'design-report',
-        'report',
-      ].includes(hash)) {
-        if (hash === 'dream-design') {
-          setCurrentPage('designer');
-        } else if (hash === 'smart-measurement') {
-          setCurrentPage('measurement');
-        } else if (['measurement-results', 'size-selector', 'measurement-studio'].includes(hash)) {
-          setCurrentPage('results');
-        } else if (['avatar-preview', '3d-preview', 'outfit-viewer'].includes(hash)) {
-          setCurrentPage('preview3d');
-        } else if (hash === 'report') {
-          setCurrentPage('design-report');
-        } else {
-          setCurrentPage(hash);
-        }
+      const hash = window.location.hash.replace('#', '').trim();
+      if (!hash || hash === 'home') {
+        setCurrentPage('home');
+      } else if (['designer', 'dream-design', 'design'].includes(hash)) {
+        setCurrentPage('designer');
+      } else if (['measurement', 'smart-measurement', 'fit'].includes(hash)) {
+        setCurrentPage('measurement');
+      } else if (['results', 'measurement-results', 'size-selector', 'measurement-studio'].includes(hash)) {
+        setCurrentPage('results');
+      } else if (['preview3d', 'avatar-preview', '3d-preview', 'outfit-viewer', '3d-studio'].includes(hash)) {
+        setCurrentPage('preview3d');
+      } else if (['design-report', 'report', 'export', 'dossier'].includes(hash)) {
+        setCurrentPage('design-report');
+      } else if (['signin', 'signup', 'dashboard'].includes(hash)) {
+        setCurrentPage(hash);
+      } else {
+        // Fallback to home on unknown hash
+        setCurrentPage('home');
       }
     };
 
@@ -104,7 +88,7 @@ export default function App() {
   const handleOpenPhaseNotice = (featureTitle) => {
     setPhaseNotice({
       title: featureTitle,
-      message: 'This feature is slated for upcoming phases. Phase 5 introduces the Measurement Results & Size Selector Studio.',
+      message: 'This bespoke feature is slated for upcoming atelier releases. The current Tailzey release includes the full Dream Outfit Designer, Smart Measurement Calibration, Measurement Studio & Size Selector, Interactive 3D Avatar Viewer, and Design Spec Report.',
     });
   };
 
@@ -114,6 +98,10 @@ export default function App() {
 
   return (
     <div className="tailzy-app">
+      {/* Skip to Main Content Link for Keyboard Accessibility */}
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       {/* Route: Sign In */}
       {currentPage === 'signin' && (
         <SignIn

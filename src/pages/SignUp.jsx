@@ -197,25 +197,49 @@ export default function SignUp({ onNavigate, onOpenPhaseNotice }) {
             />
             <span style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', lineHeight: 1.4 }}>
               I agree to the Tailzey{' '}
-              <span
-                style={{ color: 'var(--color-gold)', textDecoration: 'underline', cursor: 'pointer' }}
+              <button
+                type="button"
+                className="auth-inline-link"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
+                  font: 'inherit',
+                  color: 'var(--color-gold)',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  display: 'inline',
+                }}
                 onClick={(e) => {
                   e.preventDefault();
+                  e.stopPropagation();
                   if (onOpenPhaseNotice) onOpenPhaseNotice('Terms & Conditions');
                 }}
               >
                 Terms of Service
-              </span>{' '}
+              </button>{' '}
               and{' '}
-              <span
-                style={{ color: 'var(--color-gold)', textDecoration: 'underline', cursor: 'pointer' }}
+              <button
+                type="button"
+                className="auth-inline-link"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
+                  font: 'inherit',
+                  color: 'var(--color-gold)',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  display: 'inline',
+                }}
                 onClick={(e) => {
                   e.preventDefault();
+                  e.stopPropagation();
                   if (onOpenPhaseNotice) onOpenPhaseNotice('Privacy Policy');
                 }}
               >
                 Privacy Policy
-              </span>
+              </button>
               .
             </span>
           </label>

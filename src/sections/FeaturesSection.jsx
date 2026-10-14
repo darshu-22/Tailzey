@@ -55,6 +55,10 @@ export default function FeaturesSection({ onOpenPhaseNotice, onNavigate }) {
       onNavigate('measurement');
       return;
     }
+    if (feature.id === 'style-preview' && onNavigate) {
+      onNavigate('preview3d');
+      return;
+    }
     if (onOpenPhaseNotice) {
       onOpenPhaseNotice(feature.phaseName);
     }

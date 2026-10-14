@@ -52,7 +52,7 @@ export default function MeasurementReview({
             Calibration Review
           </StatusBadge>
           <StatusBadge variant="neutral">
-            Phase 4 Prototype
+            Tailzey Atelier
           </StatusBadge>
         </div>
 
@@ -194,12 +194,12 @@ export default function MeasurementReview({
           </div>
         )}
 
-        {/* Phase 5 Sizing & Measurement Studio Notice */}
+        {/* Sizing & Measurement Studio Notice */}
         <div className="review-roadmap-box">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <Sliders size={20} style={{ color: 'var(--color-gold)', flexShrink: 0 }} />
             <div>
-              <h4 className="roadmap-title">Phase 5: Measurement Studio & Size Selector Ready</h4>
+              <h4 className="roadmap-title">Measurement Studio & Ready-to-Wear Size Selector</h4>
               <p className="roadmap-desc">
                 Review, edit, and fine-tune your measurements with tailoring comfort ease allowances (+1/+2) and explore ready-to-wear sizing benchmarks in Your Measurement Studio.
               </p>

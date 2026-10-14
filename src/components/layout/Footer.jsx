@@ -22,6 +22,18 @@ export default function Footer({ onOpenPhaseNotice, onNavigate }) {
       onNavigate('measurement');
       return;
     }
+    if ((featureName === 'Personal Style Preview' || featureName === '3D Avatar Fit Studio') && onNavigate) {
+      onNavigate('preview3d');
+      return;
+    }
+    if ((featureName === 'Measurement Studio' || featureName === 'Measurement & Size Studio') && onNavigate) {
+      onNavigate('results');
+      return;
+    }
+    if ((featureName === 'Design Spec Report' || featureName === 'Design Report') && onNavigate) {
+      onNavigate('design-report');
+      return;
+    }
     if (targetId) {
       const el = document.getElementById(targetId);
       if (el) {
@@ -58,7 +70,7 @@ export default function Footer({ onOpenPhaseNotice, onNavigate }) {
             </p>
             <div className="footer-status-pill">
               <StatusBadge variant="gold" dot>
-                Phase 2 Studio Preview
+                Tailzey Atelier Studio
               </StatusBadge>
             </div>
           </div>
@@ -85,10 +97,26 @@ export default function Footer({ onOpenPhaseNotice, onNavigate }) {
               </li>
               <li>
                 <a
-                  href="#features"
-                  onClick={(e) => handleLinkClick(e, 'Personal Style Preview', 'features')}
+                  href="#preview3d"
+                  onClick={(e) => handleLinkClick(e, '3D Avatar Fit Studio')}
                 >
-                  Personal Style Preview
+                  3D Avatar Studio
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#results"
+                  onClick={(e) => handleLinkClick(e, 'Measurement & Size Studio')}
+                >
+                  Measurement Studio
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#design-report"
+                  onClick={(e) => handleLinkClick(e, 'Design Spec Report')}
+                >
+                  Design Spec Report
                 </a>
               </li>
               <li>

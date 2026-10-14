@@ -1481,6 +1481,7 @@
   justify-content: flex-end;
   gap: 0.75rem;
   margin-top: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .designer-toast {
@@ -1489,3 +1490,51 @@
   right: 24px;
   z-index: 250;
 }
+
+@media (max-width: 640px) {
+  .designer-modal-card {
+    padding: 1.25rem 1rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .designer-modal-footer {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .designer-modal-footer .btn {
+    width: 100%;
+  }
+
+  .designer-toast {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+
+  .designer-header {
+    padding: 0 1rem;
+    height: 64px;
+  }
+
+  .designer-header-right .btn span {
+    display: none;
+  }
+
+  .designer-header-right .btn {
+    padding: 0.5rem;
+  }
+
+  .designer-main-container {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .garments-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

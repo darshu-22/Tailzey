@@ -200,7 +200,7 @@ export default function MeasurementResults({
           </a>
 
           <StatusBadge variant="gold" dot className="results-phase-badge">
-            Phase 5 Sizing
+            Atelier Sizing
           </StatusBadge>
         </div>
 
@@ -249,7 +249,7 @@ export default function MeasurementResults({
       </header>
 
       {/* Main Content Workspace */}
-      <main className="results-main-container" id="results-workspace">
+      <main className="results-main-container" id="main-content">
         {/* Page Hero Header */}
         <section className="results-hero-section" aria-label="Measurement Studio Overview">
           <div className="results-hero-text-block">

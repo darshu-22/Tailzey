@@ -7,7 +7,7 @@ import Button from '../components/ui/Button';
 /**
  * How Tailzy Works section outlining the 3 numbered steps
  */
-export default function HowItWorksSection({ onOpenPhaseNotice }) {
+export default function HowItWorksSection({ onOpenPhaseNotice, onNavigate }) {
   const steps = [
     {
       stepNumber: '01',
@@ -36,13 +36,13 @@ export default function HowItWorksSection({ onOpenPhaseNotice }) {
     <section
       className="section-padding"
       id="how-it-works"
-      aria-label="How Tailzy Works"
+      aria-label="How Tailzey Works"
       style={{ backgroundColor: 'var(--color-bg-secondary)' }}
     >
       <PageContainer>
         <SectionHeading
           eyebrow="The Journey"
-          title="How Tailzy Works"
+          title="How Tailzey Works"
           titleGradient
           description="A three-step approach designed to turn personal inspiration into garments tailored specifically for you."
         />
@@ -82,7 +82,7 @@ export default function HowItWorksSection({ onOpenPhaseNotice }) {
           }}
         >
           <div className="eyebrow-badge" style={{ marginBottom: 0 }}>
-            <span>Tailzy Philosophy</span>
+            <span>Tailzey Philosophy</span>
           </div>
           <h3
             style={{
@@ -101,17 +101,21 @@ export default function HowItWorksSection({ onOpenPhaseNotice }) {
               color: 'var(--color-text-muted)',
             }}
           >
-            Phase 1 sets the visual foundation and brand identity. Interactive fitting and design studios will unfold in upcoming phases.
+            Explore our interconnected digital atelier: personalized silhouette design, guided smart measurement discovery, 3D avatar drape inspection, and exportable design dossiers.
           </p>
           <Button
             variant="outline"
             size="md"
             icon={Sparkles}
-            onClick={() =>
-              onOpenPhaseNotice ? onOpenPhaseNotice('Phase Roadmap & Atelier') : null
-            }
+            onClick={() => {
+              if (onNavigate) {
+                onNavigate('designer');
+              } else if (onOpenPhaseNotice) {
+                onOpenPhaseNotice('Phase Roadmap & Atelier');
+              }
+            }}
           >
-            Explore Phase Roadmap
+            Launch Outfit Designer
           </Button>
         </div>
       </PageContainer>

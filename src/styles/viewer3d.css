@@ -710,3 +710,43 @@
 .sidebar-action-btn {
   width: 100%;
 }
+
+@media (max-width: 768px) {
+  .studio-header {
+    padding: 0 1rem;
+    height: 64px;
+  }
+
+  .studio-header-right .btn span {
+    display: none;
+  }
+
+  .studio-header-right .btn {
+    padding: 0.5rem;
+  }
+
+  .avatar-studio-main {
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .viewer-drag-hint {
+    font-size: 0.68rem;
+    padding: 0.25rem 0.65rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .viewer3d-stage-card {
+    min-height: 460px;
+    height: 520px;
+  }
+
+  .angle-presets-group {
+    justify-content: center;
+  }
+
+  .zoom-actions-group {
+    justify-content: center;
+  }
+}
+

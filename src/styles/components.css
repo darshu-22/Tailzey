@@ -64,18 +64,21 @@
   padding: 0.5rem 1rem;
   font-size: var(--font-size-xs);
   letter-spacing: 0.08em;
+  min-height: 36px;
 }
 
 .btn-md {
   padding: 0.75rem 1.625rem;
   font-size: var(--font-size-sm);
   letter-spacing: 0.06em;
+  min-height: 44px;
 }
 
 .btn-lg {
   padding: 1rem 2.25rem;
   font-size: var(--font-size-base);
   letter-spacing: 0.08em;
+  min-height: 48px;
 }
 
 /* Button Variants */
@@ -1295,3 +1298,23 @@
     align-items: flex-start;
   }
 }
+
+@media (max-width: 480px) {
+  .btn-lg {
+    padding: 0.85rem 1.5rem;
+    font-size: var(--font-size-sm);
+  }
+
+  .btn-md {
+    padding: 0.65rem 1.25rem;
+  }
+
+  .card {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .hero-heading {
+    font-size: clamp(2rem, 8vw, 2.75rem);
+  }
+}
+
