@@ -10,6 +10,8 @@ import {
   ArrowRight,
   ShieldCheck,
   PlusCircle,
+  FileText,
+  Printer,
 } from 'lucide-react';
 import DashboardHeader from '../components/dashboard/DashboardHeader';
 import DashboardSidebar from '../components/dashboard/DashboardSidebar';
@@ -199,6 +201,44 @@ export default function Dashboard({ onNavigate, onOpenPhaseNotice }) {
               onClick={() => onNavigate && onNavigate('preview3d')}
             >
               Launch 3D Studio
+            </Button>
+          </div>
+
+          {/* Phase 7 Feature Callout: Design Report & PDF Export */}
+          <div className="dashboard-coming-soon-box" style={{ marginTop: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <div
+                style={{
+                  width: '42px',
+                  height: '42px',
+                  borderRadius: '50%',
+                  background: 'rgba(217, 180, 122, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'var(--color-gold)',
+                  border: '1px solid var(--color-border)',
+                }}
+              >
+                <FileText size={20} />
+              </div>
+              <div>
+                <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.15rem', color: 'var(--color-text-primary)' }}>
+                  Custom Outfit Design Report & PDF Export
+                </h4>
+                <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+                  Generate a client design dossier consolidating your silhouette styling, anatomical measurements, comfort ease, and sample preview.
+                </p>
+              </div>
+            </div>
+
+            <Button
+              variant="outline"
+              size="sm"
+              icon={Printer}
+              onClick={() => onNavigate && onNavigate('design-report')}
+            >
+              Export Report
             </Button>
           </div>
         </main>

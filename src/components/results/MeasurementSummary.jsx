@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   ArrowRight,
   FileText,
+  Printer,
 } from 'lucide-react';
 import Button from '../ui/Button';
 import StatusBadge from '../ui/StatusBadge';
@@ -32,6 +33,7 @@ export default function MeasurementSummary({
   onResetAdjustments,
   onReviewSummary,
   onContinue3D,
+  onViewReport,
   className = '',
 }) {
   const garment = GARMENT_CATEGORIES.find((g) => g.id === selectedGarmentId) || GARMENT_CATEGORIES[0];
@@ -170,18 +172,31 @@ export default function MeasurementSummary({
           </Button>
         </div>
 
-        <Button
-          variant="ghost"
-          size="sm"
-          icon={RotateCcw}
-          onClick={onResetAdjustments}
-          disabled={totalAdjustments === 0}
-          className="summary-reset-btn"
-          ariaLabel="Reset Adjustments"
-        >
-          Reset Adjustments {totalAdjustments > 0 ? `(${totalAdjustments} active)` : ''}
-        </Button>
-      </div>
-    </aside>
+          <Button
+            variant="ghost"
+            size="sm"
+            icon={RotateCcw}
+            onClick={onResetAdjustments}
+            disabled={totalAdjustments === 0}
+            className="summary-reset-btn"
+            ariaLabel="Reset Adjustments"
+          >
+            Reset Adjustments {totalAdjustments > 0 ? `(${totalAdjustments} active)` : ''}
+          </Button>
+
+          {onViewReport && (
+            <Button
+              variant="outline"
+              size="sm"
+              icon={Printer}
+              onClick={onViewReport}
+              style={{ width: '100%', marginTop: '0.4rem' }}
+              ariaLabel="Export Custom Design Report"
+            >
+              Export Design Report
+            </Button>
+          )}
+        </div>
+      </aside>
   );
 }

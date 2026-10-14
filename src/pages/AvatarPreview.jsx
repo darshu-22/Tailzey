@@ -10,6 +10,7 @@ import {
   Info,
   Check,
   X,
+  FileText,
 } from 'lucide-react';
 import ModelViewer3D from '../components/viewer3d/ModelViewer3D';
 import OutfitSummaryPanel from '../components/viewer3d/OutfitSummaryPanel';
@@ -124,6 +125,16 @@ export default function AvatarPreview({
             ariaLabel="Return to Measurement Studio"
           >
             Measurements
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            icon={FileText}
+            onClick={() => onNavigate && onNavigate('design-report')}
+            ariaLabel="Generate and export custom design report"
+          >
+            Design Report
           </Button>
 
           <Button

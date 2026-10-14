@@ -9,6 +9,7 @@ import {
   Check,
   ShieldCheck,
   Share2,
+  FileText,
 } from 'lucide-react';
 import GarmentPreview from './GarmentPreview';
 import StatusBadge from '../ui/StatusBadge';
@@ -35,6 +36,7 @@ export default function DesignReview({
   onContinue,
   onReset,
   onSaveDraft,
+  onViewReport,
   isDraftSaved = false,
   className = '',
 }) {
@@ -209,6 +211,18 @@ export default function DesignReview({
                 >
                   {isDraftSaved ? 'Draft Saved' : 'Save Draft'}
                 </Button>
+
+                {onViewReport && (
+                  <Button
+                    variant="outline"
+                    size="md"
+                    icon={FileText}
+                    onClick={onViewReport}
+                    ariaLabel="Generate Custom Outfit Design Report"
+                  >
+                    Design Report
+                  </Button>
+                )}
               </div>
             </div>
           </div>

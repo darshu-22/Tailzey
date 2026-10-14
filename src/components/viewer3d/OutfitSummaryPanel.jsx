@@ -8,6 +8,7 @@ import {
   ChevronRight,
   LayoutDashboard,
   Check,
+  FileText,
 } from 'lucide-react';
 import Button from '../ui/Button';
 import StatusBadge from '../ui/StatusBadge';
@@ -177,6 +178,17 @@ export default function OutfitSummaryPanel({
 
         {/* Workflow Navigation Actions */}
         <div className="sidebar-actions-stack">
+          <Button
+            variant="primary"
+            size="md"
+            icon={FileText}
+            onClick={() => onNavigate && onNavigate('design-report')}
+            className="sidebar-action-btn"
+            ariaLabel="Generate Custom Outfit Design Report and PDF"
+          >
+            Export Design Report
+          </Button>
+
           <Button
             variant="outline"
             size="md"

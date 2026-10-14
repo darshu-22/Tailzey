@@ -9,6 +9,7 @@ import Designer from './pages/Designer';
 import SmartMeasurement from './pages/SmartMeasurement';
 import MeasurementResults from './pages/MeasurementResults';
 import AvatarPreview from './pages/AvatarPreview';
+import DesignReport from './pages/DesignReport';
 import { Sparkles, X } from 'lucide-react';
 import './styles/variables.css';
 import './styles/global.css';
@@ -19,6 +20,7 @@ import './styles/designer.css';
 import './styles/measurement.css';
 import './styles/results.css';
 import './styles/viewer3d.css';
+import './styles/report.css';
 
 /**
  * Main Tailzey Application Component (Phase 6)
@@ -69,6 +71,8 @@ export default function App() {
         'avatar-preview',
         '3d-preview',
         'outfit-viewer',
+        'design-report',
+        'report',
       ].includes(hash)) {
         if (hash === 'dream-design') {
           setCurrentPage('designer');
@@ -78,6 +82,8 @@ export default function App() {
           setCurrentPage('results');
         } else if (['avatar-preview', '3d-preview', 'outfit-viewer'].includes(hash)) {
           setCurrentPage('preview3d');
+        } else if (hash === 'report') {
+          setCurrentPage('design-report');
         } else {
           setCurrentPage(hash);
         }
@@ -170,6 +176,16 @@ export default function App() {
           onUpdateDesignerSession={setDesignerSession}
           measurementSession={measurementSession}
           onUpdateMeasurementSession={setMeasurementSession}
+          onNavigate={navigateTo}
+          onOpenPhaseNotice={handleOpenPhaseNotice}
+        />
+      )}
+
+      {/* Route: Custom Outfit Design Report & PDF Export (Phase 7) */}
+      {currentPage === 'design-report' && (
+        <DesignReport
+          designerSession={designerSession}
+          measurementSession={measurementSession}
           onNavigate={navigateTo}
           onOpenPhaseNotice={handleOpenPhaseNotice}
         />

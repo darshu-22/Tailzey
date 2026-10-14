@@ -11,6 +11,7 @@ import {
   Info,
   ShieldCheck,
   ChevronRight,
+  FileText,
 } from 'lucide-react';
 import DesignerStepper from '../components/designer/DesignerStepper';
 import GarmentCard from '../components/designer/GarmentCard';
@@ -430,6 +431,19 @@ export default function Designer({
               onContinue={() => setContinueModalOpen(true)}
               onReset={handleResetDesign}
               onSaveDraft={handleSaveDraft}
+              onViewReport={() => {
+                if (onUpdateDesignerSession) {
+                  onUpdateDesignerSession({
+                    ...designerSession,
+                    garmentId: selectedGarmentId,
+                    colorId: selectedColorId,
+                    styleId: selectedStyleId,
+                    fitId: selectedFitId,
+                    customOptions,
+                  });
+                }
+                if (onNavigate) onNavigate('design-report');
+              }}
               isDraftSaved={isDraftSaved}
             />
 
@@ -464,6 +478,28 @@ export default function Designer({
                 ariaLabel="Inspect this bespoke design in the 3D Avatar Studio"
               >
                 Inspect in 3D Avatar Studio
+              </Button>
+
+              <Button
+                variant="outline"
+                size="sm"
+                icon={FileText}
+                onClick={() => {
+                  if (onUpdateDesignerSession) {
+                    onUpdateDesignerSession({
+                      ...designerSession,
+                      garmentId: selectedGarmentId,
+                      colorId: selectedColorId,
+                      styleId: selectedStyleId,
+                      fitId: selectedFitId,
+                      customOptions,
+                    });
+                  }
+                  if (onNavigate) onNavigate('design-report');
+                }}
+                ariaLabel="Generate and view Custom Outfit Design Report"
+              >
+                Export Design Report
               </Button>
 
               <Button

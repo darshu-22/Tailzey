@@ -1,0 +1,908 @@
+/* Tailzey — Design Report & PDF Export Styles (Phase 7) */
+
+/* -------------------------------------------------------------
+   1. SCREEN VIEW: LUXURY DARK ATELIER DESIGN REPORT
+   ------------------------------------------------------------- */
+
+.report-page-wrapper {
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(217, 180, 122, 0.08) 0%, transparent 65%),
+    radial-gradient(circle at 90% 20%, rgba(155, 96, 56, 0.05) 0%, transparent 50%);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: var(--space-16);
+}
+
+/* Top Sticky Navigation & Action Bar (Screen Only) */
+.report-top-actions-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(15, 12, 10, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-4) var(--space-6);
+}
+
+.report-top-actions-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.report-nav-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.report-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.report-breadcrumb-active {
+  color: var(--color-gold);
+  font-weight: var(--font-weight-medium);
+}
+
+.report-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* Document Container & Page Presentation */
+.report-document-container {
+  max-width: 1000px;
+  margin: var(--space-8) auto 0;
+  padding: 0 var(--space-6);
+  width: 100%;
+}
+
+.report-document-sheet {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(217, 180, 122, 0.1);
+  padding: var(--space-10) var(--space-12);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Elegant gold hairline crest frame */
+.report-document-sheet::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #9B6038, #D9B47A, #E8CFA1, #9B6038);
+}
+
+/* Top Letterhead Header */
+.report-letterhead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--color-border-subtle);
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.report-brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.report-brand-logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(217, 180, 122, 0.25));
+}
+
+.report-brand-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.report-brand-name {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-widest);
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.report-brand-subtitle {
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wider);
+  color: var(--color-gold);
+  text-transform: uppercase;
+  margin-top: var(--space-1);
+}
+
+.report-title-block {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.report-doc-title {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.report-doc-meta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.report-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  background: rgba(217, 180, 122, 0.08);
+  border: 1px solid rgba(217, 180, 122, 0.2);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  font-family: monospace;
+}
+
+.report-meta-chip.chip-gold {
+  color: var(--color-gold);
+  border-color: rgba(217, 180, 122, 0.4);
+}
+
+/* Session Notice Banner */
+.report-session-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  background: rgba(217, 180, 122, 0.05);
+  border: 1px dashed rgba(217, 180, 122, 0.3);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin: var(--space-6) 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.report-session-notice-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Highlights Quick Bar */
+.report-highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
+.report-highlight-card {
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.report-highlight-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+  color: var(--color-text-muted);
+}
+
+.report-highlight-val {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.report-highlight-val.highlight-gold {
+  color: var(--color-gold);
+}
+
+/* Sections Layout */
+.report-sections-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* Individual Report Section */
+.report-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.report-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-2);
+}
+
+.report-section-title-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.report-section-num {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-base);
+  color: var(--color-gold);
+  font-weight: var(--font-weight-bold);
+}
+
+.report-section-title {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-xl);
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.report-section-subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Specification Two-Column Grid */
+.report-spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+@media (max-width: 768px) {
+  .report-spec-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.report-spec-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.report-spec-card-title {
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-gold);
+  font-weight: var(--font-weight-semibold);
+  margin: 0 0 var(--space-1) 0;
+  border-bottom: 1px solid rgba(217, 180, 122, 0.15);
+  padding-bottom: var(--space-2);
+}
+
+.report-spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: var(--font-size-sm);
+  padding: 0.35rem 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+  gap: var(--space-3);
+}
+
+.report-spec-row:last-child {
+  border-bottom: none;
+}
+
+.report-spec-label {
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  flex-shrink: 0;
+}
+
+.report-spec-value {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.report-spec-value-sub {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  margin-top: 0.1rem;
+}
+
+/* Color Dot Preview */
+.report-color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Measurement Sheet Table */
+.report-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-card);
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+  text-align: left;
+}
+
+.report-table th {
+  background: var(--color-bg-tertiary);
+  color: var(--color-gold);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+  font-weight: var(--font-weight-semibold);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.report-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid rgba(217, 180, 122, 0.07);
+  color: var(--color-text-secondary);
+}
+
+.report-table tr:last-child td {
+  border-bottom: none;
+}
+
+.report-table tr:hover td {
+  background: rgba(217, 180, 122, 0.02);
+}
+
+.report-metric-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.report-metric-desc {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  margin-top: 0.15rem;
+}
+
+.report-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-pill);
+  font-weight: var(--font-weight-medium);
+}
+
+.report-status-entered {
+  background: rgba(126, 184, 138, 0.15);
+  color: var(--color-status-success);
+  border: 1px solid rgba(126, 184, 138, 0.3);
+}
+
+.report-status-empty {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-faint);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Fit & Sizing Summary Grid */
+.report-fit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+@media (max-width: 768px) {
+  .report-fit-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Preview Section Grid */
+.report-preview-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--space-6);
+  align-items: center;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+}
+
+@media (max-width: 768px) {
+  .report-preview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.report-preview-visual-frame {
+  background: radial-gradient(circle at 50% 50%, rgba(217, 180, 122, 0.12) 0%, rgba(11, 9, 8, 0.8) 75%);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 260px;
+}
+
+.report-preview-visual-frame svg {
+  max-width: 220px;
+  max-height: 250px;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6));
+}
+
+.report-preview-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Disclaimers & Atelier Certification Box */
+.report-disclaimer-box {
+  background: rgba(217, 180, 122, 0.04);
+  border-left: 3px solid var(--color-gold);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-normal);
+}
+
+.report-disclaimer-box strong {
+  color: var(--color-text-secondary);
+}
+
+.report-atelier-seal-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--color-border-subtle);
+  padding-top: var(--space-6);
+  margin-top: var(--space-4);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.report-seal-signature {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.report-seal-signature-line {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-base);
+  color: var(--color-gold);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.report-seal-signature-sub {
+  font-size: 0.7rem;
+  color: var(--color-text-faint);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+}
+
+.report-watermark-tag {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-faint);
+  letter-spacing: var(--letter-spacing-widest);
+  text-transform: uppercase;
+}
+
+/* Floating Feedback Toast for Report */
+.report-feedback-toast {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 100;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-gold);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 420px;
+}
+
+/* -------------------------------------------------------------
+   2. PRINT VIEW (@media print): CLEAN INK-SAVING MULTI-PAGE PDF
+   ------------------------------------------------------------- */
+
+@media print {
+  /* Set standard printable page bounds */
+  @page {
+    size: A4 portrait;
+    margin: 12mm 14mm 12mm 14mm;
+  }
+
+  /* Universal reset for high-contrast ink-friendly printing */
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #1a1512 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Force color adjust where crucial (e.g., gold accents, borders) */
+  html,
+  body {
+    background: #ffffff !important;
+    color: #1a1512 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide all interactive, navigation, and screen-only controls */
+  .no-print,
+  .report-top-actions-bar,
+  .report-top-actions-inner,
+  .report-nav-actions,
+  .report-feedback-toast,
+  .toast-notification,
+  .designer-modal-overlay,
+  .results-modal-overlay,
+  button,
+  .preview-view-toggle-btn {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Document Sheet Styling for Print */
+  .report-page-wrapper {
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: auto !important;
+  }
+
+  .report-document-container {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .report-document-sheet {
+    background: #ffffff !important;
+    border: 1px solid #b89355 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 16mm 14mm !important;
+    margin: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .report-document-sheet::before {
+    height: 3px !important;
+    background: #b89355 !important;
+  }
+
+  /* Header in Print */
+  .report-letterhead {
+    border-bottom: 2px solid #b89355 !important;
+    padding-bottom: 12px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .report-brand-name {
+    color: #1a1512 !important;
+    font-size: 18pt !important;
+  }
+
+  .report-brand-subtitle {
+    color: #8c6828 !important;
+  }
+
+  .report-doc-title {
+    color: #1a1512 !important;
+    font-size: 16pt !important;
+  }
+
+  .report-meta-chip {
+    background: #f7f5f0 !important;
+    border: 1px solid #d4c7b2 !important;
+    color: #2b2520 !important;
+    font-size: 8pt !important;
+  }
+
+  .report-meta-chip.chip-gold {
+    color: #8c6828 !important;
+    border-color: #b89355 !important;
+  }
+
+  .report-session-notice {
+    background: #faf8f4 !important;
+    border: 1px dashed #b89355 !important;
+    color: #4a3f35 !important;
+    font-size: 8pt !important;
+    padding: 6px 10px !important;
+    margin: 10px 0 !important;
+  }
+
+  /* Highlights in Print */
+  .report-highlights-grid {
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 8px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .report-highlight-card {
+    background: #fdfcf9 !important;
+    border: 1px solid #e0d8cc !important;
+    padding: 6px 8px !important;
+  }
+
+  .report-highlight-label {
+    color: #6a6055 !important;
+    font-size: 6.5pt !important;
+  }
+
+  .report-highlight-val {
+    color: #1a1512 !important;
+    font-size: 9pt !important;
+  }
+
+  .report-highlight-val.highlight-gold {
+    color: #8c6828 !important;
+  }
+
+  /* Section Headings in Print */
+  .report-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 14px !important;
+  }
+
+  .report-section-header {
+    border-bottom: 1px solid #b89355 !important;
+    padding-bottom: 4px !important;
+  }
+
+  .report-section-num {
+    color: #8c6828 !important;
+    font-size: 11pt !important;
+  }
+
+  .report-section-title {
+    color: #1a1512 !important;
+    font-size: 13pt !important;
+  }
+
+  .report-section-subtitle {
+    color: #6a6055 !important;
+    font-size: 8pt !important;
+  }
+
+  /* Specification Grid in Print */
+  .report-spec-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+  }
+
+  .report-spec-card {
+    background: #fdfcf9 !important;
+    border: 1px solid #e0d8cc !important;
+    padding: 10px 12px !important;
+  }
+
+  .report-spec-card-title {
+    color: #8c6828 !important;
+    border-bottom: 1px solid #e0d8cc !important;
+    font-size: 8pt !important;
+  }
+
+  .report-spec-row {
+    border-bottom: 1px dotted #e0d8cc !important;
+    padding: 3px 0 !important;
+  }
+
+  .report-spec-label {
+    color: #5c5247 !important;
+    font-size: 8pt !important;
+  }
+
+  .report-spec-value {
+    color: #1a1512 !important;
+    font-size: 8pt !important;
+  }
+
+  .report-spec-value-sub {
+    color: #6a6055 !important;
+    font-size: 7pt !important;
+  }
+
+  .report-color-dot {
+    border: 1px solid #888888 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Table in Print */
+  .report-table-wrapper {
+    border: 1px solid #b89355 !important;
+    background: #ffffff !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .report-table {
+    font-size: 8pt !important;
+  }
+
+  .report-table th {
+    background: #f5f0e6 !important;
+    color: #4a3818 !important;
+    border-bottom: 1px solid #b89355 !important;
+    padding: 6px 8px !important;
+    font-size: 7.5pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .report-table td {
+    padding: 5px 8px !important;
+    border-bottom: 1px solid #e8e2d8 !important;
+    color: #2b2520 !important;
+  }
+
+  .report-metric-name {
+    color: #1a1512 !important;
+    font-weight: 600 !important;
+  }
+
+  .report-metric-desc {
+    color: #6a6055 !important;
+    font-size: 6.5pt !important;
+  }
+
+  .report-status-badge {
+    font-size: 6.5pt !important;
+    padding: 1px 4px !important;
+  }
+
+  .report-status-entered {
+    background: #eaf5ed !important;
+    color: #276735 !important;
+    border: 1px solid #a3d4af !important;
+  }
+
+  .report-status-empty {
+    background: #f5f5f5 !important;
+    color: #777777 !important;
+    border: 1px solid #cccccc !important;
+  }
+
+  /* Preview Section in Print */
+  .report-preview-grid {
+    grid-template-columns: 200px 1fr !important;
+    gap: 12px !important;
+    background: #fdfcf9 !important;
+    border: 1px solid #e0d8cc !important;
+    padding: 10px !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .report-preview-visual-frame {
+    background: #ffffff !important;
+    border: 1px solid #d4c7b2 !important;
+    min-height: 180px !important;
+    padding: 6px !important;
+  }
+
+  .report-preview-visual-frame svg {
+    max-width: 160px !important;
+    max-height: 170px !important;
+  }
+
+  /* Disclaimers & Atelier Certification in Print */
+  .report-disclaimer-box {
+    background: #faf8f4 !important;
+    border-left: 3px solid #b89355 !important;
+    color: #4a3f35 !important;
+    font-size: 7.5pt !important;
+    padding: 6px 8px !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .report-atelier-seal-block {
+    border-top: 1px solid #b89355 !important;
+    padding-top: 10px !important;
+    margin-top: 10px !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .report-seal-signature-line {
+    color: #8c6828 !important;
+    font-size: 10pt !important;
+  }
+
+  .report-seal-signature-sub {
+    color: #6a6055 !important;
+    font-size: 6.5pt !important;
+  }
+
+  .report-watermark-tag {
+    color: #888888 !important;
+    font-size: 7pt !important;
+  }
+}

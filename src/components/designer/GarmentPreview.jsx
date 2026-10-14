@@ -8,7 +8,7 @@ import { getColorById, getGarmentById, getStyleById, getFitById } from '../../da
  * Generates tailored vectors reflecting garment silhouette, color tones,
  * fit contours, necklines, sleeves, and pattern textures.
  */
-function AtelierSilhouetteSvg({
+export function AtelierSilhouetteSvg({
   garmentId,
   color,
   fitId,

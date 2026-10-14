@@ -8,6 +8,7 @@ import {
   User,
   Settings,
   Sparkles,
+  FileText,
   LogOut,
   Home,
 } from 'lucide-react';
@@ -30,6 +31,7 @@ export default function DashboardSidebar({
     { id: 'smart-measurement', label: 'Smart Measurement', icon: Ruler, isImplemented: true },
     { id: 'my-measurements', label: 'My Measurements', icon: Sliders, isImplemented: true },
     { id: 'avatar-3d', label: '3D Outfit Studio', icon: Sparkles, isImplemented: true },
+    { id: 'design-report', label: 'Design Report', icon: FileText, isImplemented: true },
     { id: 'my-designs', label: 'My Designs', icon: FolderHeart, phaseName: 'My Saved Designs Collection' },
   ];
 
@@ -54,6 +56,10 @@ export default function DashboardSidebar({
     }
     if (item.id === 'avatar-3d') {
       if (onNavigate) onNavigate('preview3d');
+      return;
+    }
+    if (item.id === 'design-report') {
+      if (onNavigate) onNavigate('design-report');
       return;
     }
     if (item.isImplemented) {

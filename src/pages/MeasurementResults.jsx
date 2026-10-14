@@ -154,6 +154,21 @@ export default function MeasurementResults({
     setTimeout(() => setFeedbackToast(null), 3500);
   };
 
+  // Navigate to Design Report with updated session values
+  const handleOpenReport = () => {
+    if (onUpdateMeasurementSession) {
+      onUpdateMeasurementSession({
+        ...measurementSession,
+        manualUnit: unit,
+        manualValues: measurements,
+        selectedSize,
+        selectedSizeType,
+        adjustments,
+      });
+    }
+    if (onNavigate) onNavigate('design-report');
+  };
+
   // Count entered values
   const enteredCount = Object.values(measurements).filter(
     (v) => v !== null && v !== undefined && v !== '' && !isNaN(v)
@@ -199,6 +214,16 @@ export default function MeasurementResults({
             ariaLabel="Return to Smart Measurement flow"
           >
             Smart Measurement
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            icon={FileText}
+            onClick={handleOpenReport}
+            ariaLabel="View Design Report and PDF"
+          >
+            Design Report
           </Button>
 
           <Button
@@ -326,6 +351,7 @@ export default function MeasurementResults({
               onResetAdjustments={handleResetAllAdjustments}
               onReviewSummary={() => setReviewSummaryModalOpen(true)}
               onContinue3D={() => (onNavigate ? onNavigate('preview3d') : setContinue3DModalOpen(true))}
+              onViewReport={handleOpenReport}
             />
 
             {/* Navigation Shortcuts */}
@@ -339,6 +365,17 @@ export default function MeasurementResults({
                 ariaLabel="Launch 3D Avatar & Outfit Studio"
               >
                 Launch 3D Avatar Studio
+              </Button>
+
+              <Button
+                variant="outline"
+                size="sm"
+                icon={FileText}
+                onClick={handleOpenReport}
+                style={{ width: '100%', marginBottom: '0.5rem' }}
+                ariaLabel="Generate Custom Outfit Design Report & PDF"
+              >
+                Export Design Report
               </Button>
 
               <Button
