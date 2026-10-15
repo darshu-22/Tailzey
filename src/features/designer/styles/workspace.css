@@ -1,0 +1,179 @@
+/* Step 2: three-panel workspace layout, controls panel and colour swatches. */
+
+/* =========================================
+   STEP 2: WORKSPACE LAYOUT (3-PANEL)
+   ========================================= */
+.designer-workspace-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (min-width: 860px) {
+  .designer-workspace-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1200px) {
+  .designer-workspace-layout {
+    grid-template-columns: 380px 1fr 340px;
+  }
+}
+
+/* Customization Controls Panel */
+.customization-controls-panel {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.panel-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.panel-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.panel-divider {
+  height: 1px;
+  background: var(--color-border-subtle);
+  border: none;
+  margin: 0.25rem 0;
+}
+
+.custom-control-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+  gap: 0.5rem;
+}
+
+.custom-control-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-text-primary);
+  display: block;
+}
+
+.custom-control-subtext {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  margin: 0.15rem 0 0;
+}
+
+.custom-control-active-val {
+  font-size: 0.75rem;
+  color: var(--color-gold);
+  font-weight: 500;
+  text-align: right;
+}
+
+/* =========================================
+   COLOR SWATCHES
+   ========================================= */
+.color-swatches-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.color-swatches-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+}
+
+.color-swatch-item {
+  background: rgba(18, 14, 12, 0.7);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.color-swatch-item:hover {
+  background: rgba(38, 31, 26, 0.8);
+  border-color: var(--color-border-hover);
+}
+
+.color-swatch-item:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.color-swatch-item.is-selected {
+  background: rgba(217, 180, 122, 0.12);
+  border-color: var(--color-gold);
+  box-shadow: 0 0 14px rgba(217, 180, 122, 0.2);
+}
+
+.color-swatch-pill {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.2), 0 2px 6px rgba(0, 0, 0, 0.6);
+  transition: transform var(--transition-fast);
+}
+
+.color-swatch-item:hover .color-swatch-pill {
+  transform: scale(1.08);
+}
+
+.color-swatch-name {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.color-swatch-item.is-selected .color-swatch-name {
+  color: var(--color-gold);
+  font-weight: 600;
+}
+
+.color-swatch-desc {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.74rem;
+  color: var(--color-text-muted);
+  margin: 0.65rem 0 0;
+  line-height: 1.4;
+}
+
+.color-swatch-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}

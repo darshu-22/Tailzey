@@ -1,0 +1,66 @@
+/* Design name field, save status and inline save errors (top of the designer). */
+
+.designer-save-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.75rem;
+  background: rgba(217, 180, 122, 0.04);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.designer-save-bar .designer-name-field {
+  flex: 1 1 280px;
+  max-width: 480px;
+  margin-bottom: 0;
+}
+
+.designer-save-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.designer-save-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.designer-save-status.is-saved {
+  color: var(--color-status-success);
+}
+
+.designer-save-status.is-dirty {
+  color: var(--color-gold);
+}
+
+.designer-save-error {
+  flex-basis: 100%;
+  font-size: 0.8rem;
+  color: var(--color-status-error);
+}
+
+.designer-save-error ul {
+  margin: 0.35rem 0 0;
+  padding-left: 1.1rem;
+}
+
+@media (max-width: 640px) {
+  .designer-save-bar {
+    padding: 0.85rem 1rem;
+  }
+
+  .designer-save-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

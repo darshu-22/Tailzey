@@ -1,0 +1,123 @@
+/* Measurement studio: tailoring ease adjustment control. */
+.adjustment-control-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.adjustment-header-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.adjustment-title {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.adjustment-subtitle {
+  font-size: 0.68rem;
+  color: var(--color-text-faint);
+  margin-left: 0.35rem;
+}
+
+.adjustment-reset-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.adjustment-reset-link:hover {
+  color: var(--color-gold);
+}
+
+.adjustment-segmented-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+}
+
+.adjustment-btn {
+  background: rgba(18, 14, 12, 0.7);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.35rem;
+  color: var(--color-text-secondary);
+  font-size: 0.74rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--transition-fast);
+}
+
+.adjustment-btn:hover:not(:disabled) {
+  background: rgba(38, 31, 26, 0.8);
+  border-color: var(--color-border-hover);
+}
+
+.adjustment-btn.is-active {
+  background: rgba(217, 180, 122, 0.12);
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  font-weight: 600;
+}
+
+.adjustment-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.adjustment-breakdown-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(18, 14, 12, 0.6);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.65rem;
+  font-size: 0.72rem;
+}
+
+.breakdown-metric {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.breakdown-label {
+  color: var(--color-text-muted);
+}
+
+.breakdown-val {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.breakdown-val.highlight {
+  color: var(--color-gold);
+}
+
+.breakdown-operator {
+  color: var(--color-text-faint);
+  font-weight: 600;
+}
+
+.breakdown-metric.is-result .breakdown-val-result {
+  color: var(--color-gold);
+  font-weight: 700;
+}
+
+.adjustment-disclaimer-text {
+  font-size: 0.68rem;
+  color: var(--color-text-faint);
+  line-height: 1.35;
+  margin: 0;
+}

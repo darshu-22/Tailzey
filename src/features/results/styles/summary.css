@@ -1,0 +1,223 @@
+/* Measurement studio: sticky summary panel. */
+.results-summary-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@media (min-width: 1040px) {
+  .results-summary-column {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+.measurement-summary-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: var(--shadow-md);
+}
+
+.summary-header-block {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.summary-eyebrow-tag {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  font-weight: 600;
+}
+
+.summary-sheet-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0.15rem 0 0;
+}
+
+.summary-lead-text {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+  margin: -0.5rem 0 0;
+}
+
+.summary-overview-box {
+  background: rgba(18, 14, 12, 0.6);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.overview-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+}
+
+.overview-label {
+  color: var(--color-text-muted);
+}
+
+.overview-val {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.overview-val.highlight {
+  color: var(--color-gold);
+}
+
+.overview-sub-type {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.summary-metrics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metrics-list-title {
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+.summary-metric-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+  font-size: 0.76rem;
+}
+
+.metric-row-name-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-name {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.metric-cat {
+  font-size: 0.65rem;
+  color: var(--color-text-faint);
+}
+
+.metric-val-calc {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.metric-base-sub {
+  color: var(--color-text-faint);
+  text-decoration: line-through;
+  font-size: 0.7rem;
+}
+
+.metric-adj-tag {
+  background: rgba(217, 180, 122, 0.12);
+  color: var(--color-gold);
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+.metric-final-val {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.metric-final-val.highlight {
+  color: var(--color-gold);
+  font-weight: 700;
+}
+
+.metric-unsupplied {
+  color: var(--color-text-faint);
+  font-style: italic;
+  font-size: 0.72rem;
+}
+
+.summary-camera-session-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-xs);
+  padding: 0.5rem 0.65rem;
+}
+
+.summary-actions-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.summary-continue-btn {
+  width: 100%;
+}
+
+.summary-reset-btn {
+  width: 100%;
+  color: var(--color-text-muted);
+}
+
+.results-shortcuts-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.results-shortcut-btn,
+.summary-report-btn {
+  width: 100%;
+}
+
+.summary-report-btn {
+  margin-top: 0.4rem;
+}
+
+.summary-note-icon {
+  color: var(--color-gold);
+  flex-shrink: 0;
+}
+
+/* Secondary Actions Grid in Summary */
+.summary-secondary-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}

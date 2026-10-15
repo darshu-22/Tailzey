@@ -1,0 +1,157 @@
+/* Measurement studio: specification review dialog. */
+.results-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 9, 8, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 200ms ease-out;
+}
+
+.results-modal-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-lg);
+  max-width: 560px;
+  width: 100%;
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(217, 180, 122, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: relative;
+}
+
+.results-modal-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.modal-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(217, 180, 122, 0.12);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0.35rem 0 0;
+  line-height: 1.25;
+}
+
+.modal-close-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: var(--radius-xs);
+  transition: color var(--transition-fast);
+}
+
+.modal-close-btn:hover {
+  color: var(--color-text-primary);
+}
+
+.results-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.results-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Review Summary Modal Extensions */
+.results-review-modal-card {
+  max-width: 680px;
+}
+
+.modal-review-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.75rem;
+  background: rgba(18, 14, 12, 0.6);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+}
+
+.modal-review-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.modal-review-label {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.modal-review-val {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.modal-review-val.highlight {
+  color: var(--color-gold);
+}
+
+.modal-review-table-container {
+  overflow-x: auto;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: rgba(18, 14, 12, 0.4);
+}
+
+.modal-review-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  text-align: left;
+}
+
+.modal-review-table th {
+  padding: 0.6rem 0.85rem;
+  background: rgba(38, 31, 26, 0.6);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-gold);
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.modal-review-table td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
+}
+
+.modal-review-table tbody tr:hover td {
+  background: rgba(217, 180, 122, 0.04);
+}

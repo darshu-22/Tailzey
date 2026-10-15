@@ -1,0 +1,132 @@
+/* =========================================
+   HERO SECTION
+   ========================================= */
+.hero-section {
+  position: relative;
+  padding-top: clamp(4rem, 8vw, 7rem);
+  padding-bottom: clamp(4.5rem, 9vw, 8rem);
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-backdrop-glow {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(217, 180, 122, 0.08) 0%, rgba(155, 96, 56, 0.05) 50%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(40px);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.hero-logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-6);
+}
+
+.hero-brand-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.85rem 1.75rem;
+  background: rgba(27, 21, 18, 0.8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(217, 180, 122, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.hero-logo-img {
+  height: 64px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
+}
+
+.hero-brand-meta {
+  text-align: left;
+}
+
+.hero-brand-title {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--color-gold);
+  line-height: 1.2;
+}
+
+.hero-brand-tagline {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.hero-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5.5vw + 0.5rem, 4.5rem);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  margin-bottom: var(--space-6);
+  color: var(--color-text-primary);
+}
+
+.hero-subheading {
+  font-size: clamp(1.05rem, 1.5vw + 0.2rem, 1.25rem);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-muted);
+  max-width: 640px;
+  margin: 0 auto var(--space-8);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-10);
+}
+
+.hero-pill-highlights {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border-subtle);
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.hero-pill-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.hero-pill-icon {
+  color: var(--color-gold);
+}

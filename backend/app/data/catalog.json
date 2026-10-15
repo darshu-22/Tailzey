@@ -1,0 +1,411 @@
+{
+  "garments": [
+    {
+      "id": "t-shirt",
+      "name": "T-Shirt",
+      "defaultOptions": {
+        "color": "white",
+        "style": "casual",
+        "fit": "regular",
+        "neckline": "crew-neck",
+        "sleeveLength": "short-sleeve",
+        "garmentLength": "standard",
+        "fabric": "supima-cotton",
+        "pattern": "solid-minimal"
+      },
+      "customControls": {
+        "neckline": {
+          "label": "Neckline Style",
+          "options": [
+            "crew-neck",
+            "v-neck",
+            "henley"
+          ]
+        },
+        "sleeveLength": {
+          "label": "Sleeve Length",
+          "options": [
+            "short-sleeve",
+            "long-sleeve"
+          ]
+        },
+        "garmentLength": {
+          "label": "Garment Length",
+          "options": [
+            "standard",
+            "relaxed-longline"
+          ]
+        },
+        "fabric": {
+          "label": "Fabric Composition",
+          "options": [
+            "supima-cotton",
+            "mercerized-jersey",
+            "bamboo-modal"
+          ]
+        },
+        "pattern": {
+          "label": "Pattern & Embellishment",
+          "options": [
+            "solid-minimal",
+            "subtle-monogram",
+            "fine-ribbed"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shirt",
+      "name": "Shirt",
+      "defaultOptions": {
+        "color": "white",
+        "style": "classic",
+        "fit": "slim",
+        "neckline": "spread-collar",
+        "sleeveLength": "long-cuffed",
+        "garmentLength": "standard-tuck",
+        "fabric": "giza-cotton",
+        "pattern": "solid-lustre"
+      },
+      "customControls": {
+        "neckline": {
+          "label": "Collar Style",
+          "options": [
+            "spread-collar",
+            "mandarin-band",
+            "button-down"
+          ]
+        },
+        "sleeveLength": {
+          "label": "Sleeve Length",
+          "options": [
+            "long-cuffed",
+            "short-sleeve"
+          ]
+        },
+        "garmentLength": {
+          "label": "Shirt Cut & Hem",
+          "options": [
+            "standard-tuck",
+            "untucked-casual"
+          ]
+        },
+        "fabric": {
+          "label": "Fabric Composition",
+          "options": [
+            "giza-cotton",
+            "italian-linen",
+            "royal-oxford"
+          ]
+        },
+        "pattern": {
+          "label": "Pattern & Embellishment",
+          "options": [
+            "solid-lustre",
+            "micro-houndstooth",
+            "bengal-stripe"
+          ]
+        }
+      }
+    },
+    {
+      "id": "jacket",
+      "name": "Jacket",
+      "defaultOptions": {
+        "color": "navy",
+        "style": "formal",
+        "fit": "slim",
+        "neckline": "notched-lapel",
+        "sleeveLength": "standard-tailored",
+        "garmentLength": "standard-hip",
+        "fabric": "merino-wool",
+        "pattern": "solid-matte"
+      },
+      "customControls": {
+        "neckline": {
+          "label": "Lapel Architecture",
+          "options": [
+            "notched-lapel",
+            "peak-lapel",
+            "mandarin-stand"
+          ]
+        },
+        "sleeveLength": {
+          "label": "Sleeve Architecture",
+          "options": [
+            "standard-tailored",
+            "turnback-cuff"
+          ]
+        },
+        "garmentLength": {
+          "label": "Jacket Silhouette Length",
+          "options": [
+            "tailored-waist",
+            "standard-hip",
+            "extended-longline"
+          ]
+        },
+        "fabric": {
+          "label": "Fabric Composition",
+          "options": [
+            "merino-wool",
+            "silk-linen",
+            "evening-velvet"
+          ]
+        },
+        "pattern": {
+          "label": "Pattern & Embellishment",
+          "options": [
+            "solid-matte",
+            "subtle-windowpane",
+            "pick-stitch"
+          ]
+        }
+      }
+    },
+    {
+      "id": "trousers",
+      "name": "Trousers",
+      "defaultOptions": {
+        "color": "black",
+        "style": "classic",
+        "fit": "slim",
+        "neckline": "flat-front",
+        "sleeveLength": "slight-break",
+        "garmentLength": "regular-inseam",
+        "fabric": "wool-gabardine",
+        "pattern": "solid-obsidian"
+      },
+      "customControls": {
+        "neckline": {
+          "label": "Waistband & Pleats",
+          "options": [
+            "flat-front",
+            "single-pleat",
+            "double-pleats"
+          ]
+        },
+        "sleeveLength": {
+          "label": "Hem Break (Shoe Resting)",
+          "options": [
+            "ankle-no-break",
+            "slight-break",
+            "medium-break"
+          ]
+        },
+        "garmentLength": {
+          "label": "Inseam Proportion",
+          "options": [
+            "cropped-inseam",
+            "regular-inseam",
+            "extended-inseam"
+          ]
+        },
+        "fabric": {
+          "label": "Fabric Composition",
+          "options": [
+            "wool-gabardine",
+            "stretch-chino",
+            "tropical-wool"
+          ]
+        },
+        "pattern": {
+          "label": "Pattern & Hardware",
+          "options": [
+            "solid-obsidian",
+            "side-adjusters",
+            "micro-houndstooth"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ethnic",
+      "name": "Ethnic Wear",
+      "defaultOptions": {
+        "color": "burgundy",
+        "style": "formal",
+        "fit": "regular",
+        "neckline": "royal-bandhgala",
+        "sleeveLength": "full-straight",
+        "garmentLength": "below-knee-sherwani",
+        "fabric": "raw-silk",
+        "pattern": "zari-accents"
+      },
+      "customControls": {
+        "neckline": {
+          "label": "Neckline & Collar",
+          "options": [
+            "royal-bandhgala",
+            "angrakha-wrap",
+            "kurta-placket"
+          ]
+        },
+        "sleeveLength": {
+          "label": "Sleeve Architecture",
+          "options": [
+            "full-straight",
+            "cuffed-heritage"
+          ]
+        },
+        "garmentLength": {
+          "label": "Silhouette Stance",
+          "options": [
+            "knee-kurta",
+            "below-knee-sherwani",
+            "short-bandi"
+          ]
+        },
+        "fabric": {
+          "label": "Fabric Composition",
+          "options": [
+            "raw-silk",
+            "opulent-brocade",
+            "fine-khadi"
+          ]
+        },
+        "pattern": {
+          "label": "Ornamentation & Accents",
+          "options": [
+            "zari-accents",
+            "resham-embroidery",
+            "minimal-solid-silk"
+          ]
+        }
+      }
+    }
+  ],
+  "colors": [
+    "white",
+    "black",
+    "navy",
+    "beige",
+    "brown",
+    "burgundy"
+  ],
+  "styles": [
+    "casual",
+    "classic",
+    "modern",
+    "formal"
+  ],
+  "fits": [
+    "regular",
+    "slim",
+    "relaxed"
+  ],
+  "fitPreferences": [
+    "slim",
+    "regular",
+    "relaxed"
+  ],
+  "letterSizes": [
+    "S",
+    "M",
+    "L",
+    "XL",
+    "2XL",
+    "3XL"
+  ],
+  "numericSizes": {
+    "jacket": [
+      "36R",
+      "38R",
+      "40R",
+      "42R",
+      "44R",
+      "46R"
+    ],
+    "shirt": [
+      "15.0",
+      "15.5",
+      "16.0",
+      "16.5",
+      "17.0",
+      "17.5"
+    ],
+    "trousers": [
+      "30",
+      "32",
+      "34",
+      "36",
+      "38",
+      "40",
+      "42"
+    ],
+    "ethnic": [
+      "38",
+      "40",
+      "42",
+      "44",
+      "46"
+    ],
+    "t-shirt": []
+  },
+  "measurementFields": [
+    {
+      "id": "height",
+      "label": "Total Height",
+      "minCm": 90,
+      "maxCm": 250,
+      "minIn": 35,
+      "maxIn": 98
+    },
+    {
+      "id": "neck",
+      "label": "Neck Circumference",
+      "minCm": 25,
+      "maxCm": 60,
+      "minIn": 10,
+      "maxIn": 24
+    },
+    {
+      "id": "shoulderWidth",
+      "label": "Shoulder Width",
+      "minCm": 30,
+      "maxCm": 70,
+      "minIn": 12,
+      "maxIn": 28
+    },
+    {
+      "id": "chest",
+      "label": "Chest / Bust Circumference",
+      "minCm": 50,
+      "maxCm": 180,
+      "minIn": 20,
+      "maxIn": 71
+    },
+    {
+      "id": "waist",
+      "label": "Waist Circumference",
+      "minCm": 45,
+      "maxCm": 160,
+      "minIn": 18,
+      "maxIn": 63
+    },
+    {
+      "id": "hip",
+      "label": "Hip Circumference",
+      "minCm": 55,
+      "maxCm": 180,
+      "minIn": 22,
+      "maxIn": 71
+    },
+    {
+      "id": "armLength",
+      "label": "Arm Length (Sleeve)",
+      "minCm": 35,
+      "maxCm": 95,
+      "minIn": 14,
+      "maxIn": 38
+    },
+    {
+      "id": "legLength",
+      "label": "Inseam / Leg Length",
+      "minCm": 40,
+      "maxCm": 110,
+      "minIn": 16,
+      "maxIn": 44
+    }
+  ]
+}

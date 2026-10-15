@@ -1,0 +1,32 @@
+/* App shell: toast stack and route loading fallback. */
+.toast-viewport {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.toast-viewport .toast-notification {
+  position: static;
+}
+
+.toast-notification.toast-error {
+  border-color: #d9776b;
+}
+
+.route-fallback {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+}
+
+@media (max-width: 640px) {
+  .toast-viewport {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+  }
+}

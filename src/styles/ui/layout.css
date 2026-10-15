@@ -1,0 +1,32 @@
+/* =========================================
+   PAGE CONTAINER & LAYOUT
+   ========================================= */
+.page-container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
+}
+
+.page-container-narrow {
+  max-width: var(--container-narrow);
+}
+
+.section-padding {
+  padding-top: clamp(4rem, 7vw, 6.5rem);
+  padding-bottom: clamp(4rem, 7vw, 6.5rem);
+}
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(217, 180, 122, 0.25) 50%,
+    transparent 100%
+  );
+  border: none;
+  margin: 0;
+}

@@ -1,0 +1,87 @@
+/* Tailzey — Auth form controls: error alert, password toggle, terms checkbox, actions */
+
+.auth-form-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: 0.85rem 1rem;
+  background: rgba(214, 109, 103, 0.08);
+  border: 1px solid rgba(214, 109, 103, 0.35);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-6);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  line-height: 1.45;
+}
+
+.auth-form-alert-icon {
+  color: var(--color-status-error);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.form-required-mark {
+  color: var(--color-gold);
+}
+
+.password-input {
+  padding-right: 2.75rem;
+}
+
+.password-input-error {
+  border-color: var(--color-status-error);
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 0.85rem;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.password-toggle-btn:hover {
+  color: var(--color-gold);
+}
+
+.auth-terms {
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.auth-terms-label {
+  align-items: flex-start;
+}
+
+.auth-terms-label .auth-checkbox-input {
+  margin-top: 3px;
+}
+
+.auth-terms-text {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.auth-terms-error {
+  display: block;
+  margin-top: 0.35rem;
+}
+
+.auth-submit-btn {
+  width: 100%;
+  margin-top: var(--space-2);
+}
+
+.auth-switch-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
