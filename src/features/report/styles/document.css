@@ -1,0 +1,241 @@
+/* Report page shell: action bar, document sheet, letterhead, status notice and highlights. */
+
+.report-page-wrapper {
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(217, 180, 122, 0.08) 0%, transparent 65%),
+    radial-gradient(circle at 90% 20%, rgba(155, 96, 56, 0.05) 0%, transparent 50%);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: var(--space-16);
+}
+
+/* Top Sticky Navigation & Action Bar (Screen Only) */
+.report-top-actions-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(15, 12, 10, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-4) var(--space-6);
+}
+
+.report-top-actions-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.report-nav-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.report-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.report-breadcrumb-active {
+  color: var(--color-gold);
+  font-weight: var(--font-weight-medium);
+}
+
+.report-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* Document Container & Page Presentation */
+.report-document-container {
+  max-width: 1000px;
+  margin: var(--space-8) auto 0;
+  padding: 0 var(--space-6);
+  width: 100%;
+}
+
+.report-document-sheet {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(217, 180, 122, 0.1);
+  padding: var(--space-10) var(--space-12);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Elegant gold hairline crest frame */
+.report-document-sheet::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #9B6038, #D9B47A, #E8CFA1, #9B6038);
+}
+
+/* Top Letterhead Header */
+.report-letterhead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--color-border-subtle);
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.report-brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.report-brand-logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(217, 180, 122, 0.25));
+}
+
+.report-brand-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.report-brand-name {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-widest);
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.report-brand-subtitle {
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wider);
+  color: var(--color-gold);
+  text-transform: uppercase;
+  margin-top: var(--space-1);
+}
+
+.report-title-block {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.report-doc-title {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.report-doc-meta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.report-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  background: rgba(217, 180, 122, 0.08);
+  border: 1px solid rgba(217, 180, 122, 0.2);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  font-family: monospace;
+}
+
+.report-meta-chip.chip-gold {
+  color: var(--color-gold);
+  border-color: rgba(217, 180, 122, 0.4);
+}
+
+/* Session Notice Banner */
+.report-session-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  background: rgba(217, 180, 122, 0.05);
+  border: 1px dashed rgba(217, 180, 122, 0.3);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin: var(--space-6) 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.report-session-notice-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Highlights Quick Bar */
+.report-highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
+.report-highlight-card {
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.report-highlight-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+  color: var(--color-text-muted);
+}
+
+.report-highlight-val {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.report-highlight-val.highlight-gold {
+  color: var(--color-gold);
+}

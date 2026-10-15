@@ -1,0 +1,105 @@
+/* Smart measurement: page shell, header and main container. */
+.measurement-page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* =========================================
+   HEADER
+   ========================================= */
+.measurement-header {
+  height: 76px;
+  background: rgba(14, 11, 9, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.measurement-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.measurement-brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.measurement-brand-logo {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+}
+
+.measurement-brand-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.measurement-brand-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-gold);
+  line-height: 1;
+}
+
+.measurement-brand-subtitle {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-top: 0.15rem;
+}
+
+.measurement-phase-badge {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .measurement-phase-badge {
+    display: inline-flex;
+  }
+}
+
+.measurement-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* =========================================
+   MAIN CONTAINER
+   ========================================= */
+/* Row of status badges above each screen title */
+.measurement-badge-row {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.measurement-main-container {
+  flex: 1;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2.5vw, 2rem);
+}

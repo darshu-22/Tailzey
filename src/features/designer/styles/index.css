@@ -1,0 +1,8 @@
+/* Dream Outfit Designer styles. */
+@import './layout.css';
+@import './save-bar.css';
+@import './garments.css';
+@import './workspace.css';
+@import './controls.css';
+@import './preview.css';
+@import './review.css';

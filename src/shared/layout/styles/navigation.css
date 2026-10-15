@@ -1,0 +1,26 @@
+/* Site header account actions and mobile drawer (base header rules: header.css). */
+.header-text-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.header-text-btn-icon {
+  color: var(--color-gold);
+}
+
+.mobile-drawer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.header-drawer-btn {
+  width: 100%;
+}
