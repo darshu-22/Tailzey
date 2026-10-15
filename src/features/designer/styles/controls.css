@@ -1,0 +1,230 @@
+/* Step 2: style, fit and garment-specific option selectors. */
+
+/* =========================================
+   STYLE SELECTOR
+   ========================================= */
+.style-selector-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.style-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.65rem;
+}
+
+.style-option-btn {
+  background: rgba(18, 14, 12, 0.7);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.style-option-btn:hover {
+  background: rgba(38, 31, 26, 0.8);
+  border-color: var(--color-border-hover);
+}
+
+.style-option-btn:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.style-option-btn.is-selected {
+  background: rgba(217, 180, 122, 0.12);
+  border-color: var(--color-gold);
+}
+
+.style-option-top {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.style-option-icon {
+  color: var(--color-gold);
+}
+
+.style-option-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.style-option-btn.is-selected .style-option-name {
+  color: var(--color-gold);
+}
+
+.style-option-tagline {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+}
+
+/* =========================================
+   FIT SELECTOR
+   ========================================= */
+.fit-selector-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.fit-selector-segmented {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fit-option-segment {
+  background: rgba(18, 14, 12, 0.7);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.fit-option-segment:hover {
+  background: rgba(38, 31, 26, 0.8);
+  border-color: var(--color-border-hover);
+}
+
+.fit-option-segment:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.fit-option-segment.is-selected {
+  background: rgba(217, 180, 122, 0.12);
+  border-color: var(--color-gold);
+}
+
+.fit-option-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fit-option-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.fit-option-segment.is-selected .fit-option-title {
+  color: var(--color-gold);
+}
+
+.fit-option-badge {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+}
+
+.fit-option-desc {
+  font-size: 0.74rem;
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* =========================================
+   CATEGORY-SPECIFIC ATTRIBUTES
+   ========================================= */
+.category-attributes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.category-attributes-heading {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  margin: 0 0 0.25rem;
+}
+
+.custom-attribute-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-attribute-options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.custom-attribute-btn {
+  background: rgba(18, 14, 12, 0.6);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.custom-attribute-btn:hover {
+  background: rgba(38, 31, 26, 0.7);
+  border-color: var(--color-border-hover);
+}
+
+.custom-attribute-btn:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.custom-attribute-btn.is-selected {
+  background: rgba(217, 180, 122, 0.1);
+  border-color: var(--color-gold);
+}
+
+.custom-attribute-btn-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.custom-attribute-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.custom-attribute-btn.is-selected .custom-attribute-name {
+  color: var(--color-gold);
+}
+
+.custom-attribute-radio-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+  background: transparent;
+  transition: all var(--transition-fast);
+}
+
+.custom-attribute-radio-dot.is-active {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  box-shadow: 0 0 6px rgba(217, 180, 122, 0.5);
+}
+
+.custom-attribute-subtext {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+}

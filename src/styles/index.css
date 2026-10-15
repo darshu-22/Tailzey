@@ -1,0 +1,15 @@
+/* Global stylesheet entry: design tokens, base, shared components, then each feature. */
+@import './variables.css';
+@import './global.css';
+@import './ui/index.css';
+@import './app.css';
+@import '../shared/layout/styles/index.css';
+@import '../features/home/styles/index.css';
+@import '../features/auth/styles/index.css';
+@import '../features/dashboard/styles/index.css';
+@import '../features/designer/styles/index.css';
+@import '../features/measurement/styles/index.css';
+@import '../features/results/styles/index.css';
+@import '../features/viewer3d/styles/index.css';
+@import '../features/report/styles/index.css';
+@import './responsive.css';

@@ -1,0 +1,45 @@
+/* =========================================
+   SECTION HEADINGS & EYEBROWS
+   ========================================= */
+.section-heading-wrapper {
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.section-heading-center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 760px;
+}
+
+.section-heading-left {
+  text-align: left;
+}
+
+.eyebrow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.35rem 0.95rem;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-widest);
+  text-transform: uppercase;
+  color: var(--color-gold);
+  background-color: var(--color-gold-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-4);
+}
+
+.section-title {
+  margin-bottom: var(--space-3);
+  color: var(--color-text-primary);
+}
+
+.section-description {
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+}

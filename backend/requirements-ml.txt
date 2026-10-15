@@ -1,0 +1,4 @@
+# Offline model training only (python -m ml.train). Not needed to run the API.
+-r requirements.txt
+# CUDA-enabled build; training refuses to run without a CUDA GPU.
+xgboost==3.4.1

@@ -1,0 +1,295 @@
+/* Tailzey — Authentication page layout (sign-in & sign-up) */
+
+.auth-page {
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-split-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* =========================================
+   AUTH BRAND / VISUAL PANEL (DESKTOP)
+   ========================================= */
+.auth-brand-panel {
+  background: 
+    linear-gradient(145deg, rgba(21, 17, 15, 0.95) 0%, rgba(11, 9, 8, 0.98) 100%),
+    radial-gradient(circle at 20% 30%, rgba(155, 96, 56, 0.22) 0%, transparent 60%),
+    radial-gradient(circle at 80% 75%, rgba(217, 180, 122, 0.12) 0%, transparent 50%);
+  border-right: 1px solid var(--color-border);
+  padding: clamp(2.5rem, 5vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-brand-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(217, 180, 122, 0.4) 50%,
+    transparent 100%
+  );
+}
+
+.auth-panel-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.auth-panel-eyebrow {
+  font-size: 0.75rem;
+  color: var(--color-gold);
+  letter-spacing: 0.15em;
+}
+
+.auth-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  transition: color var(--transition-fast);
+}
+
+.auth-back-link:hover {
+  color: var(--color-gold);
+}
+
+.auth-panel-center {
+  margin: auto 0;
+  max-width: 540px;
+}
+
+.auth-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0.5rem 1.25rem;
+  background: rgba(27, 21, 18, 0.7);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-6);
+  backdrop-filter: blur(8px);
+}
+
+.auth-brand-badge-logo {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+
+.auth-brand-badge-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-gold);
+}
+
+.auth-panel-quote {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+  letter-spacing: 0.01em;
+}
+
+.auth-panel-sub {
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-8);
+}
+
+.auth-feature-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.auth-feature-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.auth-feature-item-icon {
+  color: var(--color-gold);
+  flex-shrink: 0;
+}
+
+.auth-panel-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border-subtle);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-faint);
+  letter-spacing: 0.05em;
+}
+
+/* =========================================
+   AUTH FORM PANEL
+   ========================================= */
+.auth-form-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem);
+  background-color: var(--color-bg-primary);
+  position: relative;
+  overflow-y: auto;
+}
+
+.auth-form-wrapper {
+  width: 100%;
+  max-width: 440px;
+}
+
+.auth-mobile-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+  width: 100%;
+}
+
+.auth-mobile-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.auth-mobile-logo-img {
+  height: 38px;
+  width: auto;
+}
+
+.auth-mobile-title {
+  font-size: 1.25rem;
+}
+
+.auth-form-header {
+  margin-bottom: var(--space-8);
+  text-align: left;
+}
+
+.auth-form-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.auth-form-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-normal);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.auth-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.auth-checkbox-input {
+  accent-color: var(--color-gold);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.auth-switch-prompt {
+  margin-top: var(--space-6);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.auth-switch-link {
+  color: var(--color-gold);
+  font-weight: 600;
+  margin-left: 0.35rem;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.auth-switch-link:hover {
+  color: var(--color-gold-light);
+  text-decoration: underline;
+}
+
+/* =========================================
+   RESPONSIVE AUTH
+   ========================================= */
+@media (max-width: 900px) {
+  .auth-split-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-brand-panel {
+    display: none;
+  }
+
+  .auth-mobile-header {
+    display: flex;
+  }
+
+  .auth-form-panel {
+    min-height: 100vh;
+    padding: 2.5rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-form-panel {
+    padding: 2rem 1rem;
+  }
+
+  .auth-form-header {
+    margin-bottom: var(--space-4);
+  }
+
+  .auth-form-title {
+    font-size: 1.75rem;
+  }
+}
+
