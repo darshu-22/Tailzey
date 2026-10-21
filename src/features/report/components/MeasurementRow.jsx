@@ -1,41 +1,28 @@
-import React from 'react';
-import { AlertCircle, Camera, CheckCircle2 } from 'lucide-react';
+import StatusBadge from '../../../shared/ui/StatusBadge';
 import { formatAdjustment } from '../lib/reportModel';
 
-const SOURCE_STYLE = {
-  camera_estimate: { className: 'report-status-camera', Icon: Camera },
-  user_entered: { className: 'report-status-entered', Icon: CheckCircle2 },
-  not_recorded: { className: 'report-status-empty', Icon: AlertCircle },
+const SOURCE_BADGE = {
+  camera_estimate: 'info',
+  user_entered: 'success',
+  not_recorded: 'neutral',
 };
 
-const Dash = () => <span className="report-cell-empty">—</span>;
-
-/** One measurement line of the report table (see buildMeasurementRows). */
+/**
+ * One measurement line of the report table (see buildMeasurementRows).
+ * `data-label` lets the table stack into cards on narrow screens.
+ */
 export default function MeasurementRow({ row }) {
-  const { className, Icon } = SOURCE_STYLE[row.source];
   const isRecorded = row.value !== null;
 
   return (
-    <tr>
-      <td>
-        <div className="report-metric-name">{row.label}</div>
-        <div className="report-metric-desc">{row.description}</div>
-      </td>
-      <td>
-        <span className="report-cell-muted">{row.category}</span>
-      </td>
-      <td>
-        <span className={`report-status-badge ${className}`}>
-          <Icon size={11} aria-hidden="true" />
-          <span>{row.sourceLabel}</span>
-        </span>
-      </td>
-      <td>
+    <tr className={isRecorded ? undefined : 'is-missing'}>
+      <th scope="row">{row.label}</th>
+      <td data-label="Value">
         {isRecorded ? (
           <>
-            <strong>
+            <span className="report-num">
               {row.value} {row.unit}
-            </strong>
+            </span>
             {row.uncertainty !== null && (
               <span className="report-uncertainty">
                 ± {row.uncertainty} {row.unit}
@@ -43,23 +30,22 @@ export default function MeasurementRow({ row }) {
             )}
           </>
         ) : (
-          <Dash />
+          '—'
         )}
       </td>
-      <td>
-        {!isRecorded && <Dash />}
-        {isRecorded && row.adjustment !== 0 && (
-          <span className="report-cell-gold">{formatAdjustment(row.adjustment, row.unit)}</span>
-        )}
-        {isRecorded && row.adjustment === 0 && <span className="report-cell-muted">+0 (Standard)</span>}
+      <td data-label="Source">
+        <StatusBadge variant={SOURCE_BADGE[row.source]}>{row.sourceLabel}</StatusBadge>
       </td>
-      <td>
+      <td data-label="Ease">
+        {isRecorded ? (row.adjustment !== 0 ? formatAdjustment(row.adjustment, row.unit) : 'None') : '—'}
+      </td>
+      <td data-label="Target">
         {isRecorded ? (
-          <strong className="report-cell-gold">
+          <span className="report-num">
             {row.target} {row.unit}
-          </strong>
+          </span>
         ) : (
-          <span className="report-cell-empty">Not recorded</span>
+          '—'
         )}
       </td>
     </tr>

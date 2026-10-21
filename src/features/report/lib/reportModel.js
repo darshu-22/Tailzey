@@ -69,8 +69,15 @@ export function hasDesignContent(design) {
 
 /** Report reference: derived from the saved design id, otherwise marked as a draft. */
 export function reportReference(design) {
-  return design.designId ? `TLZ-${String(design.designId).slice(0, 8).toUpperCase()}` : 'DRAFT';
+  return design.designId ? `TLZ-${String(design.designId).slice(0, 8).toUpperCase()}` : 'Draft';
 }
+
+/** Design save status (workspace `designStatus`) as shown on the report. */
+export const STATUS_LABELS = {
+  saved: 'Saved',
+  dirty: 'Unsaved changes',
+  new: 'Not saved yet',
+};
 
 /** Signed ease allowance, e.g. "+2 cm" or "−1.5 in". */
 export const formatAdjustment = (n, unit) => `${n < 0 ? '−' : '+'}${Math.abs(n)} ${unit}`;

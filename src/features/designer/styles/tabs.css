@@ -1,0 +1,83 @@
+/* Option tabs: an underlined tab row, then the active panel (the only part that may scroll). */
+.designer-tablist {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding-inline: var(--container-pad);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.designer-tab {
+  position: relative;
+  min-height: var(--tap-target);
+  padding: 0 var(--space-2);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    color var(--duration-fast) var(--ease),
+    border-color var(--duration-fast) var(--ease);
+}
+
+.designer-tab:hover {
+  color: var(--color-text);
+}
+
+.designer-tab[aria-selected='true'] {
+  border-bottom-color: var(--color-accent);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+
+.designer-tab:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+/* A tab whose picker has a server validation error gets a red dot. */
+.designer-tab.has-error::after {
+  content: '';
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-danger);
+}
+
+.designer-tabpanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--container-pad);
+}
+
+.designer-tabpanel[hidden] {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .designer-tabs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .designer-tablist {
+    padding-inline: var(--space-5);
+  }
+
+  .designer-tabpanel {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: var(--space-4) var(--space-5);
+  }
+}

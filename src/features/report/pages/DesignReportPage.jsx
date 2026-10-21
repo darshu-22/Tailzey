@@ -1,12 +1,15 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Palette, Printer } from 'lucide-react';
 import { useRouter, useToast, useWorkspace } from '../../../app/hooks';
-import ReportHeader from '../components/ReportHeader';
-import ReportHighlights from '../components/ReportHighlights';
-import ReportOutfitSpec from '../components/ReportOutfitSpec';
-import ReportMeasurementSheet from '../components/ReportMeasurementSheet';
-import ReportFitSummary from '../components/ReportFitSummary';
-import ReportPreviewSection from '../components/ReportPreviewSection';
+import Button from '../../../shared/ui/Button';
+import PageHeader from '../../../shared/ui/PageHeader';
+import ReportDocHead from '../components/ReportDocHead';
+import ReportOutfitSection from '../components/ReportOutfitSection';
+import ReportMeasurementsSection from '../components/ReportMeasurementsSection';
+import ReportSizeSection from '../components/ReportSizeSection';
+import ReportNotesSection from '../components/ReportNotesSection';
 import ReportEmptyState from '../components/ReportEmptyState';
+import ReportSaveNotice from '../components/ReportSaveNotice';
 import {
   buildMeasurementRows,
   formatToday,
@@ -18,8 +21,8 @@ import {
 const PRINT_DELAY_MS = 300;
 
 /**
- * Design report composed from the workspace design and measurement profile.
- * "Print / Save as PDF" uses the browser's print dialog with print-specific CSS.
+ * Printable design specification built from the workspace design and measurement profile.
+ * "Print / Save PDF" opens the browser print dialog; print.css lays the page out for A4.
  */
 export default function DesignReportPage() {
   const { navigate } = useRouter();
@@ -29,14 +32,12 @@ export default function DesignReportPage() {
 
   const rows = useMemo(() => buildMeasurementRows(measurement), [measurement]);
   const summary = summarizeMeasurements(rows);
-  const reportId = reportReference(design);
 
   if (!hasDesignContent(design) && summary.recorded === 0) {
     return (
-      <div className="report-page-wrapper">
-        <main className="report-document-container" id="main-content">
-          <ReportEmptyState />
-        </main>
+      <div className="page report-page">
+        <PageHeader title="Design report" description="A printable summary of your outfit and measurements." />
+        <ReportEmptyState />
       </div>
     );
   }
@@ -51,42 +52,44 @@ export default function DesignReportPage() {
     setTimeout(() => window.print(), PRINT_DELAY_MS);
   };
 
+  const actions = (
+    <>
+      <Button variant="outline" icon={Palette} onClick={() => navigate('designer')}>
+        Edit design
+      </Button>
+      <Button variant="primary" icon={Printer} onClick={handlePrint}>
+        Print / Save PDF
+      </Button>
+    </>
+  );
+
   return (
-    <div className="report-page-wrapper">
-      <ReportHeader
-        reportId={reportId}
-        generationDate={generationDate}
-        saveStatus={designStatus}
-        onPrint={handlePrint}
+    <div className="page report-page">
+      <PageHeader
+        title="Design report"
+        description="Your outfit specification and measurements, ready to print or share with a tailor."
+        actions={actions}
       />
 
-      <main className="report-document-container" id="main-content">
-        <article className="report-document-sheet" aria-label="Design report">
-          <ReportHighlights design={design} measurement={measurement} summary={summary} />
+      <ReportSaveNotice status={designStatus} onEdit={() => navigate('designer')} />
 
-          <div className="report-sections-stack">
-            <ReportOutfitSpec design={design} measurement={measurement} />
-            <ReportMeasurementSheet
-              rows={rows}
-              summary={summary}
-              measurement={measurement}
-              onMeasure={() => navigate('measurement')}
-            />
-            <ReportFitSummary fitId={design.fitId} measurement={measurement} adjustedCount={summary.adjusted} />
-            <ReportPreviewSection design={design} onOpen3DStudio={() => navigate('preview3d')} />
+      <article className="report-doc" aria-label="Design specification">
+        <ReportDocHead
+          design={design}
+          reference={reportReference(design)}
+          date={generationDate}
+          status={designStatus}
+          unit={measurement.unit}
+        />
+        <ReportOutfitSection design={design} />
+        <ReportMeasurementsSection rows={rows} summary={summary} onMeasure={() => navigate('measurement')} />
+        <ReportSizeSection fitId={design.fitId} measurement={measurement} adjustedCount={summary.adjusted} />
+        <ReportNotesSection measurement={measurement} summary={summary} />
 
-            <footer className="report-atelier-seal-block">
-              <div className="report-seal-signature">
-                <span className="report-seal-signature-line">TAILZEY ATELIER COUTURE</span>
-                <span className="report-seal-signature-sub">
-                  Design Report • Reference {reportId} • Generated {generationDate}
-                </span>
-              </div>
-              <div className="report-watermark-tag">For design planning — not a guaranteed fit</div>
-            </footer>
-          </div>
-        </article>
-      </main>
+        <footer className="report-doc-foot">
+          Tailzey design report · Reference {reportReference(design)} · Generated {generationDate}
+        </footer>
+      </article>
     </div>
   );
 }
