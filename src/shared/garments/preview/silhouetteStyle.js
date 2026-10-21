@@ -1,8 +1,10 @@
 /**
- * Colour and pattern decisions for the illustrative SVG silhouettes.
+ * Colour and pattern decisions for the illustrative SVG silhouettes. These colours are
+ * drawing content (fabric, stitching, buttons), not UI chrome, so they live here, not in CSS.
  * Paint servers referenced as url(#id) are declared in SilhouetteDefs.
  */
-const ACCENT_GOLD = '#D9B47A';
+const HARDWARE = '#C9A66B'; // buttons, zari trim
+export const GUIDE_STROKE = '#A39F95'; // faint dress-form guide lines
 
 export const FILL = Object.freeze({
   primary: 'url(#fabric-primary-grad)',
@@ -18,9 +20,9 @@ export function silhouettePalette(color) {
     primary: color.hex,
     secondary: color.secondaryHex,
     isLight: color.isLight,
-    outline: color.isLight ? '#2B2520' : 'rgba(217, 180, 122, 0.7)',
-    seam: color.isLight ? '#5C4A38' : 'rgba(217, 180, 122, 0.4)',
-    accent: ACCENT_GOLD,
+    outline: color.isLight ? '#2B2924' : 'rgba(255, 255, 255, 0.55)',
+    seam: color.isLight ? '#6B665C' : 'rgba(255, 255, 255, 0.3)',
+    accent: HARDWARE,
   };
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FILL } from '../../../lib/silhouetteStyle';
+import { FILL } from '../silhouetteStyle';
 
 function Lapels({ neckline, palette }) {
   if (neckline === 'mandarin-stand') {

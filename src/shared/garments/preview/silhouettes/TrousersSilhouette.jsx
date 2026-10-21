@@ -1,5 +1,5 @@
 import React from 'react';
-import { FILL } from '../../../lib/silhouetteStyle';
+import { FILL } from '../silhouetteStyle';
 
 function Pleats({ style, seam }) {
   if (style === 'single-pleat') {

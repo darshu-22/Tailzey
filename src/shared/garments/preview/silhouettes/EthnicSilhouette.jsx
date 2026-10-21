@@ -1,5 +1,5 @@
 import React from 'react';
-import { FILL } from '../../../lib/silhouetteStyle';
+import { FILL } from '../silhouetteStyle';
 
 const BUTTONS_Y = [64, 84, 104, 124, 144, 164, 184];
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FILL } from '../../../lib/silhouetteStyle';
+import { FILL } from '../silhouetteStyle';
 
 const PLACKET_BUTTONS_Y = [78, 108, 138, 168, 198, 228];
 

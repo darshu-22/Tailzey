@@ -15,7 +15,7 @@
       },
       "customControls": {
         "neckline": {
-          "label": "Neckline Style",
+          "label": "Neckline",
           "options": [
             "crew-neck",
             "v-neck",
@@ -23,21 +23,21 @@
           ]
         },
         "sleeveLength": {
-          "label": "Sleeve Length",
+          "label": "Sleeve length",
           "options": [
             "short-sleeve",
             "long-sleeve"
           ]
         },
         "garmentLength": {
-          "label": "Garment Length",
+          "label": "Length",
           "options": [
             "standard",
             "relaxed-longline"
           ]
         },
         "fabric": {
-          "label": "Fabric Composition",
+          "label": "Fabric",
           "options": [
             "supima-cotton",
             "mercerized-jersey",
@@ -45,7 +45,7 @@
           ]
         },
         "pattern": {
-          "label": "Pattern & Embellishment",
+          "label": "Pattern",
           "options": [
             "solid-minimal",
             "subtle-monogram",
@@ -69,7 +69,7 @@
       },
       "customControls": {
         "neckline": {
-          "label": "Collar Style",
+          "label": "Collar",
           "options": [
             "spread-collar",
             "mandarin-band",
@@ -77,21 +77,21 @@
           ]
         },
         "sleeveLength": {
-          "label": "Sleeve Length",
+          "label": "Sleeve length",
           "options": [
             "long-cuffed",
             "short-sleeve"
           ]
         },
         "garmentLength": {
-          "label": "Shirt Cut & Hem",
+          "label": "Hem",
           "options": [
             "standard-tuck",
             "untucked-casual"
           ]
         },
         "fabric": {
-          "label": "Fabric Composition",
+          "label": "Fabric",
           "options": [
             "giza-cotton",
             "italian-linen",
@@ -99,7 +99,7 @@
           ]
         },
         "pattern": {
-          "label": "Pattern & Embellishment",
+          "label": "Pattern",
           "options": [
             "solid-lustre",
             "micro-houndstooth",
@@ -123,7 +123,7 @@
       },
       "customControls": {
         "neckline": {
-          "label": "Lapel Architecture",
+          "label": "Lapel",
           "options": [
             "notched-lapel",
             "peak-lapel",
@@ -131,14 +131,14 @@
           ]
         },
         "sleeveLength": {
-          "label": "Sleeve Architecture",
+          "label": "Sleeve cuff",
           "options": [
             "standard-tailored",
             "turnback-cuff"
           ]
         },
         "garmentLength": {
-          "label": "Jacket Silhouette Length",
+          "label": "Length",
           "options": [
             "tailored-waist",
             "standard-hip",
@@ -146,7 +146,7 @@
           ]
         },
         "fabric": {
-          "label": "Fabric Composition",
+          "label": "Fabric",
           "options": [
             "merino-wool",
             "silk-linen",
@@ -154,7 +154,7 @@
           ]
         },
         "pattern": {
-          "label": "Pattern & Embellishment",
+          "label": "Pattern",
           "options": [
             "solid-matte",
             "subtle-windowpane",
@@ -178,7 +178,7 @@
       },
       "customControls": {
         "neckline": {
-          "label": "Waistband & Pleats",
+          "label": "Pleats",
           "options": [
             "flat-front",
             "single-pleat",
@@ -186,7 +186,7 @@
           ]
         },
         "sleeveLength": {
-          "label": "Hem Break (Shoe Resting)",
+          "label": "Hem break",
           "options": [
             "ankle-no-break",
             "slight-break",
@@ -194,7 +194,7 @@
           ]
         },
         "garmentLength": {
-          "label": "Inseam Proportion",
+          "label": "Length",
           "options": [
             "cropped-inseam",
             "regular-inseam",
@@ -202,7 +202,7 @@
           ]
         },
         "fabric": {
-          "label": "Fabric Composition",
+          "label": "Fabric",
           "options": [
             "wool-gabardine",
             "stretch-chino",
@@ -210,7 +210,7 @@
           ]
         },
         "pattern": {
-          "label": "Pattern & Hardware",
+          "label": "Finish",
           "options": [
             "solid-obsidian",
             "side-adjusters",
@@ -234,7 +234,7 @@
       },
       "customControls": {
         "neckline": {
-          "label": "Neckline & Collar",
+          "label": "Neckline",
           "options": [
             "royal-bandhgala",
             "angrakha-wrap",
@@ -242,14 +242,14 @@
           ]
         },
         "sleeveLength": {
-          "label": "Sleeve Architecture",
+          "label": "Sleeve",
           "options": [
             "full-straight",
             "cuffed-heritage"
           ]
         },
         "garmentLength": {
-          "label": "Silhouette Stance",
+          "label": "Length",
           "options": [
             "knee-kurta",
             "below-knee-sherwani",
@@ -257,7 +257,7 @@
           ]
         },
         "fabric": {
-          "label": "Fabric Composition",
+          "label": "Fabric",
           "options": [
             "raw-silk",
             "opulent-brocade",
@@ -265,7 +265,7 @@
           ]
         },
         "pattern": {
-          "label": "Ornamentation & Accents",
+          "label": "Embellishment",
           "options": [
             "zari-accents",
             "resham-embroidery",

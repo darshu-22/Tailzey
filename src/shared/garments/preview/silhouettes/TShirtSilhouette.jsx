@@ -1,5 +1,5 @@
 import React from 'react';
-import { FILL } from '../../../lib/silhouetteStyle';
+import { FILL } from '../silhouetteStyle';
 
 /** T-shirt: fit narrows the waist; sleeve, neckline, length and pattern options change the outline. */
 export default function TShirtSilhouette({ fitId, options, palette, patterns }) {
