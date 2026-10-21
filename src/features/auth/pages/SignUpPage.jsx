@@ -26,10 +26,10 @@ export default function SignUpPage() {
   });
 
   return (
-    <AuthLayout pageType="signup">
+    <AuthLayout>
       <div className="auth-form-header">
-        <h1 className="auth-form-title">Create Account</h1>
-        <p className="auth-form-subtitle">Begin your journey into personalized outfit design and smart fit.</p>
+        <h1 className="auth-form-title">Create your account</h1>
+        <p className="auth-form-subtitle">Save your designs and measurements, and pick up where you left off on any device.</p>
       </div>
 
       <AuthFormAlert message={formError} />
@@ -37,9 +37,9 @@ export default function SignUpPage() {
       <form className="auth-form" onSubmit={handleSubmit} noValidate>
         <Input
           id="signup-display-name"
-          label="Full Name"
+          label="Full name"
           autoComplete="name"
-          placeholder="e.g. Elena Rostova"
+          placeholder="e.g. Alex Kumar"
           maxLength={DISPLAY_NAME_MAX}
           value={values.displayName}
           onChange={(e) => setField('displayName', e.target.value)}
@@ -51,10 +51,10 @@ export default function SignUpPage() {
 
         <Input
           id="signup-email"
-          label="Email Address"
+          label="Email"
           type="email"
           autoComplete="email"
-          placeholder="your.email@domain.com"
+          placeholder="you@example.com"
           value={values.email}
           onChange={(e) => setField('email', e.target.value)}
           error={errors.email}
@@ -78,7 +78,7 @@ export default function SignUpPage() {
 
         <PasswordInput
           id="signup-confirm-password"
-          label="Confirm Password"
+          label="Confirm password"
           autoComplete="new-password"
           placeholder="Re-enter your password"
           maxLength={PASSWORD_MAX}
@@ -90,7 +90,7 @@ export default function SignUpPage() {
         />
 
         <div className="auth-terms">
-          <label className="auth-checkbox-label auth-terms-label">
+          <label className="auth-checkbox-label">
             <input
               type="checkbox"
               className="auth-checkbox-input"
@@ -100,17 +100,17 @@ export default function SignUpPage() {
               aria-describedby={errors.agreeTerms ? 'signup-terms-error' : undefined}
               disabled={pending}
             />
-            <span className="auth-terms-text">I agree to the Tailzey Terms of Service and Privacy Policy.</span>
+            <span className="auth-terms-text">I agree to the Terms of Service and Privacy Policy.</span>
           </label>
           {errors.agreeTerms && (
-            <span id="signup-terms-error" className="form-error-text auth-terms-error">
+            <span id="signup-terms-error" className="form-error-text">
               {errors.agreeTerms}
             </span>
           )}
         </div>
 
         <Button type="submit" variant="primary" size="lg" loading={pending} className="auth-submit-btn">
-          {pending ? 'Creating Account…' : 'Create Atelier Account'}
+          {pending ? 'Creating account…' : 'Create account'}
         </Button>
 
         <AuthSwitchPrompt prompt="Already have an account?" linkLabel="Sign in" to="signin" />

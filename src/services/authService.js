@@ -10,6 +10,10 @@ export const authService = {
   async register({ displayName, email, password }) {
     return (await http.post('/auth/register', { displayName, email, password })).data;
   },
+  /** One-click sign-in to the shared demo account (available in development builds of the API). */
+  async demo() {
+    return (await http.post('/auth/demo')).data;
+  },
   logout() {
     return http.post('/auth/logout');
   },

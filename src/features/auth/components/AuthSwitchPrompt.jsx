@@ -1,15 +1,22 @@
 import React from 'react';
 import { useRouter } from '../../../app/hooks';
 
-/** "Don't have an account? Create one" style link between the two auth pages. */
+/** "Don't have an account? Create one" link between the two auth pages. */
 export default function AuthSwitchPrompt({ prompt, linkLabel, to }) {
   const { navigate } = useRouter();
   return (
     <p className="auth-switch-prompt">
-      {prompt}
-      <button type="button" onClick={() => navigate(to)} className="auth-switch-link">
+      {prompt}{' '}
+      <a
+        href={`#${to}`}
+        className="auth-switch-link"
+        onClick={(event) => {
+          event.preventDefault();
+          navigate(to);
+        }}
+      >
         {linkLabel}
-      </button>
+      </a>
     </p>
   );
 }

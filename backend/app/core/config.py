@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     session_ttl_hours: int = 24 * 14
     # Forced on in production regardless of this value.
     session_cookie_secure: bool = False
+    # One-click shared demo account. Unset = on in development/test, off in production.
+    demo_login_enabled: bool | None = None
 
     auth_rate_limit_per_minute: int = 10
     analyze_rate_limit_per_minute: int = 6
@@ -43,6 +45,10 @@ class Settings(BaseSettings):
     @property
     def allowed_origins(self) -> list[str]:
         return [o.strip().rstrip("/") for o in self.cors_allowed_origins.split(",") if o.strip()]
+
+    @property
+    def demo_enabled(self) -> bool:
+        return self.demo_login_enabled if self.demo_login_enabled is not None else not self.is_production
 
     @property
     def is_production(self) -> bool:
