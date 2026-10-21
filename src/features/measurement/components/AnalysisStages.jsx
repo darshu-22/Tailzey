@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, Clock, AlertCircle } from 'lucide-react';
+import { AlertCircle, Check } from 'lucide-react';
 
 function getStages(status, photoCount) {
   const failed = status === 'error';
@@ -7,58 +7,55 @@ function getStages(status, photoCount) {
   return [
     {
       id: 'photos',
-      name: 'Photos prepared',
-      desc: `${photoCount} view${photoCount === 1 ? '' : 's'} ready to send with your height`,
+      name: 'Photos ready',
+      desc: `${photoCount} view${photoCount === 1 ? '' : 's'} sent with your height`,
       state: 'done',
     },
     {
       id: 'analyse',
-      name: 'Uploading and analysing',
-      desc: 'Detecting your pose and outline, then measuring each body level',
+      name: 'Measuring',
+      desc: 'Finding your pose and outline, then measuring each body level',
       state: failed ? 'failed' : done ? 'done' : 'current',
     },
     {
       id: 'review',
-      name: 'Estimates ready for review',
+      name: 'Estimates ready',
       desc: 'Each value comes with a ± range and confidence',
-      state: done ? 'done' : 'pending',
+      state: done ? 'done' : 'todo',
     },
   ];
 }
 
-const BADGES = { done: 'Complete', current: 'In progress…', failed: 'Failed', pending: 'Waiting' };
+const STATE_TEXT = { done: 'done', current: 'in progress', failed: 'failed', todo: 'waiting' };
 
-function StageIcon({ state }) {
-  if (state === 'done') return <CheckCircle2 size={20} className="stage-icon-done" />;
-  if (state === 'current') return <div className="stage-spinner" />;
-  if (state === 'failed') return <AlertCircle size={20} className="stage-icon-failed" />;
-  return <Clock size={18} className="stage-icon-pending" />;
+function StageIcon({ state, index }) {
+  if (state === 'done') return <Check size={16} strokeWidth={3} />;
+  if (state === 'current') return <span className="loading-spinner analysis-stage-spinner" />;
+  if (state === 'failed') return <AlertCircle size={18} />;
+  return index + 1;
 }
 
 /**
- * Stage list driven by the real request state. Upload and analysis happen in one
- * request, so they are shown as a single in-flight stage rather than faked steps.
+ * Stages driven by the real request state. Upload and analysis happen in one request,
+ * so they are shown as a single in-flight stage rather than faked steps.
  */
 export default function AnalysisStages({ status, photoCount }) {
   return (
-    <div className="progress-stages-list">
-      {getStages(status, photoCount).map((stage) => (
-        <div
-          key={stage.id}
-          className={`progress-stage-item ${stage.state === 'done' ? 'is-completed' : ''} ${
-            stage.state === 'current' ? 'is-current' : ''
-          } ${stage.state === 'failed' ? 'is-failed' : ''}`}
-        >
-          <div className="stage-icon-wrap" aria-hidden="true">
-            <StageIcon state={stage.state} />
-          </div>
-          <div className="stage-content">
-            <h4 className="stage-name">{stage.name}</h4>
-            <p className="stage-desc">{stage.desc}</p>
-          </div>
-          <span className="stage-badge">{BADGES[stage.state]}</span>
-        </div>
+    <ol className="analysis-stages">
+      {getStages(status, photoCount).map((stage, index) => (
+        <li key={stage.id} className={`analysis-stage is-${stage.state}`}>
+          <span className="analysis-stage-icon" aria-hidden="true">
+            <StageIcon state={stage.state} index={index} />
+          </span>
+          <span className="analysis-stage-text">
+            <span className="analysis-stage-name">
+              {stage.name}
+              <span className="sr-only"> ({STATE_TEXT[stage.state]})</span>
+            </span>
+            <span className="analysis-stage-desc">{stage.desc}</span>
+          </span>
+        </li>
       ))}
-    </div>
+    </ol>
   );
 }

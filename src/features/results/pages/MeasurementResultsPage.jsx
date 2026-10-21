@@ -1,97 +1,80 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from '../../../app/hooks';
-import ResultsHeader from '../components/ResultsHeader';
-import ResultsHero from '../components/ResultsHero';
-import MetricsSection, { METRICS_SECTION_ID } from '../components/MetricsSection';
+import SegmentedControl from '../../../shared/ui/SegmentedControl';
+import FitHeader from '../components/FitHeader';
+import MetricsSection from '../components/MetricsSection';
 import SizeSelector from '../components/SizeSelector';
 import FitPreferenceSelector from '../components/FitPreferenceSelector';
-import ProfileSaveCard from '../components/ProfileSaveCard';
 import MeasurementSummary from '../components/MeasurementSummary';
-import ResultsShortcuts from '../components/ResultsShortcuts';
-import ReviewSummaryModal from '../components/ReviewSummaryModal';
 import { useMeasurementStudio } from '../hooks/useMeasurementStudio';
 import { useProfileSave } from '../hooks/useProfileSave';
 
-const scrollToMetrics = () => document.getElementById(METRICS_SECTION_ID)?.scrollIntoView({ behavior: 'smooth' });
+function tabOptions(errorCount) {
+  return [
+    { value: 'measurements', label: errorCount ? `Measurements · ${errorCount} to fix` : 'Measurements' },
+    { value: 'size', label: 'Size & fit' },
+  ];
+}
 
 /**
- * Measurement studio: edit the workspace measurements, add tailoring ease, choose an
- * exploratory size and fit, and save everything to the account as a profile.
+ * Fit & Size: edit the workspace measurements, add ease, choose an exploratory size and a
+ * fit, and save everything to the account as a measurement profile. On laptops and up the
+ * page is exactly one viewport tall; the active tab's panel scrolls on its own if needed.
  */
 export default function MeasurementResultsPage() {
   const { navigate } = useRouter();
   const studio = useMeasurementStudio();
   const profile = useProfileSave();
-  const [isReviewOpen, setIsReviewOpen] = useState(false);
+  const [tab, setTab] = useState('measurements');
   const { measurement } = studio;
+  const errorCount = Object.values(profile.errors.values).filter(Boolean).length;
 
   const handleSaveValue = (key, value) => {
     studio.saveValue(key, value);
     profile.clearValueError(key);
   };
-  const closeReview = useCallback(() => setIsReviewOpen(false), []);
 
   return (
-    <div className="measurement-results-page-wrapper">
-      <ResultsHeader onNavigate={navigate} />
+    <div className="page fit-page">
+      <FitHeader profile={profile} unit={measurement.unit} onUnitChange={studio.changeUnit} />
 
-      <main className="results-main-container" id="main-content">
-        <ResultsHero measurement={measurement} counts={studio.counts} onUnitChange={studio.changeUnit} />
+      <div className="fit-layout">
+        <div className="fit-main">
+          <SegmentedControl label="Show" options={tabOptions(errorCount)} value={tab} onChange={setTab} className="fit-tabs" />
 
-        <div className="results-content-grid">
-          <div className="results-cards-column">
+          {tab === 'measurements' ? (
             <MetricsSection
               measurement={measurement}
+              counts={studio.counts}
               valueErrors={profile.errors.values}
               onSave={handleSaveValue}
               onAdjustmentChange={studio.setAdjustment}
+              onMeasure={() => navigate('measurement')}
             />
-
-            <div className="results-content-divider" aria-hidden="true" />
-
-            <SizeSelector
-              garmentId={studio.garmentId}
-              onGarmentChange={studio.setGarmentId}
-              selectedSize={measurement.selectedSize}
-              selectedSizeType={measurement.selectedSizeType}
-              onSizeChange={studio.selectSize}
-              unit={measurement.unit}
-            />
-
-            <div className="results-content-divider" aria-hidden="true" />
-
-            <FitPreferenceSelector selectedFitId={measurement.fitPreference} onFitChange={studio.selectFit} />
-          </div>
-
-          <div className="results-summary-column">
-            <ProfileSaveCard profile={profile} />
-            <MeasurementSummary
-              measurement={measurement}
-              garmentId={studio.garmentId}
-              estimatedCount={studio.counts.estimated}
-              onEditMeasurements={scrollToMetrics}
-              onResetAdjustments={studio.resetAdjustments}
-              onReviewSummary={() => setIsReviewOpen(true)}
-              onContinue3D={() => navigate('preview3d')}
-              onViewReport={() => navigate('design-report')}
-            />
-            <ResultsShortcuts onNavigate={navigate} />
-          </div>
+          ) : (
+            <div className="card fit-panel fit-choices">
+              <SizeSelector
+                garmentId={studio.garmentId}
+                onGarmentChange={studio.setGarmentId}
+                selectedSize={measurement.selectedSize}
+                selectedSizeType={measurement.selectedSizeType}
+                onSizeChange={studio.selectSize}
+                unit={measurement.unit}
+              />
+              <FitPreferenceSelector selectedFitId={measurement.fitPreference} onFitChange={studio.selectFit} />
+            </div>
+          )}
         </div>
-      </main>
 
-      {isReviewOpen && (
-        <ReviewSummaryModal
+        <MeasurementSummary
           measurement={measurement}
           garmentId={studio.garmentId}
-          onClose={closeReview}
-          onEdit={() => {
-            closeReview();
-            scrollToMetrics();
-          }}
-          onContinue3D={() => navigate('preview3d')}
+          counts={studio.counts}
+          onResetAdjustments={studio.resetAdjustments}
+          onNavigate={navigate}
+          onEditSize={() => setTab('size')}
         />
-      )}
+      </div>
     </div>
   );
 }

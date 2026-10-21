@@ -1,230 +1,320 @@
-/* Smart measurement: review of recorded and estimated measurements. */
-.measurement-review-container {
-  max-width: 1040px;
-  margin: 0 auto;
+/* Steps 3 and 4 — analysing progress and the review of results. */
+.analysis-card {
+  max-width: 720px;
+}
+
+.analysis-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.analysis-thumb {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  animation: fadeIn 300ms ease-out forwards;
-}
-
-.review-sheet-header {
-  border-bottom: 1px solid var(--color-border-subtle);
-  padding-bottom: 1.5rem;
-}
-
-.review-sheet-title {
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 4vw, 2.85rem);
-  font-weight: 600;
-  margin: 0.25rem 0 0.5rem;
-  color: var(--color-text-primary);
-}
-
-.review-sheet-subtitle {
-  font-size: 0.95rem;
-  color: var(--color-text-muted);
-  margin: 0;
-  max-width: 680px;
-}
-
-.review-sheet-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.review-panel-card {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: clamp(1.25rem, 3vw, 2rem);
-  box-shadow: var(--shadow-md);
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.review-panel-title-row {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: var(--space-1);
+  width: 72px;
 }
 
-.panel-title-icon {
-  color: var(--color-gold);
-}
-
-.review-panel-title {
-  font-family: var(--font-serif);
-  font-size: 1.35rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin: 0;
-}
-
-/* Photo thumbnails (analysis view cards) */
-.review-thumb-frame {
-  height: 120px;
+.analysis-thumb-img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border-subtle);
-  background: rgba(18, 14, 12, 0.8);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: var(--color-surface-muted);
 }
 
-.review-thumb-image {
+.analysis-thumb-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.analysis-stages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.analysis-stage {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.analysis-stage-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-surface-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-subtle);
+}
+
+.analysis-stage.is-done .analysis-stage-icon {
+  border-color: var(--color-success);
+  background: var(--color-success);
+  color: var(--color-text-inverse);
+}
+
+.analysis-stage.is-current .analysis-stage-icon {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface);
+}
+
+.analysis-stage.is-failed .analysis-stage-icon {
+  border-color: var(--color-danger);
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.analysis-stage-spinner {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+}
+
+.analysis-stage-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: var(--space-1);
+}
+
+.analysis-stage-name {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+
+.analysis-stage.is-todo .analysis-stage-name {
+  color: var(--color-text-muted);
+}
+
+.analysis-stage-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* Review: values beside photo quality; on laptops the cards scroll on their own. */
+.review-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.review-values-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+@media (min-width: 1024px) {
+  .review-grid {
+    flex: 1;
+    grid-template-rows: minmax(0, 1fr) auto;
+    align-items: stretch;
+    min-height: 0;
+  }
+
+  .review-grid.has-photos {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  }
+
+  .review-grid > .review-actions {
+    grid-column: 1 / -1;
+  }
+
+  .review-values,
+  .review-photos {
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .review-grid:not(.has-photos) > .review-values {
+    align-self: start;
+    max-height: 100%;
+  }
+}
+
+.review-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.review-table th,
+.review-table td {
+  padding: var(--space-2) var(--space-3) var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.review-table thead th {
+  padding-top: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+}
+
+.review-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.review-table .review-table-num {
+  padding-right: 0;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.review-table .review-table-label {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+
+.review-table-value {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.review-table-source,
+.review-table-range {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.review-table-range {
+  margin-left: var(--space-2);
+}
+
+.review-table-empty {
+  color: var(--color-text-subtle);
+}
+
+.review-table tr.is-missing .review-table-label {
+  color: var(--color-text-muted);
+}
+
+.review-views {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.review-view {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.review-view:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.review-view-frame {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 40px;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-muted);
+  color: var(--color-text-subtle);
+}
+
+.review-view-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.review-thumb-placeholder {
-  font-size: 0.72rem;
-  color: var(--color-text-muted);
-}
-
-.review-thumb-caption {
-  font-size: 0.72rem;
-  color: var(--color-text-secondary);
-  text-align: center;
-}
-
-/* Honest Banner */
-.review-honest-banner {
+.review-view-body {
   display: flex;
-  align-items: flex-start;
-  gap: 0.85rem;
-  background: rgba(217, 180, 122, 0.08);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: 1.15rem 1.35rem;
-}
-
-.honest-banner-icon {
-  color: var(--color-gold);
-  flex-shrink: 0;
-  margin-top: 0.2rem;
-}
-
-.honest-banner-title {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--color-gold);
-  margin: 0 0 0.35rem;
-}
-
-.honest-banner-text {
-  font-size: 0.8rem;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-  margin: 0;
-}
-
-.panel-action-inline {
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* Measurements Table */
-.review-measurements-table {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 0.75rem;
-}
-
-.review-measure-row {
-  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  background: rgba(18, 14, 12, 0.6);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 0.85rem 1rem;
+  gap: var(--space-1) var(--space-2);
+  min-width: 0;
 }
 
-.measure-name-col {
+.review-view-head {
   display: flex;
-  flex-direction: column;
-}
-
-.measure-label {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.measure-category {
-  font-size: 0.68rem;
-  color: var(--color-text-muted);
-}
-
-.measure-number.highlight {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--color-gold);
-}
-
-.measure-unit {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-}
-
-.measure-empty {
-  font-size: 0.78rem;
-  color: var(--color-text-faint);
-  font-style: italic;
-}
-
-/* Roadmap Notice */
-.review-roadmap-box {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 1.15rem 1.35rem;
-}
-
-.roadmap-title {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin: 0 0 0.25rem;
-}
-
-.roadmap-desc {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  line-height: 1.5;
-  margin: 0;
-}
-
-/* Actions */
-.review-sheet-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  border-top: 1px solid var(--color-border-subtle);
-  padding-top: 1.5rem;
-}
-
-@media (min-width: 600px) {
-  .review-sheet-actions {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-
-.sheet-actions-secondary {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
   flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.review-view-name {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.review-view-issues {
+  display: flex;
+  flex-basis: 100%;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: var(--space-5);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.review-disclaimer {
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+}
+
+.review-disclaimer-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.review-disclaimer-summary > svg {
+  color: var(--color-info);
+}
+
+.review-model {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+}
+
+.review-actions {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.review-next {
+  max-width: 52ch;
+  font-size: var(--text-sm);
+}
+
+@media (pointer: coarse) {
+  .review-disclaimer-summary {
+    min-height: var(--tap-target);
+  }
 }

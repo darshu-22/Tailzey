@@ -1,103 +1,80 @@
 import React from 'react';
-import { Sparkles, RotateCcw, Edit3, Info, FileText, Printer } from 'lucide-react';
+import { Box, FileText, RotateCcw, Shirt } from 'lucide-react';
 import Button from '../../../shared/ui/Button';
-import StatusBadge from '../../../shared/ui/StatusBadge';
-import { GARMENT_CATEGORIES, FIT_PREFERENCES } from '../../../shared/data/resultsData';
-import SummaryMetricsList from './SummaryMetricsList';
+import { FIT_PREFERENCES, GARMENT_CATEGORIES } from '../../../shared/data/resultsData';
 
-function cameraNote(measurement, estimatedCount) {
+function cameraNote(measurement, estimated) {
   if (!measurement.isCameraCompleted) return 'No camera analysis is attached to these measurements.';
-  return `${estimatedCount} value${estimatedCount === 1 ? '' : 's'} estimated from ${measurement.cameraCaptureCount} photos. Confirm critical measurements with a tape.`;
+  return `${estimated} value${estimated === 1 ? '' : 's'} estimated from ${measurement.cameraCaptureCount} photos. Confirm important measurements with a tape.`;
 }
 
-/** Sticky summary of measurements, ease, exploratory size and fit, with next-step actions. */
-export default function MeasurementSummary({
-  measurement,
-  garmentId,
-  estimatedCount,
-  onEditMeasurements,
-  onResetAdjustments,
-  onReviewSummary,
-  onContinue3D,
-  onViewReport,
-}) {
-  const { values, adjustments, fieldStatus, unit, selectedSize, selectedSizeType, fitPreference } = measurement;
+/** Compact summary of the chosen size, fit and ease, with the next steps. */
+export default function MeasurementSummary({ measurement, garmentId, counts, onResetAdjustments, onNavigate, onEditSize }) {
+  const { adjustments, selectedSize, selectedSizeType, fitPreference } = measurement;
   const garment = GARMENT_CATEGORIES.find((g) => g.id === garmentId) || GARMENT_CATEGORIES[0];
   const fit = FIT_PREFERENCES.find((f) => f.id === fitPreference) || FIT_PREFERENCES[1];
   const adjustedCount = Object.values(adjustments).filter((a) => a > 0).length;
+  const recorded = counts.entered + counts.estimated;
+  const total = recorded + counts.missing;
 
   return (
-    <aside className="measurement-summary-card" aria-label="Atelier Measurement Summary">
-      <div className="summary-header-block">
+    <aside className="card fit-summary" aria-labelledby="summary-title">
+      <div className="fit-section-head">
+        <h2 id="summary-title" className="fit-section-title">
+          Summary
+        </h2>
+        <button type="button" className="fit-link" onClick={onEditSize}>
+          Change size or fit
+        </button>
+      </div>
+
+      <dl className="fit-summary-list">
         <div>
-          <span className="summary-eyebrow-tag">Atelier Sizing Sheet</span>
-          <h3 className="summary-sheet-title">Measurement Summary</h3>
+          <dt>Measurements</dt>
+          <dd>
+            {recorded} of {total} recorded
+          </dd>
         </div>
-        <StatusBadge variant="gold" dot>
-          {measurement.profileId ? 'Linked to Saved Profile' : 'Not Saved Yet'}
-        </StatusBadge>
-      </div>
-
-      <p className="summary-lead-text">
-        Review your measurements, tailoring ease allowances, and exploratory styling preferences.
-      </p>
-
-      <div className="summary-overview-box">
-        <div className="overview-row">
-          <span className="overview-label">Garment Silhouette:</span>
-          <span className="overview-val highlight">{garment.name}</span>
+        <div>
+          <dt>Garment</dt>
+          <dd>{garment.name}</dd>
         </div>
-        <div className="overview-row">
-          <span className="overview-label">Exploratory Size:</span>
-          <span className="overview-val highlight">
-            {selectedSize}{' '}
-            <span className="overview-sub-type">({selectedSizeType === 'numeric' ? 'Numeric' : 'Letter'})</span>
-          </span>
+        <div>
+          <dt>Size</dt>
+          <dd>
+            {selectedSize} <span className="fit-summary-sub">({selectedSizeType === 'numeric' ? 'numeric' : 'letter'})</span>
+          </dd>
         </div>
-        <div className="overview-row">
-          <span className="overview-label">Fit Drape Preference:</span>
-          <span className="overview-val">{fit.name}</span>
+        <div>
+          <dt>Fit</dt>
+          <dd>{fit.name}</dd>
         </div>
-        <div className="overview-row">
-          <span className="overview-label">Tailoring Ease Adjustments:</span>
-          <span className="overview-val">{adjustedCount > 0 ? `${adjustedCount} adjusted` : 'Standard (+0)'}</span>
+        <div>
+          <dt>Ease</dt>
+          <dd>{adjustedCount > 0 ? `${adjustedCount} adjusted` : 'None'}</dd>
         </div>
-      </div>
+        <div>
+          <dt>Saved</dt>
+          <dd>{measurement.profileId ? 'Yes' : 'Not yet'}</dd>
+        </div>
+      </dl>
 
-      <SummaryMetricsList values={values} adjustments={adjustments} fieldStatus={fieldStatus} unit={unit} />
+      <p className="fit-summary-note">{cameraNote(measurement, counts.estimated)}</p>
 
-      <div className="summary-camera-session-note">
-        <Info size={14} className="summary-note-icon" />
-        <span>{cameraNote(measurement, estimatedCount)}</span>
-      </div>
-
-      <div className="summary-actions-stack">
-        <Button variant="primary" size="lg" icon={Sparkles} onClick={onContinue3D} className="summary-continue-btn">
-          Continue to 3D Preview
+      <div className="fit-summary-actions">
+        <Button icon={Shirt} onClick={() => onNavigate('try-on')}>
+          Try it on
         </Button>
-
-        <div className="summary-secondary-actions-grid">
-          <Button variant="outline" size="sm" icon={Edit3} onClick={onEditMeasurements}>
-            Edit Measurements
+        <div className="fit-summary-pair">
+          <Button variant="outline" size="sm" icon={Box} onClick={() => onNavigate('preview3d')}>
+            View in 3D
           </Button>
-          <Button variant="outline" size="sm" icon={FileText} onClick={onReviewSummary}>
-            Review Summary
+          <Button variant="outline" size="sm" icon={FileText} onClick={() => onNavigate('design-report')}>
+            Design report
           </Button>
         </div>
-
-        <Button
-          variant="ghost"
-          size="sm"
-          icon={RotateCcw}
-          onClick={onResetAdjustments}
-          disabled={adjustedCount === 0}
-          className="summary-reset-btn"
-        >
-          Reset Adjustments {adjustedCount > 0 ? `(${adjustedCount} active)` : ''}
-        </Button>
-
-        <Button variant="outline" size="sm" icon={Printer} onClick={onViewReport} className="summary-report-btn">
-          Export Design Report
+        <Button variant="ghost" size="sm" icon={RotateCcw} onClick={onResetAdjustments} disabled={adjustedCount === 0}>
+          Reset ease
         </Button>
       </div>
     </aside>

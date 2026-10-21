@@ -1,22 +1,32 @@
 import React from 'react';
-import { AlertCircle } from 'lucide-react';
 import { getFieldRange } from '../../../shared/measurements/measurementFields';
 
-/** One labelled numeric measurement input with unit badge, range hint and inline error. */
+/**
+ * One labelled numeric measurement input with a unit suffix, the valid range beside the
+ * label, an optional note (e.g. the camera estimate's ± range) and an inline error.
+ */
 export default function MeasurementFieldInput({ field, value, unit, error, note, required = false, onChange }) {
   const inputId = `field-${field.id}`;
+  const hintId = `hint-${field.id}`;
+  const noteId = `note-${field.id}`;
+  const errorId = `error-${field.id}`;
   const { min, max } = getFieldRange(field, unit);
-  const describedBy = error ? `error-${field.id}` : `hint-${field.id}`;
+  const describedBy = [error && errorId, hintId, note && noteId].filter(Boolean).join(' ');
 
   return (
-    <div className={`measurement-field-card ${error ? 'has-error' : ''}`}>
-      <label htmlFor={inputId} className="field-label">
-        {field.label}
-        {required && <span className="field-required-mark"> *</span>}
-      </label>
-      <span className="field-desc">{field.description}</span>
+    <div className="form-group measure-field">
+      <div className="measure-field-head">
+        <label htmlFor={inputId} className="form-label">
+          {field.label}
+          {required && <span className="measure-field-required"> (required)</span>}
+        </label>
+        <span id={hintId} className="form-hint measure-field-range">
+          {min}–{max} {unit}
+        </span>
+      </div>
+      <span className="measure-field-desc">{field.description}</span>
 
-      <div className="field-input-wrap">
+      <div className="measure-field-control">
         <input
           id={inputId}
           type="number"
@@ -27,22 +37,24 @@ export default function MeasurementFieldInput({ field, value, unit, error, note,
           value={value}
           placeholder={field.placeholder}
           onChange={(e) => onChange(e.target.value)}
-          className="measurement-number-input"
+          className="form-input measure-field-input"
           required={required}
           aria-invalid={Boolean(error)}
           aria-describedby={describedBy}
         />
-        <span className="field-unit-badge">{unit}</span>
+        <span className="measure-field-unit" aria-hidden="true">
+          {unit}
+        </span>
       </div>
 
-      {error ? (
-        <p id={`error-${field.id}`} className="field-error-text" role="alert">
-          <AlertCircle size={13} />
-          <span>{error}</span>
+      {error && (
+        <p id={errorId} className="form-error-text" role="alert">
+          {error}
         </p>
-      ) : (
-        <span id={`hint-${field.id}`} className="field-range-hint">
-          {note ? `${note} · ` : ''}Range {min}–{max} {unit}
+      )}
+      {note && (
+        <span id={noteId} className="form-hint">
+          {note}
         </span>
       )}
     </div>
