@@ -1,101 +1,162 @@
-/* Saved designs / measurement profiles list items on the dashboard. */
-.saved-record-list {
-  list-style: none;
+/* Saved designs / measurement profile panels and their compact rows. */
+.dash-panel {
   display: flex;
   flex-direction: column;
+}
+
+.dash-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--space-3);
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
 }
 
-.saved-record-card {
+.dash-panel-heading {
   display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-4);
-  border-radius: var(--radius-md);
-}
-
-.saved-record-icon {
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, rgba(217, 180, 122, 0.15) 0%, rgba(155, 96, 56, 0.18) 100%);
-  border: 1px solid var(--color-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-gold);
-}
-
-.saved-record-info {
-  flex: 1;
+  flex-direction: column;
   min-width: 0;
 }
 
-.saved-record-title {
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  color: var(--color-text-primary);
+.dash-panel-title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.dash-panel-desc {
+  display: none;
   overflow: hidden;
+  font-size: var(--text-xs);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.saved-record-details {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-  margin-top: 0.15rem;
-}
-
-.saved-record-meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.45rem;
-}
-
-.saved-record-date {
-  font-size: 0.72rem;
-  color: var(--color-text-muted);
-}
-
-.saved-record-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
+.dash-panel-header .btn {
   flex-shrink: 0;
 }
 
-/* Destructive button treatments (no danger variant in the shared Button). */
-.btn.dash-btn-danger-ghost {
-  color: var(--color-status-error);
+/* Lists are capped on narrow screens; on wide screens the panel height does it. */
+.dash-panel-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  max-height: 26rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
-.btn.dash-btn-danger-ghost:hover:not(:disabled) {
-  background: rgba(214, 109, 103, 0.1);
-  color: #E57373;
+.dash-panel-body.is-centered {
+  justify-content: center;
 }
 
-.btn.dash-btn-danger {
-  background: var(--color-status-error);
-  border-color: var(--color-status-error);
-  color: #120D0A;
-  box-shadow: none;
+.dash-panel-body .empty-state,
+.dash-panel-body .error-state {
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-4);
 }
 
-.btn.dash-btn-danger:hover:not(:disabled) {
-  background: #E57373;
-  border-color: #E57373;
+.dash-records {
+  padding: 0;
+  list-style: none;
 }
 
-@media (max-width: 520px) {
-  .saved-record-card {
+.dash-record {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-4);
+}
+
+.dash-record + .dash-record {
+  border-top: 1px solid var(--color-border);
+}
+
+.dash-record-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+}
+
+.dash-record-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.dash-record-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.dash-record-title {
+  overflow: hidden;
+  min-width: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dash-record-details {
+  overflow: hidden;
+  font-size: var(--text-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dash-record-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.dash-icon-btn {
+  width: var(--tap-target);
+  padding: 0;
+  gap: 0;
+}
+
+.dash-icon-btn:hover:not(:disabled) {
+  background: var(--color-danger-soft);
+  border-color: transparent;
+}
+
+/* Phones: a long title keeps its line; badges move under it instead of squeezing it. */
+@media (max-width: 640px) {
+  .dash-record-head {
     flex-wrap: wrap;
+    gap: 2px var(--space-2);
   }
 
-  .saved-record-actions {
-    width: 100%;
-    justify-content: flex-end;
+  .dash-record-title {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dash-panel-desc {
+    display: block;
+  }
+
+  .dash-panel-body {
+    max-height: none;
+  }
+}
+
+@media (min-width: 1024px) and (pointer: fine) {
+  .dash-icon-btn {
+    width: 36px;
   }
 }

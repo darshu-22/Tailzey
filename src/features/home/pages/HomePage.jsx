@@ -1,22 +1,28 @@
 import React from 'react';
 import Header from '../../../shared/layout/Header';
 import Footer from '../../../shared/layout/Footer';
-import HeroSection from '../sections/HeroSection';
-import FeaturesSection from '../sections/FeaturesSection';
-import HowItWorksSection from '../sections/HowItWorksSection';
+import HeroSection from '../components/HeroSection';
+import HowItWorksSection from '../components/HowItWorksSection';
+import FeaturesSection from '../components/FeaturesSection';
+import CtaSection from '../components/CtaSection';
 
-/** Public landing page: site header, hero, feature pillars, how-it-works and footer. */
+/**
+ * Public landing page: a one-screen hero, then one compact band (how it works, features and
+ * a slim call to action) that fits a single viewport on laptop and desktop, then the footer.
+ */
 export default function HomePage() {
   return (
     <>
       <Header />
-      <main id="main-content">
+      <main id="main-content" className="home" tabIndex={-1}>
         <HeroSection />
-        <hr className="section-divider" />
-        <FeaturesSection />
-        <hr className="section-divider" />
-        <HowItWorksSection />
-        <hr className="section-divider" />
+        <div className="home-overview">
+          <div className="container home-overview-inner">
+            <HowItWorksSection />
+            <FeaturesSection />
+            <CtaSection />
+          </div>
+        </div>
       </main>
       <Footer />
     </>

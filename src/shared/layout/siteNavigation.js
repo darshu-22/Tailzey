@@ -2,34 +2,21 @@ import { useCallback } from 'react';
 import { useAuth, useRouter, useToast } from '../../app/hooks';
 
 /**
- * Site-wide link targets. A link either opens a route (`route`) or scrolls to a
- * section on the home page (`section`). Private routes are guarded by the router,
- * so anonymous visitors are sent to sign-in and brought back afterwards.
+ * Link targets for the public (marketing) header and footer. A link either opens a route
+ * (`route`) or scrolls to a section on the home page (`section`). Private routes are guarded
+ * by the router, so signed-out visitors are sent to sign-in and brought back afterwards.
  */
-export const PRIMARY_LINKS = [
-  { label: 'Home', section: 'home' },
-  { label: 'Dream Design', route: 'designer' },
-  { label: 'Smart Measurement', route: 'measurement' },
-  { label: '3D Studio', route: 'preview3d' },
-  { label: 'How It Works', section: 'how-it-works' },
+export const SITE_LINKS = [
+  { label: 'How it works', section: 'how-it-works' },
+  { label: 'Features', section: 'features' },
 ];
 
-export const MOBILE_LINKS = [
-  { label: 'Home', section: 'home' },
-  { label: 'Dream Design', route: 'designer' },
-  { label: 'Smart Measurement', route: 'measurement' },
-  { label: 'Measurement & Size Studio', route: 'results' },
-  { label: '3D Avatar Studio', route: 'preview3d' },
-  { label: 'Design Spec Report', route: 'design-report' },
-  { label: 'How It Works', section: 'how-it-works' },
-];
-
-export const EXPERIENCE_LINKS = [
-  { label: 'Dream Outfit Design', route: 'designer' },
-  { label: 'Smart Measurement', route: 'measurement' },
-  { label: '3D Avatar Studio', route: 'preview3d' },
-  { label: 'Measurement Studio', route: 'results' },
-  { label: 'Design Spec Report', route: 'design-report' },
+export const PRODUCT_LINKS = [
+  { label: 'Design an outfit', route: 'designer' },
+  { label: 'Measure with your camera', route: 'measurement' },
+  { label: 'Try it on', route: 'try-on' },
+  { label: '3D studio', route: 'preview3d' },
+  { label: 'Design report', route: 'design-report' },
 ];
 
 /** href for a link target, so links still work with middle-click / open in new tab. */
@@ -68,7 +55,7 @@ export function useSignOut() {
   return useCallback(async () => {
     try {
       await logout();
-      notify({ title: 'Signed out', message: 'See you soon at the atelier.', variant: 'info' });
+      notify({ title: 'Signed out', message: 'You have been signed out.', variant: 'info' });
     } catch {
       // The local session is cleared even if the server call fails.
       notify({ title: 'Signed out', message: 'Your session on this device has ended.', variant: 'info' });

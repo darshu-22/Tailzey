@@ -52,10 +52,10 @@ export default function ConfirmDialog({
           {message}
         </p>
         <div className="confirm-dialog-actions">
-          <Button variant="ghost" size="sm" onClick={onCancel} disabled={pending}>
+          <Button variant="secondary" onClick={onCancel} disabled={pending}>
             {cancelLabel}
           </Button>
-          <Button variant="primary" size="sm" className="dash-btn-danger" onClick={onConfirm} loading={pending}>
+          <Button variant="danger" onClick={onConfirm} loading={pending}>
             {confirmLabel}
           </Button>
         </div>

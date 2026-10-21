@@ -1,58 +1,64 @@
-/* Confirmation dialog (native <dialog>, rendered in the top layer). */
+/* Confirmation dialog (native <dialog>). */
 .confirm-dialog {
-  width: min(440px, calc(100vw - 2rem));
+  width: min(440px, calc(100vw - 2 * var(--space-4)));
+  max-width: none;
   margin: auto;
   padding: 0;
-  background: #191310;
-  color: var(--color-text-primary);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8), 0 0 20px rgba(217, 180, 122, 0.15);
-}
-
-.confirm-dialog[open] {
-  animation: dropdown-pop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-text);
 }
 
 .confirm-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
+  background: var(--color-overlay);
 }
 
 .confirm-dialog-body {
-  padding: var(--space-6);
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: var(--space-3);
+  padding: var(--space-6);
 }
 
 .confirm-dialog-icon {
+  display: grid;
+  place-items: center;
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-status-error);
-  background: rgba(214, 109, 103, 0.1);
-  border: 1px solid rgba(214, 109, 103, 0.3);
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
 }
 
 .confirm-dialog-title {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0;
 }
 
 .confirm-dialog-message {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
-  line-height: var(--line-height-relaxed);
+  font-size: var(--text-sm);
 }
 
 .confirm-dialog-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
-  gap: var(--space-2);
+  gap: var(--space-3);
+  width: 100%;
   margin-top: var(--space-3);
+}
+
+@media (max-width: 640px) {
+  .confirm-dialog-actions {
+    flex-direction: column-reverse;
+  }
+
+  .confirm-dialog-actions .btn {
+    width: 100%;
+  }
 }

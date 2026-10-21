@@ -28,14 +28,3 @@ export function countRecorded(values = {}) {
 export function isCameraProfile(profile) {
   return Boolean(profile.isCameraCompleted || profile.cameraCaptureCount > 0);
 }
-
-/** First letters of up to two words, for the avatar circle. */
-export function initialsOf(name = '') {
-  const letters = name
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((word) => word[0]?.toUpperCase() || '')
-    .join('');
-  return letters || 'TZ';
-}

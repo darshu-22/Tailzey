@@ -7,8 +7,20 @@ import StatusBadge from '../../../shared/ui/StatusBadge';
 /**
  * Dashboard panel for one saved-record collection. Renders the loading, error (with retry)
  * and empty states from a `useSavedRecords` result, and `children` once there are items.
+ * The body scrolls on its own so the panel keeps a fixed height.
  */
-export default function RecordPanel({ id, title, subtitle, list, newLabel, newIcon, onNew, emptyState, children }) {
+export default function RecordPanel({
+  id,
+  title,
+  description,
+  list,
+  newLabel,
+  newIcon,
+  onNew,
+  emptyState,
+  className = '',
+  children,
+}) {
   const hasItems = list.status === 'ready' && list.items.length > 0;
 
   let body = children;
@@ -21,24 +33,22 @@ export default function RecordPanel({ id, title, subtitle, list, newLabel, newIc
   }
 
   return (
-    <section className="dashboard-panel-box" aria-labelledby={`${id}-title`}>
-      <div className="dashboard-panel-header">
-        <div>
-          <h2 id={`${id}-title`} className="dashboard-panel-title">
-            {title}
-          </h2>
-          <p className="dashboard-panel-subtitle">{subtitle}</p>
+    <section className={`card dash-panel ${className}`.trim()} aria-labelledby={`${id}-title`}>
+      <header className="dash-panel-header">
+        <div className="dash-panel-heading">
+          <div className="dash-panel-title-row">
+            <h2 id={`${id}-title`} className="dash-section-title">
+              {title}
+            </h2>
+            {list.status === 'ready' && <StatusBadge variant="neutral">{list.total}</StatusBadge>}
+          </div>
+          <p className="dash-panel-desc">{description}</p>
         </div>
-        <div className="dashboard-panel-meta">
-          {list.status === 'ready' && <StatusBadge variant="neutral">{list.total} saved</StatusBadge>}
-          <Button variant="ghost" size="sm" icon={newIcon} onClick={onNew}>
-            {newLabel}
-          </Button>
-        </div>
-      </div>
-      <div className={`dashboard-panel-body ${hasItems ? '' : 'is-centered'}`.trim()}>
-        {body}
-      </div>
+        <Button variant="secondary" size="sm" icon={newIcon} onClick={onNew}>
+          {newLabel}
+        </Button>
+      </header>
+      <div className={`dash-panel-body ${hasItems ? '' : 'is-centered'}`.trim()}>{body}</div>
     </section>
   );
 }
