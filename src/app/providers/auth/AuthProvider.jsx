@@ -36,6 +36,7 @@ export default function AuthProvider({ children }) {
 
   const login = useCallback((credentials) => authService.login(credentials).then(signIn), [signIn]);
   const register = useCallback((details) => authService.register(details).then(signIn), [signIn]);
+  const loginDemo = useCallback(() => authService.demo().then(signIn), [signIn]);
 
   const clear = useCallback(() => {
     setUser(null);
@@ -46,8 +47,8 @@ export default function AuthProvider({ children }) {
   const deleteAccount = useCallback(() => authService.deleteAccount().then(clear), [clear]);
 
   const value = useMemo(
-    () => ({ user, status, isAuthenticated: status === 'authenticated', login, register, logout, deleteAccount }),
-    [user, status, login, register, logout, deleteAccount]
+    () => ({ user, status, isAuthenticated: status === 'authenticated', login, loginDemo, register, logout, deleteAccount }),
+    [user, status, login, loginDemo, register, logout, deleteAccount]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

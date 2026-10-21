@@ -1,74 +1,76 @@
-/* =========================================
-   FORM INPUTS & LABELS
-   ========================================= */
+/* Form fields */
 .form-group {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  margin-bottom: var(--space-4);
-  text-align: left;
 }
 
 .form-label {
-  font-family: var(--font-sans);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  letter-spacing: var(--letter-spacing-wide);
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text);
 }
 
 .form-input-container {
   position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.form-input-icon {
-  position: absolute;
-  left: var(--space-4);
-  color: var(--color-gold-dark);
-  pointer-events: none;
-  display: flex;
-  align-items: center;
 }
 
 .form-input {
   width: 100%;
-  font-family: var(--font-sans);
-  font-size: var(--font-size-sm);
-  color: var(--color-text-primary);
-  background-color: var(--color-bg-input);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: 0.75rem 1rem;
-  transition: all var(--transition-fast);
+  min-height: var(--tap-target);
+  padding: 0 var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base); /* 16px prevents iOS zoom on focus */
+  color: var(--color-text);
+  transition:
+    border-color var(--duration-fast) var(--ease),
+    box-shadow var(--duration-fast) var(--ease);
 }
 
-.form-input-with-icon {
-  padding-left: 2.75rem;
+.form-input::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.form-input:hover {
+  border-color: var(--color-text-subtle);
 }
 
 .form-input:focus {
   outline: none;
-  border-color: var(--color-gold);
-  box-shadow: 0 0 0 3px rgba(217, 180, 122, 0.15);
-  background-color: #17120F;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-focus) 15%, transparent);
 }
 
-.form-input::placeholder {
-  color: var(--color-text-faint);
+.form-input[aria-invalid='true'] {
+  border-color: var(--color-danger);
+}
+
+.form-input-with-icon {
+  padding-left: calc(var(--space-4) + 24px);
+}
+
+.form-input-icon {
+  position: absolute;
+  top: 50%;
+  left: var(--space-4);
+  display: flex;
+  color: var(--color-text-subtle);
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .form-hint {
-  font-size: var(--font-size-xs);
+  font-size: var(--text-xs);
   color: var(--color-text-muted);
 }
 
 .form-error-text {
-  font-size: var(--font-size-xs);
-  color: var(--color-status-error);
+  font-size: var(--text-xs);
+  color: var(--color-danger);
+}
+
+.form-required-mark {
+  color: var(--color-danger);
 }

@@ -14,7 +14,7 @@ function useRequiredContext(context, name) {
   return value;
 }
 
-/** { user, status: 'loading'|'authenticated'|'anonymous', login, register, logout, deleteAccount } */
+/** { user, status: 'loading'|'authenticated'|'anonymous', login, loginDemo, register, logout, deleteAccount } */
 export const useAuth = () => useRequiredContext(AuthContext, 'useAuth');
 
 /** Design + measurement edit buffers, their actions, and save/load against the API. */

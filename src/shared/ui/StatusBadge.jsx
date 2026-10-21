@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Reusable StatusBadge component for tags, states, and phase indicators
+ * Small status label. Variants: gold (accent) | bronze (warning) | info | neutral | success.
  */
 export default function StatusBadge({
   children,
@@ -14,18 +14,7 @@ export default function StatusBadge({
 
   return (
     <span className={`status-badge ${variantClass} ${className}`.trim()}>
-      {dot && (
-        <span
-          style={{
-            width: '6px',
-            height: '6px',
-            borderRadius: '50%',
-            backgroundColor: 'currentColor',
-            display: 'inline-block',
-          }}
-          aria-hidden="true"
-        />
-      )}
+      {dot && <span className="status-badge-dot" aria-hidden="true" />}
       {Icon && <Icon size={12} aria-hidden="true" />}
       <span>{children}</span>
     </span>
