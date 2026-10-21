@@ -1,263 +1,124 @@
-/* 3D stage card, canvas viewport, top toolbar and bottom angle / zoom controls. */
-
-/* =========================================
-   3D STAGE & VIEWPORT CONTAINER
-   ========================================= */
-.viewer3d-stage-card {
-  background: radial-gradient(circle at 50% 35%, #1F1915 0%, #100C0A 75%, #0B0807 100%);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  min-height: 580px;
-  height: 640px;
-  box-shadow: 
-    0 24px 60px rgba(0, 0, 0, 0.75),
-    inset 0 0 100px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(217, 180, 122, 0.2);
-}
-
-@media (min-width: 768px) {
-  .viewer3d-stage-card {
-    height: 700px;
-  }
-}
-
-/* Spotlight Floor Halo Effect */
-.viewer3d-stage-card::after {
-  content: '';
+/* Canvas area: Three.js canvas, label, floating camera toolbar and status overlay. */
+.studio-canvas-host {
   position: absolute;
-  bottom: 12%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 320px;
-  height: 70px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(217, 180, 122, 0.18) 0%, rgba(217, 180, 122, 0) 70%);
-  pointer-events: none;
-  z-index: 1;
+  inset: 0;
 }
 
-.viewer3d-canvas-wrap {
-  flex: 1;
+.studio-canvas {
+  display: block;
   width: 100%;
   height: 100%;
-  position: relative;
   cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none;
 }
 
-.viewer3d-canvas-wrap.is-dragging {
+.studio-canvas:active {
   cursor: grabbing;
 }
 
-.viewer3d-canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-/* =========================================
-   FLOATING OVERLAYS & TOOLBARS
-   ========================================= */
-.viewer3d-top-overlay {
+.studio-stage-label {
   position: absolute;
-  top: 16px;
-  left: 16px;
-  right: 16px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  z-index: 10;
+  top: var(--space-3);
+  left: var(--space-3);
+  max-width: calc(100% - var(--space-6));
+  margin: 0;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
   pointer-events: none;
 }
 
-.viewer3d-top-overlay > * {
+.studio-toolbar {
+  position: absolute;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  pointer-events: none;
+}
+
+.studio-toolbar-group {
+  display: inline-flex;
+  padding: var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
   pointer-events: auto;
 }
 
-.viewer-badge-cluster {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.viewer-render-tag {
-  background: rgba(18, 14, 12, 0.75);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-pill);
-  padding: 0.35rem 0.75rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  color: var(--color-gold);
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.viewer-tools-group {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: rgba(18, 14, 12, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-pill);
-  padding: 0.3rem 0.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-}
-
-.viewer-tool-btn {
-  background: none;
-  border: none;
-  color: var(--color-text-secondary);
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 0.35rem 0.65rem;
-  border-radius: var(--radius-pill);
+.studio-tool {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: var(--tap-target);
+  min-height: var(--tap-target);
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition:
+    background-color var(--duration-fast) var(--ease),
+    color var(--duration-fast) var(--ease);
 }
 
-.viewer-tool-btn:hover {
-  background: rgba(217, 180, 122, 0.15);
-  color: var(--color-gold);
+.studio-tool:hover {
+  background: var(--color-surface-muted);
 }
 
-.viewer-tool-btn.is-active {
-  background: rgba(217, 180, 122, 0.22);
-  color: var(--color-gold);
-  border: 1px solid rgba(217, 180, 122, 0.4);
+.studio-tool[aria-pressed='true'] {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
 }
 
-/* =========================================
-   BOTTOM INTERACTIVE CONTROLS BAR
-   ========================================= */
-.viewer3d-bottom-controls {
+.studio-tool:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-pill);
+}
+
+.studio-hint {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--color-text-subtle);
+  font-size: var(--text-xs);
+  text-align: center;
+}
+
+.studio-stage-status {
   position: absolute;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 32px);
-  max-width: 620px;
-  background: rgba(18, 14, 12, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 0.65rem 0.85rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  z-index: 10;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+  background: var(--color-bg);
+  overflow-y: auto;
 }
 
-@media (max-width: 640px) {
-  .viewer3d-bottom-controls {
-    flex-direction: column;
-    align-items: stretch;
-    bottom: 12px;
-    padding: 0.65rem;
+@media (max-width: 639px) {
+  .studio-tool {
+    padding: 0 var(--space-2);
+  }
+
+  .studio-hint {
+    display: none;
   }
 }
 
-.angle-presets-group {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  flex-wrap: wrap;
-}
-
-.angle-preset-btn {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-sm);
-  color: var(--color-text-secondary);
-  font-size: 0.74rem;
-  font-weight: 500;
-  padding: 0.35rem 0.65rem;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.angle-preset-btn:hover {
-  background: rgba(217, 180, 122, 0.12);
-  border-color: var(--color-gold);
-  color: var(--color-gold);
-}
-
-.angle-preset-btn.is-active {
-  background: var(--color-gold);
-  border-color: var(--color-gold);
-  color: var(--color-bg-primary);
-  font-weight: 600;
-}
-
-.zoom-actions-group {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.zoom-ctrl-btn {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.zoom-ctrl-btn:hover {
-  background: rgba(217, 180, 122, 0.15);
-  border-color: var(--color-gold);
-  color: var(--color-gold);
-}
-
-.zoom-ctrl-btn:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
-
-.reset-view-btn {
-  background: none;
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-sm);
-  color: var(--color-text-muted);
-  font-size: 0.72rem;
-  padding: 0.35rem 0.65rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.reset-view-btn:hover {
-  border-color: var(--color-gold);
-  color: var(--color-gold);
-  background: rgba(217, 180, 122, 0.08);
-}
-
-.viewer-badge-caption {
-  font-size: 0.72rem;
-  color: var(--color-text-muted);
+@media (prefers-reduced-motion: reduce) {
+  .studio-tool {
+    transition: none;
+  }
 }

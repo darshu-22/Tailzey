@@ -1,0 +1,228 @@
+/* Side panel (below the canvas on phones): title, outfit switchers, measurements in use, next steps. */
+.studio-panel-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.studio-title {
+  font-size: var(--text-xl);
+}
+
+.studio-note {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+}
+
+.studio-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.studio-outfit {
+  gap: var(--space-2);
+}
+
+.studio-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.studio-section-title {
+  font-size: var(--text-base);
+}
+
+.studio-count {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+/* Radio chips */
+.studio-choices {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.studio-choices-legend {
+  margin-bottom: var(--space-1);
+  padding: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.studio-choices-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Garment and fit: equal-width chips, three per row. */
+.studio-choices-grid .studio-choices-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.studio-choice {
+  position: relative;
+  display: inline-flex;
+  min-width: 0;
+}
+
+.studio-choices-grid .studio-chip {
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+  padding: 0 var(--space-2);
+  white-space: nowrap;
+}
+
+.studio-choice-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.studio-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  transition:
+    background-color var(--duration-fast) var(--ease),
+    border-color var(--duration-fast) var(--ease);
+}
+
+.studio-choice:hover .studio-chip {
+  border-color: var(--color-text);
+}
+
+/* Same selected treatment as the designer, try-on and Fit & Size pickers. */
+.studio-choice-input:checked + .studio-chip {
+  border-color: var(--color-accent);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+  background: var(--color-accent-soft);
+  color: var(--color-text);
+}
+
+.studio-swatch {
+  display: inline-flex;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  padding: 3px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  transition: border-color var(--duration-fast) var(--ease);
+}
+
+.studio-swatch svg {
+  width: 100%;
+  height: 100%;
+}
+
+.studio-swatch circle {
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+}
+
+.studio-choice:hover .studio-swatch {
+  border-color: var(--color-border-strong);
+}
+
+.studio-choice-input:checked + .studio-swatch {
+  border-color: var(--color-accent);
+}
+
+.studio-choice-input:focus-visible + .studio-chip,
+.studio-choice-input:focus-visible + .studio-swatch {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Measurements in use: a compact two-column list. */
+.studio-measures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--space-4);
+  margin: 0;
+}
+
+.studio-measure {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-width: 0;
+  padding-block: var(--space-1);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+}
+
+.studio-measure dt {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.studio-measure-value {
+  flex: none;
+  margin: 0;
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.studio-measure-value.is-estimated {
+  color: var(--color-text-muted);
+  font-weight: var(--weight-regular);
+}
+
+.studio-footnote {
+  margin: 0;
+  color: var(--color-text-subtle);
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+}
+
+/* Next steps: one row of three equal buttons. */
+.studio-next {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.studio-next .btn {
+  min-width: 0;
+  padding: 0 var(--space-2);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-chip,
+  .studio-swatch {
+    transition: none;
+  }
+}

@@ -1,5 +1,4 @@
-/* 3D Outfit Studio styles. */
+/* 3D studio styles. */
 @import './studio-layout.css';
 @import './stage.css';
-@import './overlays.css';
-@import './sidebar.css';
+@import './panel.css';

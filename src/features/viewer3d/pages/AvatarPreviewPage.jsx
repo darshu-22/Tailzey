@@ -1,43 +1,39 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useWorkspace } from '../../../app/hooks';
-import StatusBadge from '../../../shared/ui/StatusBadge';
-import StudioHeader from '../components/StudioHeader';
-import ModelViewer3D from '../components/ModelViewer3D';
-import OutfitSummaryPanel from '../components/OutfitSummaryPanel';
+import { resolveBodyProfile } from '../lib/bodyProfile';
+import { useStudioDesign } from '../hooks/useStudioDesign';
+import StudioStage from '../components/StudioStage';
+import OutfitSwitcher from '../components/OutfitSwitcher';
+import BodyMeasurements from '../components/BodyMeasurements';
+import StudioNextSteps from '../components/StudioNextSteps';
 
 /**
- * 3D Outfit Studio: the workspace design rendered on an illustrative sample mannequin,
- * beside a summary panel that can switch garment / colour in place.
+ * 3D studio: an approximate mannequin shaped from the workspace measurements, wearing the
+ * workspace design, beside a compact panel for quick outfit edits and the values in use.
+ * On desktop the page is exactly one viewport tall; on phones the panel follows the canvas.
  */
 export default function AvatarPreviewPage() {
-  const { design } = useWorkspace();
+  const { measurement } = useWorkspace();
+  const { design, spec, selectGarment, setColor, setFit } = useStudioDesign();
+  const profile = useMemo(() => resolveBodyProfile(measurement), [measurement]);
+  const hasEstimates = Object.values(profile.estimated).some(Boolean);
 
   return (
-    <div className="avatar-studio-page">
-      <StudioHeader />
+    <div className="page-tool studio">
+      <StudioStage bodyCm={profile.cm} spec={spec} />
 
-      <main className="avatar-studio-main" id="main-content">
-        <section className="avatar-studio-hero" aria-label="3D studio overview">
-          <div className="studio-hero-badges">
-            <StatusBadge variant="gold" dot>
-              Interactive 3D Stage
-            </StatusBadge>
-            <span className="studio-hero-kicker">Sample mannequin preview</span>
-          </div>
-          <h1 className="studio-hero-title">
-            Interactive <span className="text-gold-gradient">3D Outfit Studio</span>
-          </h1>
-          <p className="studio-hero-desc">
-            Inspect your garment from any angle on a standard sample mannequin. Orbit, zoom and try fabric tones
-            in real time — this is an illustration of the design, not a scan of your body.
+      <aside className="studio-panel" aria-labelledby="studio-title">
+        <header className="studio-panel-header">
+          <h1 id="studio-title" className="studio-title">3D studio</h1>
+          <p className="studio-note">
+            Approximate body shape from your measurements — not a body scan. Garment shapes are simplified.
           </p>
-        </section>
+        </header>
 
-        <div className="viewer3d-layout-grid">
-          <ModelViewer3D garmentId={design.garmentId} colorId={design.colorId} fitId={design.fitId} />
-          <OutfitSummaryPanel />
-        </div>
-      </main>
+        <OutfitSwitcher design={design} spec={spec} onGarment={selectGarment} onColor={setColor} onFit={setFit} />
+        <BodyMeasurements profile={profile} measurement={measurement} />
+        <StudioNextSteps hasEstimates={hasEstimates} />
+      </aside>
     </div>
   );
 }
