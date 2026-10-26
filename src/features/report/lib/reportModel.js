@@ -1,5 +1,5 @@
 import { isDesignEmpty } from '../../../app/providers/workspace/workspaceState';
-import { MANUAL_MEASUREMENT_FIELDS } from '../../../shared/data/measurementData';
+import { fieldsFor } from '../../../shared/measurements/measurementFields';
 import { convertValue, isMissing } from '../../../shared/utils/units';
 
 /**
@@ -29,7 +29,7 @@ function sourceOf(measurement, key) {
  */
 export function buildMeasurementRows(measurement) {
   const { unit } = measurement;
-  return MANUAL_MEASUREMENT_FIELDS.map((field) => {
+  return fieldsFor(measurement).map((field) => {
     const source = sourceOf(measurement, field.id);
     const value = source === 'not_recorded' ? null : Number(measurement.values[field.id]);
     const adjustment = Number(measurement.adjustments?.[field.id]) || 0;

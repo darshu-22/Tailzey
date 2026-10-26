@@ -2,7 +2,7 @@ import React from 'react';
 import { Camera } from 'lucide-react';
 import Button from '../../../shared/ui/Button';
 import StatusBadge from '../../../shared/ui/StatusBadge';
-import { MANUAL_MEASUREMENT_FIELDS } from '../../../shared/data/measurementData';
+import { fieldsFor } from '../../../shared/measurements/measurementFields';
 import MeasurementRow from './MeasurementRow';
 
 /** Dense list of every measurement (one row each), all read from the workspace measurement. */
@@ -49,7 +49,7 @@ export default function MetricsSection({ measurement, counts, valueErrors, onSav
           <span>Ease ({unit})</span>
           <span>Garment</span>
         </li>
-        {MANUAL_MEASUREMENT_FIELDS.map((field) => (
+        {fieldsFor(measurement).map((field) => (
           <MeasurementRow
             key={field.id}
             field={field}

@@ -53,3 +53,13 @@ def test_analyze_reports_missing_person_honestly(user_client):
     assert data["measurements"]["height"]["value"] == 175
     assert all(v["value"] is None for k, v in data["measurements"].items() if k != "height")
     assert data["disclaimer"] and "bodym" in data["model"]
+
+
+@needs_model
+def test_analyze_adds_underbust_only_when_opted_in(user_client):
+    blank = _jpeg(np.full((960, 540, 3), 200, np.uint8))
+    files = lambda: {"front": ("f.jpg", io.BytesIO(blank), "image/jpeg")}
+    plain = _post(user_client, files()).json()["data"]["measurements"]
+    assert "underbust" not in plain
+    opted = _post(user_client, files(), includeBust="true").json()["data"]["measurements"]
+    assert opted["underbust"]["value"] is None and opted["underbust"]["reason"]

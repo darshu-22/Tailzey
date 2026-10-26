@@ -2,7 +2,8 @@ import React from 'react';
 import { AlertCircle, ArrowRight, RotateCcw } from 'lucide-react';
 import Button from '../../../shared/ui/Button';
 import UnitToggle from '../../../shared/measurements/UnitToggle';
-import { MANUAL_MEASUREMENT_FIELDS, MEASUREMENT_CATEGORIES } from '../../../shared/data/measurementData';
+import BustToggle from '../../../shared/measurements/BustToggle';
+import { MEASUREMENT_CATEGORIES } from '../../../shared/data/measurementData';
 import { formatUncertainty } from '../../../shared/measurements/estimates';
 import { useManualMeasurementForm } from '../hooks/useManualMeasurementForm';
 import MeasurementFieldInput from './MeasurementFieldInput';
@@ -29,6 +30,7 @@ export default function ManualMeasurementForm({ onSubmitted, onCancel }) {
       <div className="manual-toolbar">
         <UnitToggle unit={form.unit} onChange={form.changeUnit} label="Unit" showLabel />
         <p className="manual-tip">Keep the tape snug but not tight, and stand naturally.</p>
+        <BustToggle checked={form.includeBust} onChange={form.setIncludeBust} showHint={false} />
       </div>
 
       {form.errors.form && (
@@ -43,7 +45,7 @@ export default function ManualMeasurementForm({ onSubmitted, onCancel }) {
           <fieldset key={category} className="card measure-card manual-group">
             <legend className="manual-group-title">{category}</legend>
             <div className="manual-fields">
-              {MANUAL_MEASUREMENT_FIELDS.filter((f) => f.category === category).map((field) => (
+              {form.fields.filter((f) => f.category === category).map((field) => (
                 <MeasurementFieldInput
                   key={field.id}
                   field={field}

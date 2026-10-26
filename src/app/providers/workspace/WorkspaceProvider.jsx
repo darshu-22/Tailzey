@@ -13,6 +13,7 @@ import {
   designToPayload,
   profileFromRecord,
   profileToPayload,
+  setBustSizing,
   setMeasurementValue,
 } from './workspaceState';
 
@@ -42,6 +43,7 @@ export default function WorkspaceProvider({ children }) {
   const updateMeasurement = useCallback((patch) => setMeasurement((m) => ({ ...m, ...patch })), []);
   const setValue = useCallback((key, value) => setMeasurement((m) => setMeasurementValue(m, key, value)), []);
   const setUnit = useCallback((unit) => setMeasurement((m) => changeUnit(m, unit)), []);
+  const setIncludeBust = useCallback((on) => setMeasurement((m) => setBustSizing(m, on)), []);
   const applyCameraAnalysis = useCallback(
     (analysis, options) => setMeasurement((m) => applyAnalysis(m, analysis, options)),
     []
@@ -90,13 +92,14 @@ export default function WorkspaceProvider({ children }) {
       updateMeasurement,
       setValue,
       setUnit,
+      setIncludeBust,
       applyCameraAnalysis,
       resetMeasurement,
       saveProfile,
       openProfile,
     }),
     [design, savedSignature, measurement, updateDesign, resetDesign, saveDesign, openDesign, updateMeasurement,
-      setValue, setUnit, applyCameraAnalysis, resetMeasurement, saveProfile, openProfile]
+      setValue, setUnit, setIncludeBust, applyCameraAnalysis, resetMeasurement, saveProfile, openProfile]
   );
 
   return <WorkspaceContext.Provider value={value}>{children}</WorkspaceContext.Provider>;

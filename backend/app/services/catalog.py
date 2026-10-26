@@ -8,7 +8,7 @@ from typing import Any
 CATALOG_PATH = Path(__file__).resolve().parents[1] / "data" / "catalog.json"
 
 MEASUREMENT_KEYS = (
-    "height", "neck", "shoulderWidth", "chest", "waist", "hip", "armLength", "legLength",
+    "height", "neck", "shoulderWidth", "chest", "waist", "hip", "armLength", "legLength", "underbust",
 )
 FIELD_STATUSES = ("user_entered", "camera_estimate", "not_recorded")
 

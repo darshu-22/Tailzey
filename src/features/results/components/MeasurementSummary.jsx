@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, FileText, RotateCcw, Shirt } from 'lucide-react';
 import Button from '../../../shared/ui/Button';
 import { FIT_PREFERENCES, GARMENT_CATEGORIES } from '../../../shared/data/resultsData';
+import { cupSize, formatBraSize } from '../../../shared/measurements/cupSize';
 
 function cameraNote(measurement, estimated) {
   if (!measurement.isCameraCompleted) return 'No camera analysis is attached to these measurements.';
@@ -16,6 +17,7 @@ export default function MeasurementSummary({ measurement, garmentId, counts, onR
   const adjustedCount = Object.values(adjustments).filter((a) => a > 0).length;
   const recorded = counts.entered + counts.estimated;
   const total = recorded + counts.missing;
+  const bra = cupSize(measurement)?.sizes?.find((size) => size.system === 'UK');
 
   return (
     <aside className="card fit-summary" aria-labelledby="summary-title">
@@ -49,6 +51,14 @@ export default function MeasurementSummary({ measurement, garmentId, counts, onR
           <dt>Fit</dt>
           <dd>{fit.name}</dd>
         </div>
+        {bra && (
+          <div>
+            <dt>Bra size</dt>
+            <dd>
+              {formatBraSize(bra)} <span className="fit-summary-sub">(UK)</span>
+            </dd>
+          </div>
+        )}
         <div>
           <dt>Ease</dt>
           <dd>{adjustedCount > 0 ? `${adjustedCount} adjusted` : 'None'}</dd>

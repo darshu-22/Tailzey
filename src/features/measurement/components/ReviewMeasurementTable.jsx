@@ -1,5 +1,5 @@
 import React from 'react';
-import { MANUAL_MEASUREMENT_FIELDS } from '../../../shared/data/measurementData';
+import { fieldsFor } from '../../../shared/measurements/measurementFields';
 import { isMissing } from '../../../shared/utils/units';
 import { CONFIDENCE_LABELS, FIELD_STATUS_LABELS, formatUncertainty, getEstimate } from '../../../shared/measurements/estimates';
 
@@ -29,7 +29,7 @@ export default function ReviewMeasurementTable({ measurement }) {
         </tr>
       </thead>
       <tbody>
-        {MANUAL_MEASUREMENT_FIELDS.map((field) => {
+        {fieldsFor(measurement).map((field) => {
           const value = values[field.id];
           const missing = isMissing(value);
           const isEstimate = fieldStatus[field.id] === 'camera_estimate';

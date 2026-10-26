@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { useWorkspace } from '../../../app/hooks';
 import { MANUAL_MEASUREMENT_FIELDS } from '../../../shared/data/measurementData';
 import { convertValue } from '../../../shared/utils/units';
-import { toInputValue, validateFieldInput } from '../../../shared/measurements/measurementFields';
+import { fieldsFor, toInputValue, validateFieldInput } from '../../../shared/measurements/measurementFields';
 
 const mapFields = (fn) => Object.fromEntries(MANUAL_MEASUREMENT_FIELDS.map((f) => [f.id, fn(f)]));
 
@@ -12,8 +12,9 @@ const mapFields = (fn) => Object.fromEntries(MANUAL_MEASUREMENT_FIELDS.map((f) =
  * fields that changed, so untouched camera estimates keep their status.
  */
 export function useManualMeasurementForm() {
-  const { measurement, setValue, setUnit } = useWorkspace();
+  const { measurement, setValue, setUnit, setIncludeBust } = useWorkspace();
   const { unit, values } = measurement;
+  const fields = fieldsFor(measurement);
   const [drafts, setDrafts] = useState(() => mapFields((f) => toInputValue(values[f.id])));
   const [errors, setErrors] = useState({});
 
@@ -40,26 +41,29 @@ export function useManualMeasurementForm() {
   /** Validate and save. Returns true when the values were stored. */
   const submit = useCallback(() => {
     const nextErrors = {};
-    for (const field of MANUAL_MEASUREMENT_FIELDS) {
+    for (const field of fields) {
       const message = validateFieldInput(field, drafts[field.id], unit);
       if (message) nextErrors[field.id] = message;
     }
-    if (MANUAL_MEASUREMENT_FIELDS.every((f) => !String(drafts[f.id]).trim())) {
+    if (fields.every((f) => !String(drafts[f.id]).trim())) {
       nextErrors.form = 'Please enter at least one measurement before continuing.';
     }
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) return false;
 
-    for (const field of MANUAL_MEASUREMENT_FIELDS) {
+    for (const field of fields) {
       const text = String(drafts[field.id]).trim();
       const next = text ? Number(text) : null;
       if (next !== (values[field.id] ?? null)) setValue(field.id, next);
     }
     return true;
-  }, [drafts, unit, values, setValue]);
+  }, [fields, drafts, unit, values, setValue]);
 
   return {
     unit,
+    fields,
+    includeBust: measurement.includeBust,
+    setIncludeBust,
     drafts,
     errors,
     fieldStatus: measurement.fieldStatus,

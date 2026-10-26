@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Camera } from 'lucide-react';
+import { useWorkspace } from '../../../app/hooks';
 import Button from '../../../shared/ui/Button';
 import UnitToggle from '../../../shared/measurements/UnitToggle';
+import BustToggle from '../../../shared/measurements/BustToggle';
 import MeasurementFieldInput from './MeasurementFieldInput';
 import SetupChecklist from './SetupChecklist';
 import { useHeightField } from '../hooks/useHeightField';
@@ -12,6 +14,7 @@ import { useHeightField } from '../hooks/useHeightField';
  */
 export default function BeforeYouStart({ consented, onConsentChange, onStart }) {
   const height = useHeightField();
+  const { measurement, setIncludeBust } = useWorkspace();
   const [consentError, setConsentError] = useState(null);
 
   const handleSubmit = (e) => {
@@ -47,6 +50,8 @@ export default function BeforeYouStart({ consented, onConsentChange, onStart }) 
           required
           onChange={height.change}
         />
+
+        <BustToggle checked={measurement.includeBust} onChange={setIncludeBust} />
 
         <div className="consent-block">
           <label className="consent-label">

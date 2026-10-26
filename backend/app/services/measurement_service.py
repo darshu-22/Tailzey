@@ -50,7 +50,8 @@ def _validate_request(height_cm: float, consent: bool, uploads: dict[str, Upload
             raise ApiError(415, "UNSUPPORTED_MEDIA_TYPE", f"'{key}' must be a JPEG, PNG or WebP image.")
 
 
-async def analyze(user: User, height_cm: float, consent: bool, uploads: dict[str, UploadFile | None]) -> dict:
+async def analyze(user: User, height_cm: float, consent: bool, uploads: dict[str, UploadFile | None],
+                  include_bust: bool = False) -> dict:
     s = get_settings()
     uploads = {k: u for k, u in uploads.items() if u is not None and u.filename}
     # Reject bad input before reporting server readiness, so clients always get the real problem.
@@ -85,7 +86,7 @@ async def analyze(user: User, height_cm: float, consent: bool, uploads: dict[str
         else:
             report[key] = {"provided": True, "used": False, "issues": built}
 
-    estimates, warnings = estimate(views, height_cm, model)
+    estimates, warnings = estimate(views, height_cm, model, include_bust)
     ranges = measurement_ranges()
     return {
         "measurements": {k: to_response(k, e, ranges) for k, e in estimates.items()},
