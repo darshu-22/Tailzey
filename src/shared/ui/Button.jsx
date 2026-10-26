@@ -1,8 +1,7 @@
 import React from 'react';
 
 /**
- * Reusable Button component for Tailzy luxury design system
- * Supports primary, secondary, outline, and ghost variants in sm, md, lg sizes
+ * Button. Variants: primary | secondary | outline | ghost | danger. Sizes: sm | md | lg.
  */
 export default function Button({
   children,
@@ -33,11 +32,7 @@ export default function Button({
       {...props}
     >
       {loading ? (
-        <span
-          className="loading-spinner"
-          style={{ width: '16px', height: '16px', borderWidth: '2px' }}
-          aria-hidden="true"
-        />
+        <span className="loading-spinner" aria-hidden="true" />
       ) : (
         Icon && iconPosition === 'left' && <Icon size={size === 'sm' ? 14 : size === 'lg' ? 20 : 16} aria-hidden="true" />
       )}

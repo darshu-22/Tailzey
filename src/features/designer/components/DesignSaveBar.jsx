@@ -1,5 +1,4 @@
-import React from 'react';
-import { Check, Save } from 'lucide-react';
+import { Check } from 'lucide-react';
 import Button from '../../../shared/ui/Button';
 import Input from '../../../shared/ui/Input';
 import { useDesignEditor } from '../hooks/useDesignEditor';
@@ -12,15 +11,19 @@ const STATUS_LABELS = {
   saved: 'Saved',
 };
 
+/** Field errors shown inline next to their control rather than in this bar. */
+const isInlineField = (key) => key === 'name' || key.endsWith('Id') || key.startsWith('customOptions.');
+
 /**
- * Design name field plus the "Save design" action and its saved / unsaved state.
- * Server validation errors (422) are listed inline under the bar.
+ * Design name plus "Save" and its saved / unsaved state, in two compact rows (label + status,
+ * then input + button). Sticky at the bottom of the viewport on phones, of the panel on desktop.
+ * Server errors without a matching control are listed here.
  * @param {object} props.saveState result of useDesignSave()
  */
 export default function DesignSaveBar({ saveState }) {
   const { design, setName } = useDesignEditor();
   const { status, save, isSaving, error, fieldErrors, nameError } = saveState;
-  const serverMessages = Object.entries(fieldErrors).filter(([key]) => key !== 'name');
+  const otherMessages = Object.entries(fieldErrors).filter(([key]) => !isInlineField(key));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,41 +31,33 @@ export default function DesignSaveBar({ saveState }) {
   };
 
   return (
-    <form className="designer-save-bar" onSubmit={handleSubmit} aria-label="Design name and saving">
-      <Input
-        id="design-name"
-        label="Design name"
-        value={design.name}
-        onChange={(e) => setName(e.target.value)}
-        maxLength={DESIGN_NAME_MAX}
-        error={nameError || fieldErrors.name}
-        className="designer-name-field"
-        autoComplete="off"
-      />
-
-      <div className="designer-save-actions">
-        <span className={`designer-save-status is-${status}`} role="status">
-          {status === 'saved' && <Check size={13} aria-hidden="true" />}
+    <form className="designer-savebar" onSubmit={handleSubmit} aria-label="Save design">
+      <div className="designer-savebar-row">
+        <Input
+          id="design-name"
+          label="Design name"
+          value={design.name}
+          onChange={(e) => setName(e.target.value)}
+          maxLength={DESIGN_NAME_MAX}
+          error={nameError || fieldErrors.name}
+          className="designer-savebar-name"
+          autoComplete="off"
+        />
+        <p className={`designer-save-status is-${status}`} role="status">
+          {status === 'saved' && <Check size={14} aria-hidden="true" />}
           {STATUS_LABELS[status]}
-        </span>
-        <Button
-          type="submit"
-          variant="secondary"
-          size="sm"
-          icon={Save}
-          loading={isSaving}
-          disabled={Boolean(nameError) || status === 'saved'}
-        >
-          Save design
+        </p>
+        <Button type="submit" variant="primary" loading={isSaving} disabled={Boolean(nameError) || status === 'saved'}>
+          {status === 'saved' ? 'Saved' : 'Save'}
         </Button>
       </div>
 
       {error && (
         <div className="designer-save-error" role="alert">
           <strong>{error}</strong>
-          {serverMessages.length > 0 && (
+          {otherMessages.length > 0 && (
             <ul>
-              {serverMessages.map(([key, message]) => (
+              {otherMessages.map(([key, message]) => (
                 <li key={key}>{message}</li>
               ))}
             </ul>

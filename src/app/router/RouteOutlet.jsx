@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect } from 'react';
 import LoadingState from '../../shared/ui/LoadingState';
+import AppShell from '../../shared/layout/AppShell';
 import { useAuth, useRouter } from '../hooks';
 import { ROUTES } from './routes';
 import { consumeReturnRoute, rememberReturnRoute } from './returnRoute';
@@ -35,9 +36,10 @@ export default function RouteOutlet() {
   if (mustSignIn || alreadySignedIn || (status === 'loading' && access === 'private')) {
     return <PageFallback />;
   }
-  return (
+  const page = (
     <Suspense fallback={<PageFallback />}>
       <Page />
     </Suspense>
   );
+  return access === 'private' ? <AppShell>{page}</AppShell> : page;
 }

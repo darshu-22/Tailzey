@@ -1,87 +1,147 @@
-/* Tailzey — Auth form controls: error alert, password toggle, terms checkbox, actions */
+/* Auth form: heading, alert, fields, password toggle, terms checkbox, submit. */
+.auth-form-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.auth-form-title {
+  font-size: var(--text-3xl);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
 
 .auth-form-alert {
   display: flex;
   align-items: flex-start;
   gap: var(--space-3);
-  padding: 0.85rem 1rem;
-  background: rgba(214, 109, 103, 0.08);
-  border: 1px solid rgba(214, 109, 103, 0.35);
-  border-radius: var(--radius-sm);
-  margin-bottom: var(--space-6);
-  font-size: var(--font-size-sm);
-  color: var(--color-text-primary);
-  line-height: 1.45;
+  margin-bottom: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-danger-soft);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text);
 }
 
 .auth-form-alert-icon {
-  color: var(--color-status-error);
   flex-shrink: 0;
-  margin-top: 1px;
+  margin-top: 2px;
+  color: var(--color-danger);
 }
 
-.form-required-mark {
-  color: var(--color-gold);
-}
-
+/* Password show/hide */
 .password-input {
-  padding-right: 2.75rem;
-}
-
-.password-input-error {
-  border-color: var(--color-status-error);
+  padding-right: calc(var(--tap-target) + var(--space-1));
 }
 
 .password-toggle-btn {
   position: absolute;
-  right: 0.85rem;
-  display: flex;
-  align-items: center;
-  padding: 4px;
-  background: none;
-  border: none;
+  top: 50%;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border-radius: var(--radius-md);
   color: var(--color-text-muted);
-  cursor: pointer;
-  transition: color var(--transition-fast);
+  transform: translateY(-50%);
 }
 
 .password-toggle-btn:hover {
-  color: var(--color-gold);
+  color: var(--color-text);
 }
 
+/* Terms */
 .auth-terms {
-  margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
 }
 
-.auth-terms-label {
+.auth-checkbox-label {
+  display: flex;
   align-items: flex-start;
+  gap: var(--space-3);
+  min-height: var(--tap-target);
+  cursor: pointer;
 }
 
-.auth-terms-label .auth-checkbox-input {
-  margin-top: 3px;
+.auth-checkbox-input {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
 }
 
 .auth-terms-text {
-  font-size: 0.8rem;
-  color: var(--color-text-secondary);
-  line-height: 1.4;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
 }
 
-.auth-terms-error {
-  display: block;
-  margin-top: 0.35rem;
-}
-
+/* Submit + switch */
 .auth-submit-btn {
   width: 100%;
-  margin-top: var(--space-2);
+}
+
+.auth-switch-prompt {
+  font-size: var(--text-sm);
+  text-align: center;
 }
 
 .auth-switch-link {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: inherit;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.auth-switch-link:hover {
+  color: var(--color-accent);
+}
+
+/* One-click demo access under the sign-in form */
+.auth-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--color-text-subtle);
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid var(--color-border);
+}
+
+.auth-demo-btn {
+  width: 100%;
+}
+
+.auth-demo-note {
+  font-size: var(--text-xs);
+  text-align: center;
+}
+
+.auth-demo + .auth-switch-prompt {
+  margin-top: var(--space-5);
 }

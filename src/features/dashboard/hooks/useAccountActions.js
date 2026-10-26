@@ -1,13 +1,11 @@
 import { useAuth, useRouter, useToast } from '../../../app/hooks';
 import { getErrorMessage } from '../../../core/api/ApiError';
-import { useSignOut } from '../../../shared/layout/siteNavigation';
 
-/** Sign out, and permanently delete the account after confirmation. */
+/** Permanently delete the account, after confirmation. */
 export function useAccountActions({ confirm }) {
   const { deleteAccount } = useAuth();
   const { navigate } = useRouter();
   const { notify } = useToast();
-  const signOut = useSignOut();
 
   const requestDeleteAccount = () =>
     confirm({
@@ -26,5 +24,5 @@ export function useAccountActions({ confirm }) {
       },
     });
 
-  return { signOut, requestDeleteAccount };
+  return { requestDeleteAccount };
 }

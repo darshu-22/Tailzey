@@ -22,7 +22,7 @@ export default function PasswordInput({
     <div className={`form-group ${className}`.trim()}>
       <label htmlFor={inputId} className="form-label">
         <span>
-          {label} {required && <span className="form-required-mark">*</span>}
+          {label} {required && <span className="form-required-mark" aria-hidden="true">*</span>}
         </span>
       </label>
       <div className="form-input-container">
@@ -38,7 +38,7 @@ export default function PasswordInput({
           required={required}
           aria-invalid={Boolean(error)}
           aria-describedby={describedBy}
-          className={`form-input form-input-with-icon password-input ${error ? 'password-input-error' : ''}`.trim()}
+          className="form-input form-input-with-icon password-input"
           {...props}
         />
         <button
@@ -47,7 +47,7 @@ export default function PasswordInput({
           className="password-toggle-btn"
           aria-label={showPassword ? 'Hide password' : 'Show password'}
         >
-          {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+          {showPassword ? <EyeOff size={18} aria-hidden="true" /> : <Eye size={18} aria-hidden="true" />}
         </button>
       </div>
       {error && (

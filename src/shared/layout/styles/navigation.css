@@ -1,26 +1,70 @@
-/* Site header account actions and mobile drawer (base header rules: header.css). */
-.header-text-btn {
-  display: inline-flex;
+/* Public header account actions and the mobile drawer (base header rules: header.css). */
+.site-auth-actions {
+  display: flex;
   align-items: center;
-  gap: 0.4rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: var(--font-size-sm);
-  font-weight: 500;
+  gap: var(--space-2);
 }
 
-.header-text-btn-icon {
-  color: var(--color-gold);
+.site-auth-actions-drawer {
+  flex-direction: column-reverse;
+  align-items: stretch;
+  gap: var(--space-3);
+  margin-top: auto;
 }
 
-.mobile-drawer-actions {
+.site-drawer {
+  margin: 0 0 0 auto;
+  width: min(320px, 86vw);
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.site-drawer::backdrop {
+  background: var(--color-overlay);
+}
+
+.site-drawer-panel {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-4);
+  min-height: 100%;
+  padding: var(--space-4);
+  padding-bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
 }
 
-.header-drawer-btn {
-  width: 100%;
+.site-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-drawer-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: 0;
+  list-style: none;
+}
+
+.site-drawer-link {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-md);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+}
+
+.site-drawer-link:hover {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
 }

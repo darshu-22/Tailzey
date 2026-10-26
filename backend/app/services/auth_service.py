@@ -1,7 +1,10 @@
+import secrets
+
 from fastapi import Response
 from sqlalchemy.orm import Session
 
-from ..core.exceptions import ApiError
+from ..core.config import get_settings
+from ..core.exceptions import ApiError, not_found
 from ..core.security.passwords import hash_password, verify_password
 from ..core.security.sessions import clear_session_cookie, create_session, revoke_session
 from ..models import User
@@ -35,6 +38,27 @@ def login(db: Session, body: LoginIn, response: Response) -> User:
     ok = verify_password(body.password, user.password_hash if user else None)
     if not ok or user is None or user.status != "active":
         raise ApiError(401, "INVALID_CREDENTIALS", "Incorrect email or password.")
+    create_session(db, user, response)
+    return user
+
+
+DEMO_EMAIL = "demo@tailzey.dev"
+DEMO_NAME = "Demo User"
+
+
+def demo_login(db: Session, response: Response) -> User:
+    """Sign in to the shared demo account, creating it on first use. It has a random,
+    never-revealed password, so the only way in is this endpoint (disabled in production)."""
+    if not get_settings().demo_enabled:
+        raise not_found("Demo access")
+    users = UserRepository(db)
+    user = users.by_email(DEMO_EMAIL)
+    if user is None:
+        try:
+            user = users.create(User(email=DEMO_EMAIL, display_name=DEMO_NAME,
+                                     password_hash=hash_password(secrets.token_urlsafe(32))))
+        except EmailTakenError:  # created concurrently
+            user = users.by_email(DEMO_EMAIL)
     create_session(db, user, response)
     return user
 

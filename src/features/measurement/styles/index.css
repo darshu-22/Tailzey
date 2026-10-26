@@ -1,11 +1,6 @@
-@import './layout.css';
-@import './intro.css';
+/* Measurement feature: flow pages, capture tool, camera, review. */
+@import './flow.css';
 @import './setup.css';
 @import './capture.css';
 @import './camera.css';
-@import './pose-card.css';
-@import './progress.css';
-@import './manual.css';
 @import './review.css';
-@import './analysis.css';
-@import './responsive.css';

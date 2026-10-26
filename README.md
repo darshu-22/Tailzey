@@ -2,11 +2,19 @@
 
 Custom-outfit design with camera-based body measurement.
 
-Users design a garment, take guided front and side photos, and get tailoring measurements with an honest ± error. They can then review sizes, preview the outfit on a sample mannequin, and export a design report.
+Users design a garment and take guided photos — hands-free: the browser checks their pose, talks them through it and takes each photo itself. They get tailoring measurements with an honest ± error, then pick a size, try the garment on live over their camera, view it on a 3D mannequin shaped from their measurements, and export a design report.
+
+**Features**
+- **Design studio:** garment, colour, style, fit and garment-specific options with a live preview.
+- **Camera measurement:** hands-free capture with voice guidance; server-side estimation with ± error per value.
+- **Fit & Size:** edit values, add ease, choose size and fit, save measurement profiles.
+- **Live try-on (AR):** the chosen garment drawn on you in real time — runs entirely on the device.
+- **3D studio:** Three.js mannequin built from your measurements, wearing your design.
+- **Design report:** a printable, tailor-ready spec (print / save as PDF).
 
 | Part | Stack |
 |---|---|
-| Frontend | React 19, Vite 8, feature-sliced architecture, hash router with lazy-loaded pages |
+| Frontend | React 19, Vite 8, feature-sliced architecture, hash router with lazy-loaded pages, Three.js, MediaPipe Tasks Vision (in-browser) |
 | Backend | FastAPI, SQLAlchemy 2, Alembic, Argon2id, HttpOnly cookie sessions |
 | Computer vision | MediaPipe Pose (landmarks + person mask), silhouette features, and a ridge + XGBoost model trained on BodyM (GPU) |
 
@@ -26,7 +34,7 @@ py -3.14 -m venv .venv
 
 ```bash
 npm ci
-npm run dev          # http://localhost:5173 — /api is proxied to :8000
+npm run dev          # http://localhost:5173 — /api is proxied to :8000 (first run also self-hosts the in-browser pose model)
 npm run build && npm run lint
 ```
 
@@ -40,16 +48,18 @@ src/
     hooks.js        useAuth · useWorkspace · useToast · useRouter
   core/             api/httpClient.js (fetch wrapper, ApiError), config/env.js
   services/         authService, designService, profileService, measurementService
-  shared/           ui/ (Button, Card, states…), layout/ (Header, Footer), data/ (catalogues),
-                    measurements/ (field rules, estimate formatting), utils/units.js
+  shared/           ui/ (Button, Card, PageHeader, states…), layout/ (AppShell, marketing Header/Footer),
+                    data/ (catalogues), garments/ (options + SVG previews), measurements/, vision/ (MediaPipe),
+                    utils/units.js
   features/
-    auth/ home/ dashboard/ designer/ measurement/ results/ viewer3d/ report/
+    auth/ home/ dashboard/ designer/ measurement/ results/ tryon/ viewer3d/ report/
                     each with pages/ components/ hooks/ lib/ styles/
-  styles/           design tokens, base, shared UI styles, responsive rules
+  styles/           design tokens, base + layout primitives, shared UI styles
 ```
 
 - **Pages take no props.** They read shared state through hooks. `WorkspaceProvider` holds the in-progress design and measurement profile, and saves or loads them through the services.
-- **Routes are code-split.** Private routes redirect to sign-in and return to the requested page afterwards.
+- **Routes are code-split.** Private routes render inside one `AppShell` (header + navigation), redirect to sign-in and return to the requested page afterwards. Three.js and MediaPipe load only on the pages that use them.
+- **Design system:** light, simple palette with one accent; self-hosted Inter + Playfair Display; semantic tokens only; mobile-first, full-height layouts; WCAG AA contrast and visible focus.
 - **One source of truth for the catalogue.** The backend validates against `src/shared/data`, exported by `backend/scripts/export_catalog.mjs`.
 
 ## Measurement accuracy
@@ -67,4 +77,5 @@ The app shows each estimate with this ± error. Users should confirm critical me
 ## Privacy
 
 - Photos are analysed in memory on the server and discarded. They are never stored, logged or returned.
+- Hands-free pose checks and live try-on run entirely in the browser; video never leaves the device.
 - Users can delete their account, which removes all of their data.

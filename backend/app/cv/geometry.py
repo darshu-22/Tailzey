@@ -64,7 +64,3 @@ def polyline_x_at_y(points: Sequence[tuple[float, float]], y: float) -> float | 
             t = (y - y0) / (y1 - y0)
             return x0 + t * (x1 - x0)
     return None
-
-
-def polyline_length(points: Sequence[tuple[float, float]]) -> float:
-    return float(sum(math.dist(p, q) for p, q in pairwise(points)))

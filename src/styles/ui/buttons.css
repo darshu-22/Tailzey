@@ -1,107 +1,97 @@
-/* =========================================
-   BUTTONS
-   ========================================= */
+/* Buttons: primary (ink), secondary / outline (bordered), ghost, danger. */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
+  min-height: var(--tap-target);
+  padding: 0 var(--space-5);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
   font-family: var(--font-sans);
-  font-weight: var(--font-weight-medium);
-  text-decoration: none;
-  letter-spacing: var(--letter-spacing-wide);
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-normal);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: 1;
   white-space: nowrap;
-  user-select: none;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
+  user-select: none;
+  transition:
+    background-color var(--duration-fast) var(--ease),
+    border-color var(--duration-fast) var(--ease),
+    color var(--duration-fast) var(--ease);
 }
 
-.btn:active {
-  transform: translateY(1px);
-}
-
-/* Button Sizes */
 .btn-sm {
-  padding: 0.5rem 1rem;
-  font-size: var(--font-size-xs);
-  letter-spacing: 0.08em;
   min-height: 36px;
+  padding: 0 var(--space-4);
+  font-size: var(--text-xs);
 }
 
 .btn-md {
-  padding: 0.75rem 1.625rem;
-  font-size: var(--font-size-sm);
-  letter-spacing: 0.06em;
-  min-height: 44px;
+  min-height: var(--tap-target);
 }
 
 .btn-lg {
-  padding: 1rem 2.25rem;
-  font-size: var(--font-size-base);
-  letter-spacing: 0.08em;
-  min-height: 48px;
+  min-height: 52px;
+  padding: 0 var(--space-6);
+  font-size: var(--text-base);
 }
 
-/* Button Variants */
 .btn-primary {
-  background: linear-gradient(135deg, #E6C898 0%, #D9B47A 50%, #B89255 100%);
-  color: #120D0A;
-  font-weight: var(--font-weight-semibold);
-  border: 1px solid rgba(255, 235, 200, 0.35);
-  box-shadow: 0 4px 18px rgba(217, 180, 122, 0.25);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #F0D7AC 0%, #E3C189 50%, #C49F62 100%);
-  box-shadow: 0 6px 24px rgba(217, 180, 122, 0.38);
-  transform: translateY(-2px);
+  background: var(--color-primary-hover);
 }
 
-.btn-secondary {
-  background: var(--color-bg-card);
-  color: var(--color-text-primary);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
-}
-
-.btn-secondary:hover:not(:disabled) {
-  background: var(--color-bg-card-hover);
-  border-color: var(--color-border-hover);
-  color: var(--color-gold-light);
-  transform: translateY(-2px);
-}
-
+.btn-secondary,
 .btn-outline {
-  background: transparent;
-  color: var(--color-gold);
-  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
 }
 
+.btn-secondary:hover:not(:disabled),
 .btn-outline:hover:not(:disabled) {
-  background: rgba(217, 180, 122, 0.08);
-  border-color: var(--color-gold);
-  color: var(--color-text-primary);
-  transform: translateY(-2px);
+  border-color: var(--color-text);
 }
 
 .btn-ghost {
   background: transparent;
   color: var(--color-text-muted);
-  border: 1px solid transparent;
 }
 
 .btn-ghost:hover:not(:disabled) {
-  color: var(--color-gold);
-  background: rgba(217, 180, 122, 0.05);
+  background: var(--color-surface-muted);
+  color: var(--color-text);
 }
 
-.btn-disabled,
-.btn:disabled {
+.btn-danger {
+  background: var(--color-danger);
+  color: var(--color-text-inverse);
+}
+
+.btn-danger:hover:not(:disabled) {
+  filter: brightness(0.92);
+}
+
+.btn:disabled,
+.btn-disabled {
   opacity: 0.45;
   cursor: not-allowed;
-  pointer-events: none;
-  transform: none !important;
+}
+
+.btn .loading-spinner {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+/* Touch screens: every button meets the 44px tap target. */
+@media (pointer: coarse) {
+  .btn-sm {
+    min-height: var(--tap-target);
+  }
 }

@@ -98,3 +98,22 @@ def test_health_and_catalog(client):
     assert h["database"] == "ok"
     cat = client.get(f"{API}/catalog").json()["data"]
     assert {g["id"] for g in cat["garments"]} == {"t-shirt", "shirt", "jacket", "trousers", "ethnic"}
+
+
+def test_demo_login_creates_and_reuses_one_account(client):
+    first = client.post(f"{API}/auth/demo")
+    assert first.status_code == 200
+    assert first.json()["data"]["email"] == "demo@tailzey.dev"
+    assert client.get(f"{API}/auth/me").json()["data"]["id"] == first.json()["data"]["id"]
+    again = make_client().post(f"{API}/auth/demo")
+    assert again.json()["data"]["id"] == first.json()["data"]["id"]
+    # The demo account has no known password.
+    bad = make_client().post(f"{API}/auth/login", json={"email": "demo@tailzey.dev", "password": "demo-password"})
+    assert bad.status_code == 401
+
+
+def test_demo_login_can_be_disabled(client, monkeypatch):
+    from app.core.config import get_settings
+
+    monkeypatch.setattr(get_settings(), "demo_login_enabled", False)
+    assert client.post(f"{API}/auth/demo").status_code == 404

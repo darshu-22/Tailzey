@@ -1,9 +1,4 @@
-@import './layout.css';
-@import './cards.css';
-@import './adjustment.css';
-@import './size-selector.css';
-@import './fit-preference.css';
-@import './summary.css';
-@import './modal.css';
-@import './save-profile.css';
-@import './responsive.css';
+/* Fit & Size feature. */
+@import './fit.css';
+@import './metrics.css';
+@import './choices.css';

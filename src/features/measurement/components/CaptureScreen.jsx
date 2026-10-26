@@ -1,73 +1,64 @@
-import React from 'react';
-import { ArrowLeft, Ruler, Sparkles } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { ArrowLeft, Ruler } from 'lucide-react';
 import Button from '../../../shared/ui/Button';
-import CaptureStepper from './CaptureStepper';
 import CameraPreview from './CameraPreview';
-import PoseInstructionCard from './PoseInstructionCard';
+import CaptureGuidePanel from './CaptureGuidePanel';
 
-function getFinishHint({ canAnalyse, hasSideView }) {
-  if (!canAnalyse) return 'A front or back photo is required before your photos can be analysed.';
-  if (!hasSideView) return 'Without a side photo, neck, chest, waist and hip cannot be measured.';
-  return null;
-}
+/**
+ * Step 2 (full-height tool page): the live viewfinder is the hero, with a compact guidance
+ * panel beside it on desktop and below it on phones. Hands-free mode captures every view
+ * automatically and starts the analysis after the last one.
+ */
+export default function CaptureScreen({ session, onAnalyse, onBack, onSwitchToManual }) {
+  const { activeStep, images } = session;
+  const [handsFree, setHandsFree] = useState(true);
+  const [voiceOn, setVoiceOn] = useState(true);
+  const [finishWhenCaptured, setFinishWhenCaptured] = useState(false);
+  const analysisStarted = useRef(false);
 
-/** Guided capture: pose stepper, live viewfinder and instructions for the active view. */
-export default function CaptureScreen({ session, onAnalyse, onBackToSetup, onSwitchToManual }) {
-  const { activeStep, images, skipped } = session;
-  const finishHint = getFinishHint(session);
+  const handleCapture = (dataUrl) => {
+    session.capture(dataUrl);
+    if (handsFree && session.isLastStep) setFinishWhenCaptured(true);
+  };
+
+  // Analyse once the final hands-free photo has landed in the session.
+  const lastPhotoTaken = Boolean(images[activeStep.key]) && session.isLastStep;
+  useEffect(() => {
+    if (!finishWhenCaptured || !lastPhotoTaken || !session.canAnalyse || analysisStarted.current) return;
+    analysisStarted.current = true;
+    onAnalyse();
+  }, [finishWhenCaptured, lastPhotoTaken, session.canAnalyse, onAnalyse]);
 
   return (
-    <section className="capture-flow-section" aria-label="Guided Camera Capture Flow">
-      <CaptureStepper
-        steps={session.steps}
-        activeStepIndex={session.activeIndex}
-        capturedImages={images}
-        skippedSteps={skipped}
-        onSelectStep={session.goTo}
-        onRetakeStep={session.retake}
-      />
-
-      <div className="capture-workspace-grid">
-        <div className="capture-viewfinder-column">
-          <CameraPreview
-            activeStep={activeStep}
-            onCaptureFrame={session.capture}
-            onSwitchToManual={onSwitchToManual}
-          />
+    <div className="page-tool capture-tool">
+      <div className="capture-topbar">
+        <div className="capture-topbar-text">
+          <p className="eyebrow">Step 2 of 4</p>
+          <h1 className="capture-title">Take your photos</h1>
         </div>
-
-        <div className="capture-instructions-column">
-          <PoseInstructionCard
-            step={activeStep}
-            totalSteps={session.steps.length}
-            isFirstStep={session.activeIndex === 0}
-            isLastStep={session.isLastStep}
-            isCaptured={Boolean(images[activeStep.key])}
-            isSkipped={Boolean(skipped[activeStep.key])}
-            canAnalyse={session.canAnalyse}
-            finishHint={session.isLastStep ? finishHint : null}
-            onPrev={session.prev}
-            onNext={session.next}
-            onSkip={session.skip}
-            onRetake={() => session.retake(activeStep.key)}
-            onAnalyse={onAnalyse}
-          />
-
-          <div className="capture-helper-nav">
-            <Button variant="ghost" size="sm" icon={ArrowLeft} onClick={onBackToSetup}>
-              Back to Setup
-            </Button>
-            {session.canAnalyse && !session.isLastStep && (
-              <Button variant="outline" size="sm" icon={Sparkles} onClick={onAnalyse}>
-                Analyse {session.capturedCount} Photo{session.capturedCount === 1 ? '' : 's'}
-              </Button>
-            )}
-            <Button variant="ghost" size="sm" icon={Ruler} onClick={onSwitchToManual}>
-              Switch to Manual Entry
-            </Button>
-          </div>
+        <div className="capture-topbar-actions">
+          <Button variant="ghost" size="sm" icon={ArrowLeft} onClick={onBack}>
+            Back
+          </Button>
+          <Button variant="outline" size="sm" icon={Ruler} onClick={onSwitchToManual}>
+            Enter manually
+          </Button>
         </div>
       </div>
-    </section>
+
+      <div className="capture-layout">
+        <CameraPreview
+          activeStep={activeStep}
+          hasPhoto={Boolean(images[activeStep.key])}
+          handsFree={handsFree}
+          voiceOn={voiceOn}
+          onToggleHandsFree={() => setHandsFree((v) => !v)}
+          onToggleVoice={() => setVoiceOn((v) => !v)}
+          onCaptureFrame={handleCapture}
+          onSwitchToManual={onSwitchToManual}
+        />
+        <CaptureGuidePanel session={session} handsFree={handsFree} onAnalyse={onAnalyse} />
+      </div>
+    </div>
   );
 }

@@ -1,301 +1,80 @@
-/* Designer page shell: wrapper, header, stepper, main container and step intro. */
-
-.designer-page-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  position: relative;
-  overflow-x: hidden;
+/*
+ * Designer page frame. Mobile: compact title, preview, option tabs, Continue, sticky save bar
+ * (document scrolls, kept short by the tabs). Desktop (≥1024px): exactly fills the viewport
+ * below the app header; preview left, option tabs right, and a bottom action bar holding
+ * Continue (left) and the name + Save (right). Only the active tab may scroll.
+ */
+.designer-page {
+  background: var(--color-bg);
 }
 
-/* =========================================
-   DESIGNER HEADER
-   ========================================= */
-.designer-header {
-  height: 76px;
-  background: rgba(14, 11, 9, 0.94);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--color-border);
-  position: sticky;
-  top: 0;
-  z-index: 90;
+.designer-titlebar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 clamp(1.25rem, 3vw, 2.5rem);
+  gap: var(--space-3);
+  padding: var(--space-2) var(--container-pad);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
 }
 
-.designer-header-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.designer-title {
+  min-width: 0;
+  font-size: var(--text-xl);
 }
 
-.designer-brand-link {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  text-decoration: none;
-}
-
-.designer-brand-logo {
-  height: 42px;
-  width: auto;
-  object-fit: contain;
-}
-
-.designer-brand-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.designer-brand-title {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: var(--color-gold);
-  line-height: 1;
-}
-
-.designer-brand-subtitle {
-  font-size: 0.65rem;
-  letter-spacing: 0.18em;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  margin-top: 0.15rem;
-}
-
-.designer-phase-badge {
-  display: none;
-}
-
-@media (min-width: 992px) {
-  .designer-phase-badge {
-    display: inline-flex;
-  }
-}
-
-.designer-header-center {
-  display: none;
-}
-
-@media (min-width: 900px) {
-  .designer-header-center {
-    display: flex;
-    align-items: center;
-  }
-}
-
-.designer-header-right {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-/* Mobile Stepper Bar */
-.designer-mobile-stepper-bar {
-  display: block;
-  background: rgba(18, 14, 12, 0.95);
-  border-bottom: 1px solid var(--color-border-subtle);
-  padding: 0.75rem 1rem;
-}
-
-@media (min-width: 900px) {
-  .designer-mobile-stepper-bar {
-    display: none;
-  }
-}
-
-/* =========================================
-   STEPPER PROGRESS COMPONENT
-   ========================================= */
-.designer-stepper-container {
-  display: flex;
-  align-items: center;
-}
-
-.designer-stepper-list {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: 0.5rem;
-}
-
-.designer-step-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.designer-step-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  background: none;
-  border: none;
-  padding: 0.4rem 0.65rem;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  color: var(--color-text-muted);
-  transition: all var(--transition-fast);
-  text-align: left;
-}
-
-.designer-step-btn:hover {
-  color: var(--color-text-primary);
-  background: rgba(217, 180, 122, 0.05);
-}
-
-.designer-step-btn:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 2px;
-}
-
-.designer-step-indicator {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  font-weight: 600;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-muted);
-  transition: all var(--transition-fast);
-  flex-shrink: 0;
-}
-
-.designer-step-item.is-current .designer-step-indicator {
-  background: var(--color-gold);
-  color: #120D0A;
-  border-color: var(--color-gold);
-  box-shadow: 0 0 14px rgba(217, 180, 122, 0.4);
-}
-
-.designer-step-item.is-completed .designer-step-indicator {
-  background: rgba(217, 180, 122, 0.15);
-  border-color: var(--color-gold);
-  color: var(--color-gold);
-}
-
-.designer-step-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.designer-step-title {
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  color: var(--color-text-muted);
-  transition: color var(--transition-fast);
-}
-
-.designer-step-item.is-current .designer-step-title {
-  color: var(--color-gold);
-}
-
-.designer-step-item.is-completed .designer-step-title {
-  color: var(--color-text-primary);
-}
-
-.designer-step-sub {
-  font-size: 0.68rem;
-  color: var(--color-text-faint);
-  display: none;
-}
-
-@media (min-width: 1200px) {
-  .designer-step-sub {
-    display: block;
-  }
-}
-
-.designer-step-connector {
-  width: 24px;
-  height: 1px;
-  background: var(--color-border-subtle);
-  transition: background var(--transition-normal);
-}
-
-.designer-step-connector.is-filled {
-  background: var(--color-gold);
-}
-
-/* =========================================
-   DESIGNER MAIN CONTAINER & INTRO
-   ========================================= */
-.designer-main-container {
+.designer-studio {
   flex: 1;
-  max-width: 1360px;
-  width: 100%;
-  margin: 0 auto;
-  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2.5vw, 2rem);
+  display: flex;
+  flex-direction: column;
 }
 
-.designer-step-section {
-  animation: fadeIn 300ms ease-out forwards;
+.designer-panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
 }
 
-
-.designer-step-intro {
-  margin-bottom: 2rem;
-}
-
-.step-intro-pill {
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
-.designer-step-heading {
-  font-family: var(--font-serif);
-  font-size: clamp(1.85rem, 3.5vw, 2.75rem);
-  font-weight: 600;
-  line-height: 1.2;
-  margin: 0.25rem 0 0.5rem;
-  color: var(--color-text-primary);
-}
-
-.designer-step-description {
-  font-size: 0.95rem;
-  color: var(--color-text-muted);
-  max-width: 720px;
-  line-height: 1.6;
-  margin: 0;
-}
-
-@media (max-width: 640px) {
-  .designer-header {
-    padding: 0 1rem;
-    height: 64px;
+@media (min-width: 1024px) {
+  .designer-page {
+    /* flex: none so the fixed height wins over .page-tool's flex-grow (which would size to content). */
+    flex: none;
+    height: calc(100dvh - var(--header-height));
+    min-height: 560px;
   }
 
-  .designer-header-right .btn span {
-    display: none;
+  .designer-titlebar {
+    padding-inline: var(--space-6);
   }
 
-  .designer-header-right .btn {
-    padding: 0.5rem;
+  .designer-studio {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(400px, 36%);
+    grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'stage panel'
+      'next save';
+    min-height: 0;
   }
 
-  .designer-main-container {
-    padding: var(--space-4);
+  .designer-stage {
+    grid-area: stage;
   }
-}
 
-.step-intro-badges {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  .designer-panel {
+    grid-area: panel;
+    min-height: 0;
+    border-top: 0;
+    border-left: 1px solid var(--color-border);
+  }
+
+  .designer-next {
+    grid-area: next;
+  }
+
+  .designer-savebar {
+    grid-area: save;
+    border-left: 1px solid var(--color-border);
+  }
 }

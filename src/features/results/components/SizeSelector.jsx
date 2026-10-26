@@ -1,91 +1,54 @@
-import React, { useState } from 'react';
-import { Info, ChevronDown, ChevronUp, Ruler } from 'lucide-react';
+import React from 'react';
+import { Info } from 'lucide-react';
+import StatusBadge from '../../../shared/ui/StatusBadge';
+import SegmentedControl from '../../../shared/ui/SegmentedControl';
 import { CATEGORY_NUMERIC_SIZES, GARMENT_CATEGORIES } from '../../../shared/data/resultsData';
 import SizeOptionsGrid from './SizeOptionsGrid';
 import SizeGuideTable from './SizeGuideTable';
 
+const GARMENT_OPTIONS = GARMENT_CATEGORIES.map((c) => ({ value: c.id, label: c.name }));
+
 /**
- * Exploratory ready-to-wear size picker (letter or category-specific numeric sizes).
- * These are reference benchmarks only — not a fit recommendation or guarantee.
+ * Exploratory ready-to-wear size picker (letter or garment-specific numeric sizes).
+ * These are reference charts only, not a fit recommendation or guarantee.
  */
 export default function SizeSelector({ garmentId, onGarmentChange, selectedSize, selectedSizeType, onSizeChange, unit }) {
-  const [showSizeGuide, setShowSizeGuide] = useState(false);
   const numericSizes = CATEGORY_NUMERIC_SIZES[garmentId] || [];
   const hasNumericSizes = numericSizes.length > 0;
+  const numericLabel = garmentId === 'trousers' ? 'Numeric (waist)' : garmentId === 'shirt' ? 'Numeric (collar)' : 'Numeric (chest)';
+
+  const changeFormat = (format) => {
+    if (format === 'letter') onSizeChange(selectedSizeType === 'letter' ? selectedSize : 'M', 'letter');
+    else onSizeChange((numericSizes[1] || numericSizes[0]).id, 'numeric');
+  };
 
   return (
-    <div className="size-selector-section" role="region" aria-label="Standard & Numeric Size Selector">
-      <div className="size-selector-header">
-        <div>
-          <span className="size-selector-eyebrow">Ready-to-Wear Comparison</span>
-          <h3 className="size-selector-title">Exploratory Size Selection</h3>
-        </div>
-        <button
-          type="button"
-          className="size-guide-toggle-btn"
-          onClick={() => setShowSizeGuide((v) => !v)}
-          aria-expanded={showSizeGuide}
-        >
-          <Ruler size={14} />
-          <span>{showSizeGuide ? 'Hide Size Guide' : 'View Size Guide'}</span>
-          {showSizeGuide ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-        </button>
+    <section className="fit-section" aria-labelledby="size-title">
+      <div className="fit-section-head">
+        <h2 id="size-title" className="fit-section-title">
+          Size
+        </h2>
+        <StatusBadge variant="neutral">Exploratory guidance</StatusBadge>
       </div>
-
-      <p className="size-selector-subtext">
-        Explore ready-to-wear sizing benchmarks for your chosen garment silhouette. Sizing charts vary between
-        tailoring houses and styles.
+      <p className="fit-section-text">
+        Pick the ready-to-wear size you’d normally buy, as a reference. Size charts vary by brand and region.
       </p>
 
-      <div className="garment-category-tabs-wrap">
-        <span className="category-tabs-label">Garment Category:</span>
-        <div className="garment-category-tabs" role="radiogroup" aria-label="Garment Silhouette Category">
-          {GARMENT_CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              type="button"
-              role="radio"
-              aria-checked={garmentId === cat.id}
-              className={`garment-tab-btn ${garmentId === cat.id ? 'is-active' : ''}`}
-              onClick={() => onGarmentChange(cat.id)}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </div>
+      <div className="fit-controls">
+        <SegmentedControl label="Garment" options={GARMENT_OPTIONS} value={garmentId} onChange={onGarmentChange} showLabel />
+        {hasNumericSizes && (
+          <SegmentedControl
+            label="Size type"
+            options={[
+              { value: 'letter', label: 'Letter (S–3XL)' },
+              { value: 'numeric', label: numericLabel },
+            ]}
+            value={selectedSizeType}
+            onChange={changeFormat}
+            showLabel
+          />
+        )}
       </div>
-
-      {hasNumericSizes && (
-        <>
-          <div className="size-format-selector" role="radiogroup" aria-label="Size Format">
-            <button
-              type="button"
-              role="radio"
-              aria-checked={selectedSizeType === 'letter'}
-              className={`size-format-btn ${selectedSizeType === 'letter' ? 'is-active' : ''}`}
-              onClick={() => onSizeChange(selectedSizeType === 'letter' ? selectedSize : 'M', 'letter')}
-            >
-              Letter Sizing (S – 3XL)
-            </button>
-            <button
-              type="button"
-              role="radio"
-              aria-checked={selectedSizeType === 'numeric'}
-              className={`size-format-btn ${selectedSizeType === 'numeric' ? 'is-active' : ''}`}
-              onClick={() => onSizeChange((numericSizes[1] || numericSizes[0]).id, 'numeric')}
-            >
-              Tailored Numeric Sizing ({garmentId === 'trousers' ? 'Waist' : 'Collar / Chest'})
-            </button>
-          </div>
-          <div className="numeric-distinction-note">
-            <Info size={13} className="numeric-distinction-icon" />
-            <span>
-              Numeric {garmentId} sizing represents specific garment dimensions and is not universally
-              equivalent to standard letter sizes.
-            </span>
-          </div>
-        </>
-      )}
 
       <SizeOptionsGrid
         showNumeric={hasNumericSizes && selectedSizeType === 'numeric'}
@@ -96,16 +59,15 @@ export default function SizeSelector({ garmentId, onGarmentChange, selectedSize,
         onSizeChange={onSizeChange}
       />
 
-      {showSizeGuide && <SizeGuideTable unit={unit} selectedSize={selectedSize} />}
+      <SizeGuideTable unit={unit} selectedSize={selectedSize} />
 
-      <div className="size-honesty-banner" role="note">
-        <Info size={15} className="size-honesty-icon" aria-hidden="true" />
-        <p className="size-honesty-text">
-          <strong>Exploratory Selection Notice:</strong> Ready-to-wear sizes here are exploratory benchmarks you
-          choose yourself, not a measured recommendation or a guaranteed fit. Size charts vary widely by garment
-          type, brand and region.
-        </p>
-      </div>
-    </div>
+      <p className="fit-note">
+        <Info size={16} aria-hidden="true" />
+        <span>
+          This is a size you choose, not a measured recommendation or a guaranteed fit. Tailzey garments are made from
+          your own measurements.
+        </span>
+      </p>
+    </section>
   );
 }

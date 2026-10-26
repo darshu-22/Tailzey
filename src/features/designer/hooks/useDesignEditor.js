@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from 'react';
 import { useWorkspace } from '../../../app/hooks';
 import { getGarmentById } from '../../../shared/data/designerData';
-import { defaultCustomOptions, garmentDefaults, resolveCustomOptions } from '../lib/designOptions';
+import { defaultCustomOptions, garmentDefaults, resolveCustomOptions } from '../../../shared/garments/options';
 
 /**
  * Read/write access to the workspace design (the single source of truth).
- * Used by the designer and the 3D studio so garment switches behave the same everywhere:
- * changing garment resets custom options to that garment's defaults, keeping them valid.
+ * Changing garment resets custom options to that garment's defaults (shared/garments/options),
+ * exactly as the 3D studio and try-on do, so saved designs stay valid.
  */
 export function useDesignEditor() {
   const { design, updateDesign } = useWorkspace();

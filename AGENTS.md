@@ -7,12 +7,14 @@ Guide for AI coding agents working in this repository. Read it fully before chan
 Tailzey is a custom-tailoring web app. A user:
 1. designs a garment;
 2. takes guided front and side photos;
-3. gets body measurements estimated by computer vision, each with an honest ± error;
-4. picks a size, previews the outfit on a sample 3D mannequin, and prints a design report.
+3. gets body measurements estimated by computer vision, each with an honest ± error
+   (hands-free: the browser checks the pose, speaks guidance and takes each photo itself);
+4. picks a size, tries the garment on live over the camera (AR, in the browser), views it on a
+   3D mannequin shaped from their measurements, and prints a design report.
 
 | Part | Location | Stack |
 |---|---|---|
-| Frontend | `src/` | React 19 + Vite 8 (JavaScript), hash router, no UI framework |
+| Frontend | `src/` | React 19 + Vite 8 (JavaScript), hash router, no UI framework; Three.js (3D studio); MediaPipe Tasks Vision in the browser (hands-free capture, try-on) |
 | Backend API | `backend/app/` | Python 3.14, FastAPI, SQLAlchemy 2, Alembic, pydantic v2 |
 | Computer vision | `backend/app/cv/` | MediaPipe PoseLandmarker (landmarks + person mask), numpy |
 | Model training | `backend/ml/` | BodyM dataset, ridge + XGBoost (CUDA GPU only) |
@@ -49,11 +51,13 @@ Run every command from the folder shown. The OS is Windows: use `.venv/Scripts/�
 app/        App root · AppProviders · hooks.js · providers/{auth,workspace,toast} · router/{routes,RouteOutlet}
 core/       api/httpClient.js (fetch wrapper → ApiError) · config/env.js
 services/   authService · designService · profileService · measurementService (the only modules that call the API)
-shared/     ui/ (Button, Card, StatusBadge, Loading/Empty/ErrorState…) · layout/ (Header, Footer)
-            data/ (catalogues; garments/ has one file per garment) · measurements/ (field rules, ± formatting) · utils/units.js
-features/   auth · home · dashboard · designer · measurement · results · viewer3d · report
+shared/     ui/ (Button, Card, Input, StatusBadge, SegmentedControl, PageHeader, Loading/Empty/ErrorState…)
+            layout/ (AppShell + AppHeader + AppNavDrawer for signed-in pages; marketing Header/Footer)
+            data/ (catalogues; garments/ has one file per garment) · garments/ (option helpers, SVG previews)
+            measurements/ (field rules, ± formatting, UnitToggle) · vision/ (MediaPipe loaders) · utils/units.js
+features/   auth · home · dashboard · designer · measurement · results · tryon · viewer3d · report
             each split into pages/ components/ hooks/ lib/ styles/
-styles/     index.css (global entry) · variables · global · ui/ · app.css · responsive.css
+styles/     index.css (global entry) · variables (design tokens) · global (base + layout primitives) · ui/ · app.css
 ```
 
 Rules:
@@ -65,7 +69,9 @@ Rules:
 - **Never show success before the server confirms it.** Handle loading, empty, error, offline and 401 states.
 - **Keep files small:** JSX and JS at most about 200 lines, CSS at most about 400. Split into components, hooks and `lib/` helpers.
 - **Cross-feature code goes in `src/shared/`.** A feature must not import another feature's internals.
-- **Styles:** each feature's CSS is imported from its `styles/index.css`, which `src/styles/index.css` imports. Reuse existing class names and design tokens from `variables.css`. Don't add a CSS framework.
+- **Styles:** each feature's CSS is imported from its `styles/index.css`, which `src/styles/index.css` imports. Don't add a CSS framework.
+- **Design system:** light and simple — off-white background, white cards with hairline borders, ink primary buttons, one muted bronze accent used sparingly. Fonts are self-hosted: Playfair Display for headings, Inter for everything else. Use only the semantic tokens in `src/styles/variables.css` (no hex colours in CSS, no inline `style`). Selected options everywhere use the accent border + `--color-accent-soft` background.
+- **Layout:** private pages render inside `AppShell` (sticky header + nav); they must not render their own `<main>`, header or nav. Use `.page` for content pages (with `<PageHeader>`) and `.page-tool` for full-height tools (designer, capture, try-on, 3D). A `.page-tool` that must be exactly the viewport height also needs `flex: none` (see the designer). Mobile-first, breakpoints 640 / 1024 px, tap targets ≥ 44 px, no horizontal scroll at 360 px, one `<h1>` per page.
 - **Units:** measurement values live in `measurement.unit` (`cm` or `in`). Convert only with `shared/utils/units.js`. Missing values are `null`, never `0`.
 - **Browser storage:** don't use `localStorage` or `sessionStorage` for user data. The only exception is the sign-in return route.
 
@@ -111,6 +117,7 @@ Rules:
 - **Training is GPU-only.** XGBoost uses `device="cuda"` and `ml/trees.py` refuses to run without CUDA. Model variants train in parallel worker processes.
 - **The runtime needs no ML library.** Trees are exported to numpy arrays (`Forest`). Don't add scikit-learn, XGBoost or torch to `requirements.txt`.
 - **Privacy:** photos stay in memory for a single request. Never write them to disk, the database or logs, and never return them.
+- **In-browser vision** (hands-free capture and try-on) runs MediaPipe locally; video frames never leave the device. Its WASM runtime and lite pose model are self-hosted under `public/mediapipe/` by `scripts/prepare-vision-assets.mjs` (runs automatically before `npm run dev` / `npm run build`; output is git-ignored). Hands-free readiness rules in `features/measurement/lib/poseReadiness.js` mirror the backend's `cv/quality.py` — keep them in sync.
 - **BodyM** (training data) is licensed CC BY 4.0. Keep the attribution in `backend/README.md` and in the model metadata.
 
 ## Gotchas
@@ -130,4 +137,5 @@ Rules:
 
 - Password reset, which needs an email provider.
 - Production hosting: Postgres, HTTPS, and a shared rate-limit store.
-- Personalised 3D bodies. The 3D viewer is an illustrative sample mannequin and must stay labelled that way.
+- Scanned 3D bodies. The 3D studio builds an approximate mannequin from the measurements (missing values estimated from height) and must stay labelled "approximate — not a body scan".
+- Photo-realistic generative try-on. The live try-on draws garments procedurally; `features/tryon/lib/renderers/index.js` documents where a server-side generative provider would plug in (API key kept on the server, opt-in, one still).

@@ -1,56 +1,55 @@
 import React from 'react';
-import { Check } from 'lucide-react';
 import { STANDARD_LETTER_SIZES } from '../../../shared/data/resultsData';
 
-function SizeCard({ label, selected, onSelect, children }) {
+function SizeChoice({ name, label, checked, onSelect, children }) {
   return (
-    <button
-      type="button"
-      role="radio"
-      aria-checked={selected}
-      className={`size-card-btn ${selected ? 'is-selected' : ''}`}
-      onClick={onSelect}
-    >
-      <div className="size-card-top">
-        <span className="size-letter-badge">{label}</span>
-        {selected && <Check size={14} className="size-check-icon" />}
-      </div>
-      {children}
-    </button>
+    <label className="choice-card size-choice">
+      <input type="radio" className="choice-input" name={name} checked={checked} onChange={onSelect} />
+      <span className="choice-body">
+        <span className="size-choice-label">{label}</span>
+        {children}
+      </span>
+    </label>
   );
 }
 
-/** Letter-size cards (with chest/waist benchmarks) or the category's numeric sizes. */
+/** Letter sizes (with chest/waist ranges) or the garment's numeric sizes, as radio cards. */
 export default function SizeOptionsGrid({ showNumeric, numericSizes, selectedSize, selectedSizeType, unit, onSizeChange }) {
+  const name = showNumeric ? 'size-numeric' : 'size-letter';
+
   return (
-    <div className="size-cards-grid" role="radiogroup" aria-label="Available Exploratory Sizes">
-      {showNumeric
-        ? numericSizes.map((size) => (
-            <SizeCard
-              key={size.id}
-              label={size.label}
-              selected={selectedSize === size.id && selectedSizeType === 'numeric'}
-              onSelect={() => onSizeChange(size.id, 'numeric')}
-            >
-              <span className="size-name-label">{size.subtext}</span>
-            </SizeCard>
-          ))
-        : STANDARD_LETTER_SIZES.map((size) => (
-            <SizeCard
-              key={size.id}
-              label={size.label}
-              selected={selectedSize === size.id && selectedSizeType === 'letter'}
-              onSelect={() => onSizeChange(size.id, 'letter')}
-            >
-              <span className="size-name-label">{size.name}</span>
-              <span className="size-bench-sub">
-                Chest: {unit === 'cm' ? size.chestCm : size.chestIn} {unit}
-              </span>
-              <span className="size-bench-sub">
-                Waist: {unit === 'cm' ? size.waistCm : size.waistIn} {unit}
-              </span>
-            </SizeCard>
-          ))}
-    </div>
+    <fieldset className="choice-fieldset">
+      <legend className="sr-only">{showNumeric ? 'Numeric size' : 'Letter size'}</legend>
+      <div className="choice-grid size-grid">
+        {showNumeric
+          ? numericSizes.map((size) => (
+              <SizeChoice
+                key={size.id}
+                name={name}
+                label={size.label}
+                checked={selectedSize === size.id && selectedSizeType === 'numeric'}
+                onSelect={() => onSizeChange(size.id, 'numeric')}
+              >
+                <span className="choice-meta">{size.subtext}</span>
+              </SizeChoice>
+            ))
+          : STANDARD_LETTER_SIZES.map((size) => (
+              <SizeChoice
+                key={size.id}
+                name={name}
+                label={size.label}
+                checked={selectedSize === size.id && selectedSizeType === 'letter'}
+                onSelect={() => onSizeChange(size.id, 'letter')}
+              >
+                <span className="choice-meta">
+                  Chest {unit === 'cm' ? size.chestCm : size.chestIn} {unit}
+                </span>
+                <span className="choice-meta">
+                  Waist {unit === 'cm' ? size.waistCm : size.waistIn} {unit}
+                </span>
+              </SizeChoice>
+            ))}
+      </div>
+    </fieldset>
   );
 }

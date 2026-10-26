@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { Camera, Ruler } from 'lucide-react';
 import { useRouter, useWorkspace } from '../../../app/hooks';
 import { convertValue, isMissing } from '../../../shared/utils/units';
-import MeasurementHeader from '../components/MeasurementHeader';
-import MeasurementIntro from '../components/MeasurementIntro';
-import SetupInstructions from '../components/SetupInstructions';
+import Button from '../../../shared/ui/Button';
+import PageHeader from '../../../shared/ui/PageHeader';
+import MeasureSteps from '../components/MeasureSteps';
+import BeforeYouStart from '../components/BeforeYouStart';
 import CaptureScreen from '../components/CaptureScreen';
 import MeasurementProgress from '../components/MeasurementProgress';
 import ManualMeasurementForm from '../components/ManualMeasurementForm';
@@ -11,16 +13,31 @@ import MeasurementReview from '../components/MeasurementReview';
 import { useCaptureSession } from '../hooks/useCaptureSession';
 import { useMeasurementAnalysis } from '../hooks/useMeasurementAnalysis';
 
+const SCREENS = {
+  intro: {
+    step: 0,
+    title: 'Measure your body',
+    description: 'Four guided photos give you estimates with an honest ± range. Prefer a tape measure? Enter your numbers instead.',
+  },
+  analysing: { step: 2, title: 'Analysing your photos', description: 'This usually takes a few seconds.' },
+  review: { step: 3, title: 'Review your measurements', description: 'Check each value and where it came from before choosing a size.' },
+  manual: {
+    step: null,
+    title: 'Enter your measurements',
+    description: 'Measure with a flexible tape. Leave a field empty if you haven’t measured it; nothing is filled in for you.',
+  },
+};
+
 /**
- * Smart measurement flow: intro (height + consent) → setup → guided capture →
- * server analysis → review, with manual tape entry available at every step.
- * Results go into the shared measurement workspace; photos never leave this page's
- * memory except for the analysis request, and are dropped when the page unmounts.
+ * Measurement flow: before you start (height + consent) → capture → analysing → review,
+ * with manual tape entry reachable from every step. Results go into the shared workspace;
+ * photos stay in this page's memory except for the analysis request.
  */
 export default function SmartMeasurementPage() {
   const { navigate } = useRouter();
   const { measurement, applyCameraAnalysis, updateMeasurement } = useWorkspace();
-  const [screen, setScreen] = useState('intro'); // intro | setup | capture | analysing | manual | review
+  const [screen, setScreen] = useState('intro'); // intro | capture | analysing | review | manual
+  const [manualReturn, setManualReturn] = useState('intro');
   const [consented, setConsented] = useState(false);
   const session = useCaptureSession();
   const analysis = useMeasurementAnalysis();
@@ -43,43 +60,48 @@ export default function SmartMeasurementPage() {
     setScreen('review');
   };
 
-  const openCamera = () => setScreen(consented && hasHeight ? 'setup' : 'intro');
-
+  const openManual = () => {
+    analysis.cancel();
+    setManualReturn(screen === 'review' ? 'review' : 'intro');
+    setScreen('manual');
+  };
+  const openCamera = () => setScreen(consented && hasHeight ? 'capture' : 'intro');
   const retakeView = (key) => {
     session.retake(key);
     setScreen('capture');
   };
 
+  if (screen === 'capture') {
+    return (
+      <CaptureScreen
+        session={session}
+        onAnalyse={startAnalysis}
+        onBack={() => setScreen('intro')}
+        onSwitchToManual={openManual}
+      />
+    );
+  }
+
+  const copy = SCREENS[screen];
+  const headerAction =
+    screen === 'manual' ? (
+      <Button variant="outline" icon={Camera} onClick={openCamera}>
+        Use the camera
+      </Button>
+    ) : (
+      <Button variant="outline" icon={Ruler} onClick={openManual}>
+        Enter manually
+      </Button>
+    );
+
   return (
-    <div className="measurement-page-wrapper">
-      <MeasurementHeader onNavigate={navigate} />
+    <div className={`page measure-page is-${screen}`}>
+      <PageHeader className="measure-head" title={copy.title} description={copy.description} actions={headerAction} />
+      {copy.step !== null && <MeasureSteps current={copy.step} />}
 
-      <main className="measurement-main-container" id="main-content">
+      <div className="measure-body">
         {screen === 'intro' && (
-          <MeasurementIntro
-            consented={consented}
-            onConsentChange={setConsented}
-            onStartCamera={() => setScreen('setup')}
-            onStartManual={() => setScreen('manual')}
-            onBack={() => navigate('dashboard')}
-          />
-        )}
-
-        {screen === 'setup' && (
-          <SetupInstructions
-            onProceed={() => setScreen('capture')}
-            onManual={() => setScreen('manual')}
-            onBack={() => setScreen('intro')}
-          />
-        )}
-
-        {screen === 'capture' && (
-          <CaptureScreen
-            session={session}
-            onAnalyse={startAnalysis}
-            onBackToSetup={() => setScreen('setup')}
-            onSwitchToManual={() => setScreen('manual')}
-          />
+          <BeforeYouStart consented={consented} onConsentChange={setConsented} onStart={() => setScreen('capture')} />
         )}
 
         {screen === 'analysing' && (
@@ -93,32 +115,25 @@ export default function SmartMeasurementPage() {
               setScreen('capture');
             }}
             onBackToCapture={() => setScreen('capture')}
-            onManual={() => setScreen('manual')}
           />
         )}
 
         {screen === 'manual' && (
-          <ManualMeasurementForm
-            onSubmitted={() => setScreen('review')}
-            onSwitchToCamera={openCamera}
-            onBack={() => setScreen('intro')}
-          />
+          <ManualMeasurementForm onSubmitted={() => setScreen('review')} onCancel={() => setScreen(manualReturn)} />
         )}
 
         {screen === 'review' && (
           <MeasurementReview
             images={session.images}
             onRetakeView={retakeView}
-            onEditManual={() => setScreen('manual')}
-            onDashboard={() => navigate('dashboard')}
-            onDesigner={() => navigate('designer')}
+            onEditManual={openManual}
             onContinue={() => {
               session.clear();
               navigate('results');
             }}
           />
         )}
-      </main>
+      </div>
     </div>
   );
 }

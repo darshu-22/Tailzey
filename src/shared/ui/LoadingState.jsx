@@ -1,10 +1,10 @@
 import React from 'react';
 
 /**
- * Reusable LoadingState component with luxury spinner and status messaging
+ * Centered spinner with a short status message.
  */
 export default function LoadingState({
-  message = 'Loading Tailzy Experience...',
+  message = 'Loading…',
   className = '',
 }) {
   return (

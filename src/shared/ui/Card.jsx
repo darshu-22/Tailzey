@@ -1,14 +1,13 @@
 import React from 'react';
 
 /**
- * Reusable Card component with luxury bronze/gold subtle borders and shadows
+ * Surface card. `interactive` makes the whole card keyboard-operable like a button.
  */
 export default function Card({
   children,
   className = '',
   interactive = false,
   onClick,
-  style = {},
   ...props
 }) {
   const interactiveClass = interactive ? 'card-interactive' : '';
@@ -17,7 +16,6 @@ export default function Card({
     <div
       className={`card ${interactiveClass} ${className}`.trim()}
       onClick={onClick}
-      style={style}
       role={interactive ? 'button' : undefined}
       tabIndex={interactive ? 0 : undefined}
       onKeyDown={

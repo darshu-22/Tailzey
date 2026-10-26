@@ -60,20 +60,20 @@ export const GARMENT_CATEGORIES = [
 export const FIT_PREFERENCES = [
   {
     id: 'slim',
-    name: 'Slim Fit',
-    subtext: 'Closer contour with minimal ease allowance',
-    description: 'Sculpted close to your body lines for a sharp, tapered presence.',
+    name: 'Slim fit',
+    subtext: 'Close to the body, minimal room',
+    description: 'Follows your shape closely for a sharp, tapered look.',
   },
   {
     id: 'regular',
-    name: 'Regular Fit',
-    subtext: 'Balanced sartorial ease for natural comfort',
-    description: 'Traditional tailored proportion with sufficient room for comfortable everyday motion.',
+    name: 'Regular fit',
+    subtext: 'Comfortable everyday room',
+    description: 'A classic cut with enough room to move comfortably.',
   },
   {
     id: 'relaxed',
-    name: 'Relaxed Fit',
-    subtext: 'Generous ease for casual, fluid drape',
-    description: 'Contemporary architectural silhouette with deliberate drape and extra breathing room.',
+    name: 'Relaxed fit',
+    subtext: 'Generous room, easy drape',
+    description: 'A looser cut with extra room for a casual feel.',
   },
 ];

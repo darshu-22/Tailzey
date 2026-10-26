@@ -1,45 +1,44 @@
-/* =========================================
-   STATUS BADGES
-   ========================================= */
+/* Status badges. Variants: gold (accent), bronze (warning), info, neutral, success. */
 .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.25rem 0.65rem;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  letter-spacing: var(--letter-spacing-wide);
+  gap: var(--space-1);
+  padding: 0.2rem 0.6rem;
   border-radius: var(--radius-pill);
-  border: 1px solid transparent;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: 1.4;
   white-space: nowrap;
 }
 
 .status-badge-gold {
-  color: var(--color-gold);
-  background: rgba(217, 180, 122, 0.1);
-  border-color: rgba(217, 180, 122, 0.3);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
 }
 
 .status-badge-bronze {
-  color: #D69766;
-  background: rgba(155, 96, 56, 0.15);
-  border-color: rgba(155, 96, 56, 0.35);
-}
-
-.status-badge-success {
-  color: var(--color-status-success);
-  background: var(--color-status-success-bg);
-  border-color: rgba(126, 184, 138, 0.3);
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
 }
 
 .status-badge-info {
-  color: var(--color-status-info);
-  background: var(--color-status-info-bg);
-  border-color: rgba(121, 167, 217, 0.3);
+  background: var(--color-info-soft);
+  color: var(--color-info);
 }
 
 .status-badge-neutral {
+  background: var(--color-surface-muted);
   color: var(--color-text-muted);
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.status-badge-success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.status-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
 }

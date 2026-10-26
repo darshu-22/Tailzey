@@ -1,18 +1,31 @@
-import React, { useRef, useState } from 'react';
-import { Camera, CameraOff, Edit3, SwitchCamera } from 'lucide-react';
-import Button from '../../../shared/ui/Button';
+import React, { useCallback, useRef, useState } from 'react';
 import PoseAlignmentOverlay from './PoseAlignmentOverlay';
 import CameraStatusOverlay from './CameraStatusOverlay';
+import CameraControlsBar from './CameraControlsBar';
+import AutoCaptureOverlay from './AutoCaptureOverlay';
 import { useCameraStream } from '../hooks/useCameraStream';
+import { usePoseTracking } from '../hooks/usePoseTracking';
+import { useAutoCapture } from '../hooks/useAutoCapture';
 import { captureFrame } from '../lib/captureFrame';
 
 const FLASH_MS = 250;
+const voiceSupported = typeof window !== 'undefined' && 'speechSynthesis' in window;
 
 /**
- * Live viewfinder with pose guides and a shutter. The camera stream lives only while
- * this component is mounted and not paused; captured stills go to `onCaptureFrame`.
+ * Live viewfinder with pose guides and a shutter. In hands-free mode the pose is checked
+ * locally in the browser and the photo is taken automatically once the user is in position.
+ * The camera stream lives only while this component is mounted and not paused.
  */
-export default function CameraPreview({ activeStep, onCaptureFrame, onSwitchToManual }) {
+export default function CameraPreview({
+  activeStep,
+  hasPhoto,
+  handsFree,
+  voiceOn,
+  onToggleHandsFree,
+  onToggleVoice,
+  onCaptureFrame,
+  onSwitchToManual,
+}) {
   const canvasRef = useRef(null);
   const [facingMode, setFacingMode] = useState('user');
   const [isFlashing, setIsFlashing] = useState(false);
@@ -20,31 +33,49 @@ export default function CameraPreview({ activeStep, onCaptureFrame, onSwitchToMa
 
   const isLive = status === 'ready' && !paused;
   const mirrored = facingMode === 'user';
+  const autoOn = handsFree && isLive;
+  const kind = activeStep.silhouetteType; // 'front' | 'side' | 'back'
 
-  const handleCapture = () => {
-    if (!isLive || !videoRef.current || !canvasRef.current) return;
+  const handleCapture = useCallback(() => {
+    if (!videoRef.current || !canvasRef.current || videoRef.current.readyState < 2) return;
     setIsFlashing(true);
     setTimeout(() => setIsFlashing(false), FLASH_MS);
     onCaptureFrame(captureFrame(videoRef.current, canvasRef.current, { mirror: mirrored }));
-  };
+  }, [videoRef, mirrored, onCaptureFrame]);
+
+  const tracking = usePoseTracking({ videoRef, enabled: autoOn, kind });
+  const autoView = useAutoCapture({
+    enabled: autoOn,
+    voiceOn: voiceOn && voiceSupported,
+    tracking,
+    step: activeStep,
+    hasPhoto,
+    onCapture: handleCapture,
+  });
 
   return (
-    <div className="camera-preview-container" role="region" aria-label="Live Camera Viewfinder">
-      <canvas ref={canvasRef} className="camera-capture-canvas" aria-hidden="true" />
+    <section className="capture-stage" aria-label="Camera">
+      <canvas ref={canvasRef} className="viewfinder-canvas" aria-hidden="true" />
 
-      <div className="camera-viewfinder">
-        <div className={`camera-shutter-flash ${isFlashing ? 'is-flashing' : ''}`} aria-hidden="true" />
-
+      <div className="viewfinder">
         <video
           ref={videoRef}
           playsInline
           autoPlay
           muted
-          className={`camera-video-element ${mirrored ? 'is-mirrored' : ''}`}
+          className={`viewfinder-video ${mirrored ? 'is-mirrored' : ''}`}
           hidden={!isLive}
         />
 
-        {isLive && <PoseAlignmentOverlay silhouetteType={activeStep.silhouetteType} />}
+        {isLive && <PoseAlignmentOverlay silhouetteType={kind} />}
+        {autoOn && <AutoCaptureOverlay tracking={tracking} view={autoView} step={activeStep} />}
+
+        {isLive && (
+          <p className="viewfinder-badge">
+            <span className="viewfinder-dot" aria-hidden="true" />
+            Live preview · nothing is recorded
+          </p>
+        )}
 
         <CameraStatusOverlay
           status={status}
@@ -55,57 +86,22 @@ export default function CameraPreview({ activeStep, onCaptureFrame, onSwitchToMa
           onSwitchToManual={onSwitchToManual}
         />
 
-        {isLive && (
-          <div className="viewfinder-badge">
-            <span className="viewfinder-recording-dot" aria-hidden="true" />
-            <span>LIVE PREVIEW · NOTHING IS RECORDED</span>
-          </div>
-        )}
+        <div className={`viewfinder-flash ${isFlashing ? 'is-flashing' : ''}`} aria-hidden="true" />
       </div>
 
-      <div className="camera-controls-bar">
-        <div className="camera-controls-left">
-          <button
-            type="button"
-            className="camera-ctrl-btn"
-            onClick={paused ? resume : pause}
-            aria-label={paused ? 'Resume camera stream' : 'Pause camera stream'}
-          >
-            {paused ? <Camera size={18} /> : <CameraOff size={18} />}
-            <span>{paused ? 'Resume' : 'Pause Camera'}</span>
-          </button>
-          <button
-            type="button"
-            className="camera-ctrl-btn"
-            onClick={() => setFacingMode((m) => (m === 'user' ? 'environment' : 'user'))}
-            disabled={!isLive}
-            aria-label="Switch between front and back camera"
-          >
-            <SwitchCamera size={18} />
-            <span>Switch Lens</span>
-          </button>
-        </div>
-
-        <div className="camera-capture-trigger-wrap">
-          <button
-            type="button"
-            className="camera-shutter-btn"
-            onClick={handleCapture}
-            disabled={!isLive}
-            aria-label={`Capture still photo for ${activeStep.name}`}
-          >
-            <div className="shutter-inner-ring" />
-            <div className="shutter-core-circle" />
-          </button>
-          <span className="shutter-label">Capture Still</span>
-        </div>
-
-        <div className="camera-controls-right">
-          <Button variant="ghost" size="sm" icon={Edit3} onClick={onSwitchToManual}>
-            Manual Entry
-          </Button>
-        </div>
-      </div>
-    </div>
+      <CameraControlsBar
+        isLive={isLive}
+        paused={paused}
+        stepName={activeStep.name}
+        handsFree={handsFree}
+        voiceOn={voiceOn}
+        voiceSupported={voiceSupported}
+        onTogglePause={paused ? resume : pause}
+        onSwitchLens={() => setFacingMode((m) => (m === 'user' ? 'environment' : 'user'))}
+        onToggleHandsFree={onToggleHandsFree}
+        onToggleVoice={onToggleVoice}
+        onCapture={handleCapture}
+      />
+    </section>
   );
 }

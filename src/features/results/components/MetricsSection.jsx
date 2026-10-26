@@ -1,25 +1,56 @@
 import React from 'react';
+import { Camera } from 'lucide-react';
+import Button from '../../../shared/ui/Button';
+import StatusBadge from '../../../shared/ui/StatusBadge';
 import { MANUAL_MEASUREMENT_FIELDS } from '../../../shared/data/measurementData';
-import MeasurementResultCard from './MeasurementResultCard';
+import MeasurementRow from './MeasurementRow';
 
-export const METRICS_SECTION_ID = 'results-cards-section';
-
-/** Grid of measurement cards, all read from the workspace measurement. */
-export default function MetricsSection({ measurement, valueErrors, onSave, onAdjustmentChange }) {
+/** Dense list of every measurement (one row each), all read from the workspace measurement. */
+export default function MetricsSection({ measurement, counts, valueErrors, onSave, onAdjustmentChange, onMeasure }) {
   const { values, unit, fieldStatus, uncertainty, adjustments, analysis } = measurement;
+  const isEmpty = counts.entered + counts.estimated === 0;
 
   return (
-    <>
-      <div className="results-section-header" id={METRICS_SECTION_ID}>
-        <h2 className="results-section-heading">Anatomical Metrics</h2>
-        <span className="results-section-sub">
-          Edit values independently or apply optional comfort ease allowances.
-        </span>
+    <section className="card fit-panel" aria-labelledby="metrics-title">
+      <div className="fit-panel-head">
+        <h2 id="metrics-title" className="fit-section-title">
+          Measurements
+        </h2>
+        <ul className="profile-counts" aria-label="Measurement sources">
+          <li>
+            <StatusBadge variant={counts.entered ? 'gold' : 'neutral'}>{counts.entered} entered</StatusBadge>
+          </li>
+          <li>
+            <StatusBadge variant={counts.estimated ? 'info' : 'neutral'}>{counts.estimated} camera</StatusBadge>
+          </li>
+          {counts.missing > 0 && (
+            <li>
+              <StatusBadge variant="bronze">{counts.missing} not recorded</StatusBadge>
+            </li>
+          )}
+        </ul>
       </div>
+      <p className="fit-section-text">Edit any value. Ease adds room to the garment only; your body measurement stays the same.</p>
 
-      <div className="measurement-cards-grid">
+      {isEmpty && (
+        <div className="fit-alert is-info fit-empty">
+          <p>No measurements yet. Measure with the camera, or add values below.</p>
+          <Button variant="outline" size="sm" icon={Camera} onClick={onMeasure}>
+            Measure me
+          </Button>
+        </div>
+      )}
+
+      <ul className="metric-list">
+        <li className="metric-list-head" aria-hidden="true">
+          <span>Measurement</span>
+          <span>Value</span>
+          <span>Source</span>
+          <span>Ease ({unit})</span>
+          <span>Garment</span>
+        </li>
         {MANUAL_MEASUREMENT_FIELDS.map((field) => (
-          <MeasurementResultCard
+          <MeasurementRow
             key={field.id}
             field={field}
             value={values[field.id]}
@@ -33,7 +64,7 @@ export default function MetricsSection({ measurement, valueErrors, onSave, onAdj
             onAdjustmentChange={onAdjustmentChange}
           />
         ))}
-      </div>
-    </>
+      </ul>
+    </section>
   );
 }

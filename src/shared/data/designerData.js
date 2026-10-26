@@ -1,5 +1,5 @@
 /**
- * Outfit designer catalogue: garments (one file each in ./garments), colours, styles, fits.
+ * Outfit designer catalogue: garments (one file each in ./garments), colours, styles and fits.
  * Also exported to the backend for validation by backend/scripts/export_catalog.mjs.
  */
 
@@ -10,50 +10,50 @@ export { GARMENTS };
 export const COLORS = [
   {
     id: 'white',
-    name: 'Chantilly White',
+    name: 'White',
     hex: '#F8F7F4',
     secondaryHex: '#EAE6DF',
-    description: 'Crisp, luminescent ivory tone with warm undertones',
+    description: 'Soft off-white',
     isLight: true,
   },
   {
     id: 'black',
-    name: 'Obsidian Black',
+    name: 'Black',
     hex: '#161618',
     secondaryHex: '#252528',
-    description: 'Deep nocturnal carbon with matte satin sheen',
+    description: 'Deep black',
     isLight: false,
   },
   {
     id: 'navy',
-    name: 'Midnight Navy',
+    name: 'Navy',
     hex: '#162238',
     secondaryHex: '#233452',
-    description: 'Regal dark sapphire with timeless oceanic depth',
+    description: 'Dark blue',
     isLight: false,
   },
   {
     id: 'beige',
-    name: 'Cashmere Beige',
+    name: 'Beige',
     hex: '#D2C0A5',
     secondaryHex: '#BFAC90',
-    description: 'Subtle warm neutral reflecting refined luxury earth tones',
+    description: 'Light warm neutral',
     isLight: true,
   },
   {
     id: 'brown',
-    name: 'Tuscan Brown',
+    name: 'Brown',
     hex: '#553523',
     secondaryHex: '#6F4730',
-    description: 'Rich saddle mahogany with warm burnished patina',
+    description: 'Dark warm brown',
     isLight: false,
   },
   {
     id: 'burgundy',
-    name: 'Imperial Burgundy',
+    name: 'Burgundy',
     hex: '#591724',
     secondaryHex: '#782333',
-    description: 'Opulent deep wine tone with distinguished presence',
+    description: 'Deep wine red',
     isLight: false,
   },
 ];
@@ -62,26 +62,26 @@ export const STYLES = [
   {
     id: 'casual',
     name: 'Casual',
-    tagline: 'Effortless Leisure',
-    description: 'Relaxed proportions and clean lines crafted for sophisticated everyday ease.',
+    tagline: 'Everyday wear',
+    description: 'Easy, comfortable pieces for everyday wear.',
   },
   {
     id: 'classic',
     name: 'Classic',
-    tagline: 'Timeless Sartorial',
-    description: 'Balanced historical proportions with enduring silhouettes and refined grace.',
+    tagline: 'Traditional cut',
+    description: 'Traditional proportions that suit most occasions.',
   },
   {
     id: 'modern',
     name: 'Modern',
-    tagline: 'Architectural Minimalism',
-    description: 'Contemporary geometry, clean hardware, and streamlined avant-garde tailoring.',
+    tagline: 'Clean, minimal lines',
+    description: 'Clean lines and a sharper, current shape.',
   },
   {
     id: 'formal',
     name: 'Formal',
-    tagline: 'Black-Tie Poise',
-    description: 'Sculpted evening presence, crisp angles, and distinguished ceremonial elegance.',
+    tagline: 'Events and occasions',
+    description: 'Sharp, structured pieces for events and occasions.',
   },
 ];
 
@@ -89,27 +89,21 @@ export const FITS = [
   {
     id: 'regular',
     name: 'Regular',
-    subtitle: 'Balanced Silhouette',
-    description: 'Natural drape with standard ease through chest, waist, and limbs.',
+    subtitle: 'Standard room',
+    description: 'Standard room through the chest, waist and arms.',
   },
   {
     id: 'slim',
     name: 'Slim',
-    subtitle: 'Tapered Tailoring',
-    description: 'Contoured closely to your torso with a sharp, modern taper.',
+    subtitle: 'Close to the body',
+    description: 'Close to the body with a tapered shape.',
   },
   {
     id: 'relaxed',
     name: 'Relaxed',
-    subtitle: 'Architectural Ease',
-    description: 'Generous room and fluid draping for a contemporary relaxed statement.',
+    subtitle: 'Extra room',
+    description: 'Extra room for a loose, comfortable fit.',
   },
-];
-
-export const DESIGNER_STEPS = [
-  { id: 1, title: 'Choose Garment', description: 'Select base silhouette' },
-  { id: 2, title: 'Customize Style', description: 'Palette, fit & details' },
-  { id: 3, title: 'Review Design', description: 'Inspect final atelier draft' },
 ];
 
 /**

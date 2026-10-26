@@ -1,32 +1,25 @@
-/* App shell: toast stack and route loading fallback. */
+/* App-level: toast stack and route loading fallback. */
 .toast-viewport {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 1000;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  z-index: var(--z-toast);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-}
-
-.toast-viewport .toast-notification {
-  position: static;
-}
-
-.toast-notification.toast-error {
-  border-color: #d9776b;
+  gap: var(--space-3);
 }
 
 .route-fallback {
-  min-height: 60vh;
+  flex: 1;
   display: grid;
   place-items: center;
+  min-height: 60vh;
 }
 
 @media (max-width: 640px) {
   .toast-viewport {
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
+    right: var(--space-4);
+    bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+    left: var(--space-4);
   }
 }

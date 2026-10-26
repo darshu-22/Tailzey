@@ -18,6 +18,12 @@ def login(body: LoginIn, response: Response, db: DbSession):
     return {"data": auth_service.login(db, body, response)}
 
 
+@router.post("/demo", response_model=Envelope[UserOut], dependencies=[Depends(auth_rate_limit)])
+def demo(response: Response, db: DbSession):
+    """One-click sign-in to the shared demo account (development only unless DEMO_LOGIN_ENABLED)."""
+    return {"data": auth_service.demo_login(db, response)}
+
+
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
 def logout(request: Request, response: Response, db: DbSession):
     auth_service.logout(db, session_token(request), response)

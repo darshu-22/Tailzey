@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Reusable luxury Input component with label, prefix icon, hint, and error states
+ * Labelled text input with optional icon, hint and error message.
  */
 export default function Input({
   id,
@@ -24,7 +24,8 @@ export default function Input({
     <div className={`form-group ${className}`.trim()}>
       {label && (
         <label htmlFor={inputId} className="form-label">
-          <span>{label} {required && <span style={{ color: 'var(--color-gold)' }}>*</span>}</span>
+          {label}
+          {required && <span className="form-required-mark" aria-hidden="true"> *</span>}
         </label>
       )}
       <div className="form-input-container">
@@ -46,7 +47,6 @@ export default function Input({
             error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined
           }
           className={`form-input ${Icon ? 'form-input-with-icon' : ''}`}
-          style={error ? { borderColor: 'var(--color-status-error)' } : {}}
           {...props}
         />
       </div>

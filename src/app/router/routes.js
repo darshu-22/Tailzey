@@ -4,6 +4,7 @@ import { lazy } from 'react';
  * Route table for the hash router. Each page is code-split (lazy) so visitors only
  * download the feature they open.
  *   access: 'public' (anyone) | 'guest' (signed-out only) | 'private' (signed-in only)
+ * Private pages are rendered inside the shared AppShell (header + navigation).
  */
 export const ROUTES = {
   home: {
@@ -45,6 +46,11 @@ export const ROUTES = {
     aliases: ['avatar-preview', '3d-preview', 'outfit-viewer', '3d-studio'],
     access: 'private',
     component: lazy(() => import('../../features/viewer3d/pages/AvatarPreviewPage')),
+  },
+  'try-on': {
+    aliases: ['tryon', 'virtual-try-on'],
+    access: 'private',
+    component: lazy(() => import('../../features/tryon/pages/TryOnPage')),
   },
   'design-report': {
     aliases: ['report', 'export', 'dossier'],

@@ -1,0 +1,366 @@
+/*
+ * Measurement flow: page shell, step indicator, cards, alerts, action rows, manual entry.
+ * Laptop and up (≥1024px): the page is exactly one viewport tall; .measure-body scrolls
+ * only if a step's content can't fit.
+ */
+.measure-page.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-block: var(--space-5);
+}
+
+.measure-page > .measure-head {
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: 0;
+}
+
+.measure-head .page-header-text {
+  gap: var(--space-1);
+  max-width: 80ch;
+}
+
+.measure-head .page-title {
+  font-size: var(--text-2xl);
+}
+
+.measure-head .page-description {
+  font-size: var(--text-sm);
+}
+
+.measure-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .measure-page.page {
+    flex: none;
+    height: calc(100dvh - var(--header-height));
+    min-height: 520px;
+  }
+
+  .measure-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+}
+
+/* Step indicator */
+.measure-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.measure-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 2px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-subtle);
+}
+
+.measure-step.is-done {
+  border-top-color: var(--color-text);
+  color: var(--color-text-muted);
+}
+
+.measure-step.is-current {
+  border-top-color: var(--color-accent);
+  color: var(--color-text);
+  font-weight: var(--weight-semibold);
+}
+
+.measure-step-index {
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-surface-muted);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+}
+
+.measure-step.is-done .measure-step-index {
+  background: var(--color-text);
+  color: var(--color-text-inverse);
+}
+
+.measure-step.is-current .measure-step-index {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
+/* Cards */
+.measure-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-5);
+}
+
+.measure-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.measure-card-title {
+  font-size: var(--text-lg);
+}
+
+.measure-card-text {
+  font-size: var(--text-sm);
+}
+
+/* Alerts */
+.measure-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.measure-alert > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.measure-alert p {
+  color: inherit;
+}
+
+.measure-alert.is-info {
+  background: var(--color-info-soft);
+  border-color: var(--color-info-soft);
+}
+
+.measure-alert.is-info > svg {
+  color: var(--color-info);
+}
+
+.measure-alert.is-warning {
+  background: var(--color-warning-soft);
+}
+
+.measure-alert.is-warning > svg {
+  color: var(--color-warning);
+}
+
+.measure-alert.is-danger {
+  background: var(--color-danger-soft);
+}
+
+.measure-alert.is-danger > svg,
+.measure-alert.is-danger .measure-alert-title {
+  color: var(--color-danger);
+}
+
+.measure-alert-title {
+  margin-bottom: var(--space-1);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+}
+
+.measure-alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+  padding-left: var(--space-5);
+}
+
+.measure-privacy {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.measure-privacy > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--color-success);
+}
+
+/* Action rows */
+.measure-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.measure-actions-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Measurement number input with a unit suffix */
+.measure-field-required,
+.measure-field-desc {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  color: var(--color-text-muted);
+}
+
+.measure-field-control {
+  position: relative;
+}
+
+.measure-field-input {
+  padding-right: calc(var(--space-4) + 2rem);
+  font-variant-numeric: tabular-nums;
+}
+
+.measure-field-unit {
+  position: absolute;
+  top: 50%;
+  right: var(--space-4);
+  transform: translateY(-50%);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+/* Manual entry: groups side by side (4 columns on laptops) so all fields fit one screen. */
+.manual-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.manual-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+
+.manual-toolbar .segmented {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.manual-toolbar .segmented-legend {
+  float: left;
+  margin: 0;
+}
+
+.manual-tip {
+  font-size: var(--text-sm);
+}
+
+.manual-groups {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.manual-group {
+  margin: 0;
+}
+
+.manual-group.measure-card {
+  padding: var(--space-4);
+}
+
+.manual-group-title {
+  float: left;
+  width: 100%;
+  margin-bottom: var(--space-3);
+  padding: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+
+.manual-fields {
+  clear: both;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.measure-field.form-group {
+  gap: var(--space-1);
+}
+
+.measure-field-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 var(--space-2);
+}
+
+.measure-field-range {
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .manual-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .manual-groups {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .measure-card {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .measure-step:not(.is-current) .measure-step-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .measure-steps {
+    display: flex;
+  }
+
+  .measure-step {
+    flex: 0 0 var(--tap-target);
+  }
+
+  .measure-step.is-current {
+    flex: 1 1 auto;
+  }
+
+  .measure-actions > .btn-lg {
+    width: 100%;
+  }
+}

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Check, X, AlertCircle } from 'lucide-react';
+import { Check } from 'lucide-react';
 import Button from '../../../shared/ui/Button';
-import { toInputValue, validateFieldInput } from '../../../shared/measurements/measurementFields';
+import { getFieldRange, toInputValue, validateFieldInput } from '../../../shared/measurements/measurementFields';
 
-/** Inline editor for one measurement, validated against the field's range in `unit`. */
+/** Inline editor for one measurement row, validated against the field's range in `unit`. */
 export default function MeasurementEditForm({ field, currentValue, unit, onSave, onCancel }) {
   const [value, setValue] = useState(() => toInputValue(currentValue));
   const [error, setError] = useState(null);
+  const { min, max } = getFieldRange(field, unit);
+  const inputId = `edit-${field.id}`;
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -19,42 +21,50 @@ export default function MeasurementEditForm({ field, currentValue, unit, onSave,
   };
 
   return (
-    <form className="measurement-edit-form" onSubmit={handleSave} noValidate>
-      <div className="edit-form-input-wrap">
+    <form className="metric-edit" onSubmit={handleSave} noValidate>
+      <label htmlFor={inputId} className="sr-only">
+        {field.label} in {unit}
+      </label>
+      <div className="metric-edit-control">
         <input
+          id={inputId}
           type="number"
           inputMode="decimal"
           step="0.1"
-          min="0"
+          min={min}
+          max={max}
           value={value}
           onChange={(e) => {
             setValue(e.target.value);
             setError(null);
           }}
-          className={`measurement-inline-input ${error ? 'has-error' : ''}`}
+          className="form-input metric-edit-input"
           placeholder={field.placeholder}
           autoFocus
-          aria-label={`Edit ${field.label}`}
           aria-invalid={Boolean(error)}
+          aria-describedby={`${inputId}-hint`}
         />
-        <span className="edit-form-unit">{unit}</span>
+        <span className="metric-edit-unit" aria-hidden="true">
+          {unit}
+        </span>
       </div>
-
-      {error && (
-        <p className="edit-form-error" role="alert">
-          <AlertCircle size={12} />
-          <span>{error}</span>
-        </p>
-      )}
-
-      <div className="edit-form-actions">
-        <Button type="submit" variant="primary" size="sm" icon={Check}>
+      <div className="metric-edit-actions">
+        <Button type="submit" size="sm" icon={Check}>
           Save
         </Button>
-        <Button variant="ghost" size="sm" icon={X} onClick={onCancel}>
+        <Button variant="ghost" size="sm" onClick={onCancel}>
           Cancel
         </Button>
       </div>
+      {error ? (
+        <p id={`${inputId}-hint`} className="form-error-text metric-edit-hint" role="alert">
+          {error}
+        </p>
+      ) : (
+        <p id={`${inputId}-hint`} className="form-hint metric-edit-hint">
+          {min}–{max} {unit}
+        </p>
+      )}
     </form>
   );
 }

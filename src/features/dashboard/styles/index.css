@@ -1,4 +1,4 @@
-@import './layout.css';
-@import './content.css';
+/* Dashboard styles. */
+@import './dashboard.css';
 @import './records.css';
 @import './dialog.css';

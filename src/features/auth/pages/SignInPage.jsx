@@ -6,6 +6,7 @@ import Button from '../../../shared/ui/Button';
 import AuthLayout from '../components/AuthLayout';
 import AuthFormAlert from '../components/AuthFormAlert';
 import AuthSwitchPrompt from '../components/AuthSwitchPrompt';
+import DemoAccess from '../components/DemoAccess';
 import PasswordInput from '../components/PasswordInput';
 import { useAuthForm } from '../hooks/useAuthForm';
 import { validateSignIn } from '../utils/validation';
@@ -26,10 +27,10 @@ export default function SignInPage() {
   });
 
   return (
-    <AuthLayout pageType="signin">
+    <AuthLayout>
       <div className="auth-form-header">
-        <h1 className="auth-form-title">Welcome Back</h1>
-        <p className="auth-form-subtitle">Step back into your personal style experience.</p>
+        <h1 className="auth-form-title">Sign in</h1>
+        <p className="auth-form-subtitle">Welcome back. Sign in to see your designs and measurements.</p>
       </div>
 
       <AuthFormAlert message={formError} />
@@ -37,10 +38,10 @@ export default function SignInPage() {
       <form className="auth-form" onSubmit={handleSubmit} noValidate>
         <Input
           id="signin-email"
-          label="Email Address"
+          label="Email"
           type="email"
           autoComplete="email"
-          placeholder="your.email@atelier.com"
+          placeholder="you@example.com"
           value={values.email}
           onChange={(e) => setField('email', e.target.value)}
           error={errors.email}
@@ -62,11 +63,14 @@ export default function SignInPage() {
         />
 
         <Button type="submit" variant="primary" size="lg" loading={pending} className="auth-submit-btn">
-          {pending ? 'Signing In…' : 'Sign In'}
+          {pending ? 'Signing in…' : 'Sign in'}
         </Button>
 
-        <AuthSwitchPrompt prompt="Don't have an account yet?" linkLabel="Create an account" to="signup" />
       </form>
+
+      <DemoAccess disabled={pending} />
+
+      <AuthSwitchPrompt prompt="New to Tailzey?" linkLabel="Create an account" to="signup" />
     </AuthLayout>
   );
 }
