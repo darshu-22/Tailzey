@@ -56,6 +56,7 @@ export function garmentSpec(design) {
     colorName: color.name,
     fitName: fit.name,
     ease: easeCm / 100,
+    fitEase: ((FIT_EASE_CM[fit.id] ?? 1.4) - FIT_EASE_CM.regular) / 100, // m, relative to a regular fit
     flare: HEM_FLARE[fit.id] ?? 0.06,
   };
 

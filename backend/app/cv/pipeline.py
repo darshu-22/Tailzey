@@ -5,7 +5,8 @@
 2. Front/back profiles are averaged, as are left/right side profiles.
 3. The trained model (regressor.py; ridge + boosted trees on BodyM) predicts each
    measurement. With no side view a front-only model is used, with its own (larger) error.
-4. Neck uses landmark geometry (no training data exists for it).
+4. Neck uses landmark geometry (no training data exists for it), as does the opt-in underbust
+   (bust.py), which together with the chest gives a cup size.
 Every value carries ± = the model's measured error on held-out people.
 """
 
@@ -13,6 +14,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
+from .bust import UNDERBUST_UNCERTAINTY_CM, estimate_underbust
 from .neck import NECK_UNCERTAINTY_CM, estimate_neck
 from .regressor import MeasurementModel
 from .silhouette import arm_gap_ratio, feature_vector, front_features, prepare, side_features
@@ -34,6 +36,8 @@ class Estimate:
 
 # Below this share of chest/waist rows with a visible arm gap, the arms touch the torso.
 MIN_ARM_GAP_RATIO = 0.5
+# An underbust within this of the chest means the fold wasn't separated from the bust.
+MIN_BUST_GAP_CM = 1.0
 
 
 def _profiles(fronts: list[ViewGeometry], sides: list[ViewGeometry], height_cm: float):
@@ -69,15 +73,27 @@ def _capture_confidence(fronts, sides, front) -> tuple[str, list[str]]:
     return level, warnings
 
 
+def _underbust(fronts, sides, height_cm: float, out: dict[str, Estimate]) -> Estimate:
+    chest = out["chest"].value
+    value, reason = estimate_underbust(fronts, sides, height_cm, out["waist"].value)
+    if value is not None and chest is not None and value >= chest - MIN_BUST_GAP_CM:
+        value, reason = None, ("Your bust and underbust outlines were too close to tell apart. "
+                               "Measure your underbust with a tape.")
+    if value is None:
+        return Estimate(reason=reason)
+    return Estimate(value, UNDERBUST_UNCERTAINTY_CM, "low", "side-view bust fold (not yet validated)")
+
+
 def estimate(
-    views: dict[str, ViewGeometry], height_cm: float, model: MeasurementModel
+    views: dict[str, ViewGeometry], height_cm: float, model: MeasurementModel, include_bust: bool = False
 ) -> tuple[dict[str, Estimate], list[str]]:
     fronts = [v for k, v in views.items() if k in FRONT_KEYS]
     sides = [v for k, v in views.items() if k in SIDE_KEYS]
     out = {"height": Estimate(height_cm, method="entered by user")}
     front, side = _profiles(fronts, sides, height_cm)
+    keys = MEASURED_KEYS + (("underbust",) if include_bust else ())
     if front is None:
-        out |= {k: Estimate(reason="A usable front or back photo is required.") for k in MEASURED_KEYS}
+        out |= {k: Estimate(reason="A usable front or back photo is required.") for k in keys}
         return out, ["No usable front or back view, so no measurements could be estimated."]
 
     warnings = [] if sides else ["No usable side view: estimates use the front photo only and are less precise."]
@@ -93,6 +109,8 @@ def estimate(
     neck, reason = estimate_neck(fronts, sides)
     out["neck"] = (Estimate(neck, NECK_UNCERTAINTY_CM, "low", "landmark geometry (not yet validated)")
                    if neck is not None else Estimate(reason=reason))
+    if include_bust:
+        out["underbust"] = _underbust(fronts, sides, height_cm, out)
     return out, warnings
 
 

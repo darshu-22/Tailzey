@@ -1,4 +1,5 @@
 import { ARM_TOP, armProfile, legProfile, torsoProfile } from './bodyGeometry';
+import { deformBust } from './bustDeform';
 import { createProfile, loftGeometry } from './loft';
 
 /**
@@ -9,10 +10,14 @@ import { createProfile, loftGeometry } from './loft';
 
 const levelY = (d, { at, offset }) => d.levels[at] + offset * d.H;
 
+/** The body's bust, carried over to a top's shell (fabric bridges the cleavage and drapes). */
+const withBust = (d, geometry) => (d.bust ? deformBust(geometry, d.bust, { drape: true }) : geometry);
+
 function topTorso(d, spec, hemY) {
   const { levels: L, H } = d;
   const body = torsoProfile(d);
-  if (hemY >= L.seat) return loftGeometry(body, { yFrom: hemY, yTo: L.neckBase, inflate: spec.ease, radial: 56 });
+  const radial = d.bust ? 80 : 56;
+  if (hemY >= L.seat) return withBust(d, loftGeometry(body, { yFrom: hemY, yTo: L.neckBase, inflate: spec.ease, radial }));
 
   // Below the seat the shell hangs from the hip as a gentle A-line rather than hugging the legs.
   const keys = [L.hip, L.waist, L.chest, L.chest + 0.045 * H, L.shoulder - 0.004 * H, L.neckBase];
@@ -23,7 +28,7 @@ function topTorso(d, spec, hemY) {
     { y: (hemY + L.hip) / 2, a: hip.a * (1 + flare * 0.5), b: hip.b * (1 + flare * 0.4), z: hip.z },
   ];
   const profile = createProfile([...skirt, ...keys.map((y) => body.sample(y))]);
-  return loftGeometry(profile, { inflate: spec.ease, radial: 56 });
+  return withBust(d, loftGeometry(profile, { inflate: spec.ease, radial }));
 }
 
 function sleeveGeometry(d, spec) {

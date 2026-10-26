@@ -1,6 +1,5 @@
 import { getColorById, getGarmentById } from '../../../shared/data/designerData';
-
-const MEASUREMENT_KEYS = ['height', 'neck', 'shoulderWidth', 'chest', 'waist', 'hip', 'armLength', 'legLength'];
+import { fieldsFor } from '../../../shared/measurements/measurementFields';
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
 
@@ -18,10 +17,11 @@ export function describeDesign(design) {
   };
 }
 
-/** How many of the eight body measurements a saved profile has a value for. */
+/** How many of the body measurements that apply to a saved profile have a value. */
 export function countRecorded(values = {}) {
-  const recorded = MEASUREMENT_KEYS.filter((key) => values[key] !== null && values[key] !== undefined).length;
-  return { recorded, total: MEASUREMENT_KEYS.length };
+  const fields = fieldsFor({ values });
+  const recorded = fields.filter((f) => values[f.id] !== null && values[f.id] !== undefined).length;
+  return { recorded, total: fields.length };
 }
 
 /** A profile counts as camera-based once any capture has been analysed. */

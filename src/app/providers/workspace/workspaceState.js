@@ -18,7 +18,8 @@ export const INITIAL_MEASUREMENT = Object.freeze({
   profileId: null,
   profileName: 'My measurements',
   unit: 'cm',
-  values: {}, // { height, neck, shoulderWidth, chest, waist, hip, armLength, legLength } in `unit`
+  values: {}, // { height, neck, shoulderWidth, chest, underbust, waist, hip, armLength, legLength } in `unit`
+  includeBust: false, // opt-in bust & cup sizing (adds underbust)
   fieldStatus: {}, // key -> 'user_entered' | 'camera_estimate' | 'not_recorded'
   uncertainty: {}, // key -> ± cm, only for camera estimates
   cameraCaptureCount: 0,
@@ -41,6 +42,20 @@ export function setMeasurementValue(state, key, value) {
     values: { ...state.values, [key]: missing ? null : Number(value) },
     fieldStatus: { ...state.fieldStatus, [key]: missing ? 'not_recorded' : 'user_entered' },
     uncertainty,
+  };
+}
+
+/** Turn bust & cup sizing on or off. Turning it off forgets the underbust entirely. */
+export function setBustSizing(state, on) {
+  if (on) return { ...state, includeBust: true };
+  const drop = ({ underbust: _dropped, ...rest } = {}) => rest;
+  return {
+    ...state,
+    includeBust: false,
+    values: drop(state.values),
+    fieldStatus: drop(state.fieldStatus),
+    uncertainty: drop(state.uncertainty),
+    adjustments: drop(state.adjustments),
   };
 }
 
@@ -126,6 +141,7 @@ export function profileFromRecord(record) {
     profileName: record.profileName,
     unit: record.unit,
     values: record.values || {},
+    includeBust: !isMissing(record.values?.underbust),
     fieldStatus: record.fieldStatus || {},
     fitPreference: record.fitPreference || INITIAL_MEASUREMENT.fitPreference,
     selectedSize: record.selectedSize || INITIAL_MEASUREMENT.selectedSize,

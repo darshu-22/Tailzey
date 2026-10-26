@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useRouter } from '../../../app/hooks';
 import SegmentedControl from '../../../shared/ui/SegmentedControl';
+import BustToggle from '../../../shared/measurements/BustToggle';
+import CupSizeCard from '../../../shared/measurements/CupSizeCard';
 import FitHeader from '../components/FitHeader';
 import MetricsSection from '../components/MetricsSection';
 import SizeSelector from '../components/SizeSelector';
@@ -62,6 +64,8 @@ export default function MeasurementResultsPage() {
                 unit={measurement.unit}
               />
               <FitPreferenceSelector selectedFitId={measurement.fitPreference} onFitChange={studio.selectFit} />
+              <BustToggle checked={measurement.includeBust} onChange={studio.setIncludeBust} />
+              <CupSizeCard measurement={measurement} />
             </div>
           )}
         </div>

@@ -53,6 +53,7 @@ export default function SmartMeasurementPage() {
     const result = await analysis.run({
       heightCm: convertValue(measurement.values.height, measurement.unit, 'cm'),
       images: session.images,
+      includeBust: measurement.includeBust,
     });
     if (!result) return;
     applyCameraAnalysis(result, { captureCount: session.capturedCount });

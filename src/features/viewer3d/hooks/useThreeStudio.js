@@ -3,10 +3,11 @@ import { supportsWebGL } from '../lib/webglSupport';
 
 /**
  * Mounts the Three.js studio into `containerRef` (Three.js is loaded on demand, so only this
- * page pays for it) and keeps it in sync with the body and garment.
+ * page pays for it) and keeps it in sync with the body and garment: the fitted mannequin when
+ * `mannequin` is ready (see useMannequin), otherwise the simplified figure.
  * @returns {{ status: 'loading'|'ready'|'lost'|'error'|'unsupported', setView, reset, retry }}
  */
-export function useThreeStudio(containerRef, { bodyCm, spec, autoRotate }) {
+export function useThreeStudio(containerRef, { bodyCm, spec, mannequin, autoRotate }) {
   const [supported] = useState(supportsWebGL);
   const [status, setStatus] = useState('loading');
   const [attempt, setAttempt] = useState(0);
@@ -35,9 +36,12 @@ export function useThreeStudio(containerRef, { bodyCm, spec, autoRotate }) {
     };
   }, [supported, containerRef, attempt]);
 
+  const { scene, looks } = mannequin;
   useEffect(() => {
-    if (status === 'ready') studioRef.current?.setFigure(bodyCm, spec);
-  }, [status, bodyCm, spec]);
+    if (status !== 'ready') return;
+    if (scene) studioRef.current?.setMannequin(scene, looks);
+    else studioRef.current?.setFigure(bodyCm, spec);
+  }, [status, bodyCm, spec, scene, looks]);
 
   useEffect(() => {
     if (status === 'ready') studioRef.current?.setAutoRotate(autoRotate);

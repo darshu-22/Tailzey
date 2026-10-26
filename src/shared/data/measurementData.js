@@ -2,6 +2,7 @@
  * Smart measurement definitions: the guided camera views the backend analyses,
  * the posture it checks for, and the measurement fields with their valid ranges.
  * MANUAL_MEASUREMENT_FIELDS is exported to the backend catalog (backend/scripts/export_catalog.mjs).
+ * Fields with `optIn: 'bust'` only appear once the user turns on bust & cup sizing.
  */
 
 /**
@@ -115,6 +116,18 @@ export const MANUAL_MEASUREMENT_FIELDS = [
     minIn: 20,
     maxIn: 71,
     category: 'Torso',
+  },
+  {
+    id: 'underbust',
+    label: 'Underbust (Band)',
+    description: 'Snug around the ribcage, directly under the bust, tape level',
+    placeholder: 'e.g., 76',
+    minCm: 50,
+    maxCm: 160,
+    minIn: 20,
+    maxIn: 63,
+    category: 'Torso',
+    optIn: 'bust',
   },
   {
     id: 'waist',

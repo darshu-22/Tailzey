@@ -1,6 +1,22 @@
 import { FIT_PREFERENCES, STANDARD_LETTER_SIZES } from '../../../shared/data/resultsData';
 import { getFitById } from '../../../shared/data/designerData';
+import { cupSize, formatBraSize } from '../../../shared/measurements/cupSize';
 import SpecList from './SpecList';
+
+/** Bra-size line for the report, when bust sizing applies and a size can be given. */
+function braSizeItem(measurement) {
+  const result = cupSize(measurement);
+  if (!result?.sizes) return [];
+  const [eu, uk, us] = result.sizes;
+  const range = `UK ${formatBraSize(uk, uk.range[0])}–${formatBraSize(uk, uk.range[1])}`;
+  return [
+    {
+      label: 'Bra size guide',
+      value: `UK ${formatBraSize(uk)} · EU ${formatBraSize(eu)} · US ${formatBraSize(us)}`,
+      sub: result.estimated ? `Camera estimate, ${range}` : 'From tape measurements',
+    },
+  ];
+}
 
 /** Section 3: chosen size with its ready-to-wear benchmark, the fit and any ease added. */
 export default function ReportSizeSection({ fitId, measurement, adjustedCount }) {
@@ -25,6 +41,7 @@ export default function ReportSizeSection({ fitId, measurement, adjustedCount })
           { label: 'Waist guide', value: range(benchmark.waistCm, benchmark.waistIn), sub: 'Typical ready-to-wear range' },
         ]
       : []),
+    ...braSizeItem(measurement),
     { label: 'Fit', value: fit.name, sub: fit.subtext },
     {
       label: 'Ease',

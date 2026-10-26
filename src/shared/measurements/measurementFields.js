@@ -1,7 +1,16 @@
 import { MANUAL_MEASUREMENT_FIELDS } from '../data/measurementData';
+import { isMissing } from '../utils/units';
 
 /** Measurement field definitions keyed by id ('height', 'chest', ...). */
 export const FIELDS_BY_ID = Object.fromEntries(MANUAL_MEASUREMENT_FIELDS.map((f) => [f.id, f]));
+
+/**
+ * The fields that apply to a measurement: opt-in fields (underbust) only once bust sizing is
+ * on, or when a saved profile already has a value for them.
+ */
+export function fieldsFor({ includeBust = false, values = {} } = {}) {
+  return MANUAL_MEASUREMENT_FIELDS.filter((f) => !f.optIn || includeBust || !isMissing(values[f.id]));
+}
 
 /** Valid { min, max } for a field in the given unit. */
 export function getFieldRange(field, unit) {

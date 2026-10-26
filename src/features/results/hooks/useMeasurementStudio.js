@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useToast, useWorkspace } from '../../../app/hooks';
-import { MANUAL_MEASUREMENT_FIELDS } from '../../../shared/data/measurementData';
-import { FIELDS_BY_ID } from '../../../shared/measurements/measurementFields';
+import { FIELDS_BY_ID, fieldsFor } from '../../../shared/measurements/measurementFields';
 import { categoryForGarment, countSources } from '../lib/studioMath';
 
 /**
@@ -10,13 +9,13 @@ import { categoryForGarment, countSources } from '../lib/studioMath';
  * actions. Only the size-chart category being browsed is local.
  */
 export function useMeasurementStudio() {
-  const { measurement, design, setValue, setUnit, updateMeasurement } = useWorkspace();
+  const { measurement, design, setValue, setUnit, setIncludeBust, updateMeasurement } = useWorkspace();
   const { notify } = useToast();
   const [garmentId, setGarmentId] = useState(() => categoryForGarment(design.garmentId));
 
   const counts = useMemo(
-    () => countSources(MANUAL_MEASUREMENT_FIELDS, measurement.values, measurement.fieldStatus),
-    [measurement.values, measurement.fieldStatus]
+    () => countSources(fieldsFor(measurement), measurement.values, measurement.fieldStatus),
+    [measurement]
   );
 
   const changeUnit = useCallback(
@@ -67,5 +66,6 @@ export function useMeasurementStudio() {
     resetAdjustments,
     selectSize,
     selectFit,
+    setIncludeBust,
   };
 }

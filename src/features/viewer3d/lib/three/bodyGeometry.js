@@ -1,4 +1,5 @@
 import { SphereGeometry } from 'three';
+import { deformBust } from './bustDeform';
 import { createProfile, loftGeometry } from './loft';
 
 /**
@@ -66,7 +67,8 @@ export function legProfile(d, side) {
 /** Every part of the body as { geometry, position?: [x,y,z], rotationZ?, scale?: [x,y,z] }. */
 export function buildBodyParts(d) {
   const { H, s, levels: L, arm, leg } = d;
-  const parts = [{ geometry: loftGeometry(torsoProfile(d), { radial: 56, spacing: 0.01, capBottom: true, capTop: true }) }];
+  const torso = loftGeometry(torsoProfile(d), { radial: d.bust ? 80 : 56, spacing: d.bust ? 0.006 : 0.01, capBottom: true, capTop: true });
+  const parts = [{ geometry: d.bust ? deformBust(torso, d.bust) : torso }];
 
   const armGeometry = loftGeometry(armProfile(d), { radial: 32, spacing: 0.01, capBottom: true, capTop: true });
   for (const side of [1, -1]) {

@@ -48,11 +48,13 @@ def front_body(arms_touching: bool = False) -> ViewDetection:
     return ViewDetection(lms, m.astype(bool), people=1)
 
 
-def side_body() -> ViewDetection:
+def side_body(bust: bool = False) -> ViewDetection:
     m, rect = _canvas()
     rect(250, TOP, 360, 170)          # head
     rect(280, 170, 330, 200)          # neck depth: 50 px = 10 cm
     rect(250, 200, 370, 380)          # chest depth: 120 px = 24 cm
+    if bust:
+        rect(370, 260, 390, 320)      # bust: 4 cm projection, fold at y=320
     rect(260, 380, 360, 450)          # waist depth: 100 px = 20 cm
     rect(250, 450, 370, 560)          # hip depth: 120 px = 24 cm
     rect(270, 560, 340, BOTTOM)       # legs

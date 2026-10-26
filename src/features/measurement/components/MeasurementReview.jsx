@@ -2,6 +2,7 @@ import React from 'react';
 import { AlertTriangle, ArrowRight, Edit3, Info } from 'lucide-react';
 import Button from '../../../shared/ui/Button';
 import UnitToggle from '../../../shared/measurements/UnitToggle';
+import CupSizeCard from '../../../shared/measurements/CupSizeCard';
 import { useWorkspace } from '../../../app/hooks';
 import ReviewMeasurementTable from './ReviewMeasurementTable';
 import AnalysisViewsPanel from './AnalysisViewsPanel';
@@ -29,6 +30,7 @@ export default function MeasurementReview({ images, onRetakeView, onEditManual, 
           </div>
         </div>
         <ReviewMeasurementTable measurement={measurement} />
+        <CupSizeCard measurement={measurement} className="review-cup-size" />
       </section>
 
       {analysis && (

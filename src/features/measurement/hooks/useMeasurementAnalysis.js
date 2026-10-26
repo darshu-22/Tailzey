@@ -19,13 +19,13 @@ export function useMeasurementAnalysis() {
     setState({ status: 'idle', error: null });
   }, []);
 
-  const run = useCallback(async ({ heightCm, images }) => {
+  const run = useCallback(async ({ heightCm, images, includeBust }) => {
     controllerRef.current?.abort();
     const controller = new AbortController();
     controllerRef.current = controller;
     setState({ status: 'running', error: null });
     try {
-      const result = await analyzeMeasurements({ heightCm, images, signal: controller.signal });
+      const result = await analyzeMeasurements({ heightCm, images, includeBust, signal: controller.signal });
       if (controller.signal.aborted) return null;
       setState({ status: 'success', error: null });
       return result;

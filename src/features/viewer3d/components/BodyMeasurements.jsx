@@ -1,5 +1,5 @@
 import React from 'react';
-import { BODY_FIELDS, DEFAULT_HEIGHT_CM } from '../lib/bodyProfile';
+import { DEFAULT_HEIGHT_CM } from '../lib/bodyProfile';
 import { convertValue } from '../../../shared/utils/units';
 
 function formatLength(value, unit) {
@@ -13,7 +13,8 @@ function formatLength(value, unit) {
  */
 export default function BodyMeasurements({ profile, measurement }) {
   const unit = measurement.unit || 'cm';
-  const measuredCount = BODY_FIELDS.filter((f) => !profile.estimated[f.id]).length;
+  const { fields } = profile;
+  const measuredCount = fields.filter((f) => !profile.estimated[f.id]).length;
   const estimatedNote = profile.heightKnown
     ? '≈ estimated from typical proportions for your height.'
     : `≈ estimated: no height recorded yet, so the shape uses a default height of ${formatLength(convertValue(DEFAULT_HEIGHT_CM, 'cm', unit), unit)} and typical proportions.`;
@@ -23,12 +24,12 @@ export default function BodyMeasurements({ profile, measurement }) {
       <div className="studio-section-head">
         <h2 id="studio-body-heading" className="studio-section-title">Measurements in use</h2>
         <span className="studio-count">
-          {measuredCount} of {BODY_FIELDS.length} measured
+          {measuredCount} of {fields.length} measured
         </span>
       </div>
 
       <dl className="studio-measures">
-        {BODY_FIELDS.map((field) => {
+        {fields.map((field) => {
           const estimated = profile.estimated[field.id];
           const value = estimated ? convertValue(profile.cm[field.id], 'cm', unit) : measurement.values[field.id];
           return (
@@ -48,7 +49,7 @@ export default function BodyMeasurements({ profile, measurement }) {
         })}
       </dl>
 
-      {measuredCount < BODY_FIELDS.length && <p className="studio-footnote">{estimatedNote}</p>}
+      {measuredCount < fields.length && <p className="studio-footnote">{estimatedNote}</p>}
     </section>
   );
 }

@@ -10,14 +10,15 @@ async function dataUrlToBlob(dataUrl) {
 
 /**
  * Upload captured photos for camera-based measurement estimation.
- * @param {{ heightCm: number, images: Record<string, string>, signal?: AbortSignal }} args
- *   images maps capture-step keys to JPEG data URLs.
+ * @param {{ heightCm: number, images: Record<string, string>, includeBust?: boolean, signal?: AbortSignal }} args
+ *   images maps capture-step keys to JPEG data URLs; includeBust (opt-in) adds an underbust estimate.
  * @returns analysis: { unit:'cm', measurements, views, warnings, model, processingMs, disclaimer }
  */
-export async function analyzeMeasurements({ heightCm, images, signal }) {
+export async function analyzeMeasurements({ heightCm, images, includeBust = false, signal }) {
   const form = new FormData();
   form.append('heightCm', String(heightCm));
   form.append('consent', 'true');
+  form.append('includeBust', String(includeBust));
   for (const key of ANALYZED_VIEWS) {
     if (images[key]) form.append(key, await dataUrlToBlob(images[key]), `${key}.jpg`);
   }

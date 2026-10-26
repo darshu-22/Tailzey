@@ -376,6 +376,14 @@
       "maxIn": 71
     },
     {
+      "id": "underbust",
+      "label": "Underbust (Band)",
+      "minCm": 50,
+      "maxCm": 160,
+      "minIn": 20,
+      "maxIn": 63
+    },
+    {
       "id": "waist",
       "label": "Waist Circumference",
       "minCm": 45,
