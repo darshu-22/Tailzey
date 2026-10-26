@@ -7,9 +7,10 @@ Users design a garment and take guided photos — hands-free: the browser checks
 **Features**
 - **Design studio:** garment, colour, style, fit and garment-specific options with a live preview.
 - **Camera measurement:** hands-free capture with voice guidance; server-side estimation with ± error per value.
+- **Bust & cup size (opt-in):** underbust from tape or camera (side-view bust fold), with an EU / UK / US bra-size guide shown as a range for camera estimates.
 - **Fit & Size:** edit values, add ease, choose size and fit, save measurement profiles.
 - **Live try-on (AR):** the chosen garment drawn on you in real time — runs entirely on the device.
-- **3D studio:** Three.js mannequin built from your measurements, wearing your design.
+- **3D studio:** a detailed women's or men's mannequin (MakeHuman, CC0) fitted to your measurements in the browser, always dressed (garment, base layer, hair, shoes), with cloth physics so every garment drapes over the body and over the layer beneath. Garments are recoloured to your design; the kurta is cut from the body itself.
 - **Design report:** a printable, tailor-ready spec (print / save as PDF).
 
 | Part | Stack |
@@ -61,6 +62,7 @@ src/
 - **Routes are code-split.** Private routes render inside one `AppShell` (header + navigation), redirect to sign-in and return to the requested page afterwards. Three.js and MediaPipe load only on the pages that use them.
 - **Design system:** light, simple palette with one accent; self-hosted Inter + Playfair Display; semantic tokens only; mobile-first, full-height layouts; WCAG AA contrast and visible focus.
 - **One source of truth for the catalogue.** The backend validates against `src/shared/data`, exported by `backend/scripts/export_catalog.mjs`.
+- **3D assets are prebuilt.** `backend/scripts/build_mannequin.py` turns MakeHuman's CC0 base mesh, morph targets and garments into compact binaries and WebP textures in `public/models/mannequin/` (about 0.5 MB gzipped for a body, 30–350 KB per garment), loaded only by the 3D studio. Fitting, cloth physics and subdivision run in a Web Worker.
 
 ## Measurement accuracy
 
@@ -74,8 +76,14 @@ The full breakdown is in the [accuracy report](backend/ml/reports/accuracy.md): 
 
 The app shows each estimate with this ± error. Users should confirm critical measurements with a tape measure.
 
+## Credits
+
+- Measurement model training data: BodyM (CC BY 4.0), see [backend/README.md](backend/README.md).
+- 3D mannequin, morph targets and garments: [MakeHuman](http://www.makehumancommunity.org) assets, released as CC0 1.0. Only the CC0 assets are used; no MakeHuman (AGPL) code is included.
+
 ## Privacy
 
 - Photos are analysed in memory on the server and discarded. They are never stored, logged or returned.
 - Hands-free pose checks and live try-on run entirely in the browser; video never leaves the device.
+- Bust measurement is opt-in. Turning it off removes the underbust from the profile.
 - Users can delete their account, which removes all of their data.

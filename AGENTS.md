@@ -34,6 +34,7 @@ Run every command from the folder shown. The OS is Windows: use `.venv/Scripts/�
 | Run API | `backend/` | `.venv/Scripts/uvicorn app.main:app --reload --port 8000` (docs at `/api/v1/docs`) |
 | Test / lint backend | `backend/` | `.venv/Scripts/python -m pytest` · `.venv/Scripts/ruff check app ml tests scripts` |
 | Re-export catalogue | repo root | `node backend/scripts/export_catalog.mjs` |
+| Rebuild 3D mannequin assets | `backend/` | `.venv/Scripts/python scripts/build_mannequin.py` (downloads MakeHuman CC0 data once into `backend/.cache/`, writes `public/models/mannequin/`; commit the output) |
 | Train model (GPU) | `backend/` | `pip install -r requirements-ml.txt`, then `python -m ml.download_bodym`, then `python -m ml.train` |
 | Evaluate live pipeline | `backend/` | `.venv/Scripts/python -m ml.e2e_eval 200` |
 
@@ -73,6 +74,7 @@ Rules:
 - **Design system:** light and simple — off-white background, white cards with hairline borders, ink primary buttons, one muted bronze accent used sparingly. Fonts are self-hosted: Playfair Display for headings, Inter for everything else. Use only the semantic tokens in `src/styles/variables.css` (no hex colours in CSS, no inline `style`). Selected options everywhere use the accent border + `--color-accent-soft` background.
 - **Layout:** private pages render inside `AppShell` (sticky header + nav); they must not render their own `<main>`, header or nav. Use `.page` for content pages (with `<PageHeader>`) and `.page-tool` for full-height tools (designer, capture, try-on, 3D). A `.page-tool` that must be exactly the viewport height also needs `flex: none` (see the designer). Mobile-first, breakpoints 640 / 1024 px, tap targets ≥ 44 px, no horizontal scroll at 360 px, one `<h1>` per page.
 - **Units:** measurement values live in `measurement.unit` (`cm` or `in`). Convert only with `shared/utils/units.js`. Missing values are `null`, never `0`.
+- **Bust & cup sizing is opt-in** (`measurement.includeBust`, women's fit). Fields with `optIn: 'bust'` (the underbust) only show once it is on; list fields with `fieldsFor(measurement)` from `shared/measurements/measurementFields.js`, never the raw catalogue. Turning it off deletes the underbust. Cup sizes come only from `shared/measurements/cupSize.js` (EN 13402 bands and cups; UK/US by the standard chart) and camera values are shown as a range.
 - **Browser storage:** don't use `localStorage` or `sessionStorage` for user data. The only exception is the sign-in return route.
 
 ## Backend architecture (`backend/app/`)
@@ -109,7 +111,7 @@ Rules:
 
 ## Computer vision and model: rules that keep it honest
 
-- **Pipeline** (`cv/pipeline.py`): detect, then quality gates (`cv/quality.py`, user-facing fix-it messages), then silhouette features (`cv/silhouette.py`), then the trained model (`cv/regressor.py`). Neck uses landmark geometry (`cv/neck.py`).
+- **Pipeline** (`cv/pipeline.py`): detect, then quality gates (`cv/quality.py`, user-facing fix-it messages), then silhouette features (`cv/silhouette.py`), then the trained model (`cv/regressor.py`). Neck uses landmark geometry (`cv/neck.py`). The underbust (only when the request has `includeBust=true`) uses the side-view bust fold (`cv/bust.py`); like neck it is unvalidated geometry, reported with low confidence and a wide ±.
 - **Never fabricate a measurement.** If something can't be measured, return `null` with a `reason`.
 - **Every camera value carries `uncertainty`.** It is the model's measured error on held-out people. Don't hard-code or "improve" these numbers by hand.
 - **Training and inference share `app/cv/silhouette.py`.** If you change features, you must retrain (`python -m ml.train`) and commit `app/cv/models/measurement_model.{npz,json}` plus `ml/reports/accuracy.md`.
@@ -119,6 +121,20 @@ Rules:
 - **Privacy:** photos stay in memory for a single request. Never write them to disk, the database or logs, and never return them.
 - **In-browser vision** (hands-free capture and try-on) runs MediaPipe locally; video frames never leave the device. Its WASM runtime and lite pose model are self-hosted under `public/mediapipe/` by `scripts/prepare-vision-assets.mjs` (runs automatically before `npm run dev` / `npm run build`; output is git-ignored). Hands-free readiness rules in `features/measurement/lib/poseReadiness.js` mirror the backend's `cv/quality.py` — keep them in sync.
 - **BodyM** (training data) is licensed CC BY 4.0. Keep the attribution in `backend/README.md` and in the model metadata.
+
+## 3D studio mannequin
+
+- **Pipeline** (`features/viewer3d/lib/mannequin/`, run in a Web Worker by `hooks/useMannequin.js`):
+  1. fit MakeHuman's CC0 body (base mesh + morph targets: sex, weight, muscle tone, height, ideal proportions, cup, tape-measure modifiers) to the measurements (`fitBody.js`);
+  2. dress it (`garmentCatalog.js` → `outfitPlan`): the CC0 garment for the design, a neutral base layer, hair, shoes and eyes;
+  3. fit each item from its `.mhclo` data; Ethnic wear's kurta is cut from the body itself (`kurtaMesh.js`), as no open-source kurta exists;
+  4. cloth physics (`drape.js`): position-based collision against the skin and the layers underneath, stretch constraints, optional Taubin smoothing and gravity. Bottoms drape before tops;
+  5. hide skin, and inner-layer faces, that the fabric covers (`coveredSkin.js`), and subdivide the skin once (Catmull–Clark, `subdivide.js`).
+- The procedural figure (`lib/three/figure.js`) shows only until the first scene is ready, or if the assets fail.
+- `lib/mannequin/measureBody.js` must give the same numbers as `backend/scripts/mannequin/measure.py`; the build prints both base bodies' measurements as a check.
+- **Only CC0 assets.** MakeHuman's code (including its measuring plugin) is AGPL: don't copy it. Add a garment by naming a CC0 `.mhclo` folder in `scripts/mannequin/sources.py` and mapping it in `lib/mannequin/garmentCatalog.js`.
+- **The mannequin is always dressed:** tops get neutral trousers and trousers a neutral tee (`baseLayer`), plus shoes. Keep it that way.
+- After changing fitting, physics or garments, check every garment on a petite and a plus-size body of each sex; skin or an inner layer must never show through.
 
 ## Gotchas
 
@@ -132,10 +148,13 @@ Rules:
 - **Front-camera stills are mirrored.** That's harmless, because left and right side views are treated the same.
 - **The dev frontend calls `/api/v1` through the Vite proxy.** In production, set `VITE_API_BASE_URL` and the backend `CORS_ALLOWED_ORIGINS`.
 - **Secrets:** never put secrets in `VITE_*` variables, because they ship to the browser.
+- **MakeHuman garment OBJs aren't in the body's coordinate frame.** Always place a garment by fitting it (`fit_on` / `fitGarment`), never from its raw OBJ positions.
+- **Garment delete lists can name helper vertices** and overshoot necklines; the build combines them with ray-tested coverage and keeps only skin vertices.
 
 ## Not implemented yet (don't pretend otherwise)
 
 - Password reset, which needs an email provider.
 - Production hosting: Postgres, HTTPS, and a shared rate-limit store.
-- Scanned 3D bodies. The 3D studio builds an approximate mannequin from the measurements (missing values estimated from height) and must stay labelled "approximate — not a body scan".
+- Scanned 3D bodies. The 3D studio fits an approximate MakeHuman mannequin to the measurements (missing values estimated from height) and must stay labelled "approximate — not a body scan". Garment style options (collars, lengths) aren't modelled on the realistic garments.
+- A validated camera underbust: it needs tape-measured reference data before its ± can be trusted.
 - Photo-realistic generative try-on. The live try-on draws garments procedurally; `features/tryon/lib/renderers/index.js` documents where a server-side generative provider would plug in (API key kept on the server, opt-in, one still).
