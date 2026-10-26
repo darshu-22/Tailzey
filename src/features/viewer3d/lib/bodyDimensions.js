@@ -1,9 +1,11 @@
 import { circumferenceToAxes } from './bodyProfile';
+import { bustShape } from './bustShape';
 
 /**
  * Body landmarks for the mannequin, in metres (y up, feet on y = 0, facing +z).
  * Heights use typical anthropometric ratios of stature; widths come from the measurements.
- * Depth/width ratios turn circumferences into elliptical cross-sections.
+ * Depth/width ratios turn circumferences into elliptical cross-sections. With an underbust the
+ * chest section is the ribcage and the bust is added on top of it (see bustShape.js).
  */
 
 const DEPTH_RATIO = { chest: 0.72, waist: 0.78, hip: 0.8, neck: 0.88 };
@@ -15,7 +17,8 @@ export function bodyDimensions(cm) {
   const s = H / 1.7; // overall scale against a 170 cm reference
   const girth = clamp(Math.sqrt(cm.chest / (0.56 * cm.height)), 0.85, 1.3);
 
-  const chest = circumferenceToAxes(cm.chest, DEPTH_RATIO.chest);
+  const bust = bustShape(cm, s);
+  const chest = bust ? bust.rib : circumferenceToAxes(cm.chest, DEPTH_RATIO.chest);
   const waist = circumferenceToAxes(cm.waist, DEPTH_RATIO.waist);
   const hip = circumferenceToAxes(cm.hip, DEPTH_RATIO.hip);
   const neck = circumferenceToAxes(cm.neck, DEPTH_RATIO.neck);
@@ -51,6 +54,7 @@ export function bodyDimensions(cm) {
       ankle: 0.045 * H,
     },
     axes: { chest, waist, hip, neck },
+    bust: bust && { ...bust, y: chestY },
     shoulderHalf,
     arm: {
       length: cm.armLength / 100,

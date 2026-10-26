@@ -13,10 +13,12 @@ import {
 } from 'three';
 import { createCameraRig } from './cameraRig';
 import { createFigure } from './figure';
+import { createMannequinFigure } from './mannequinFigure';
 
 /**
  * The 3D studio: one WebGL renderer mounted into `container`, a soft-lit scene with the
- * mannequin, and an orbit camera. Renders only when something changed, pauses while the tab
+ * mannequin (the fitted MakeHuman body when its assets are ready, else the simplified
+ * procedural figure), and an orbit camera. Renders only when something changed, pauses while the tab
  * is hidden or the GL context is lost, and frees every GPU resource on dispose().
  */
 
@@ -58,18 +60,27 @@ export function createStudio(container, { onContextChange } = {}) {
   ground.receiveShadow = true;
   scene.add(ground);
 
-  const camera = new PerspectiveCamera(30, 1, 0.05, 40);
-  const figure = createFigure();
-  scene.add(figure.group);
-  const rig = createCameraRig(camera, canvas);
-
   let dirty = true;
   let running = false;
   let contextLost = false;
   let raf = 0;
   let last = 0;
+  let figureHeight = null;
   const invalidate = () => {
     dirty = true;
+  };
+
+  const camera = new PerspectiveCamera(30, 1, 0.05, 40);
+  const figure = createFigure();
+  const mannequin = createMannequinFigure({ onChange: invalidate });
+  scene.add(figure.group, mannequin.group);
+  const rig = createCameraRig(camera, canvas);
+  const show = (realistic, height) => {
+    figure.group.visible = !realistic;
+    mannequin.group.visible = realistic;
+    figureHeight = height;
+    rig.frame(height, camera.aspect);
+    invalidate();
   };
 
   function tick(now) {
@@ -99,7 +110,7 @@ export function createStudio(container, { onContextChange } = {}) {
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    if (figure.dimensions) rig.frame(figure.dimensions.H, camera.aspect);
+    if (figureHeight) rig.frame(figureHeight, camera.aspect);
     invalidate();
   }
 
@@ -127,11 +138,14 @@ export function createStudio(container, { onContextChange } = {}) {
   start();
 
   return {
-    /** Rebuild the mannequin from body centimetres and a garment spec. */
+    /** Show the simplified figure, built from body centimetres and a garment spec. */
     setFigure(bodyCm, spec) {
-      const dims = figure.update(bodyCm, spec);
-      rig.frame(dims.H, camera.aspect);
-      invalidate();
+      show(false, figure.update(bodyCm, spec).H);
+    },
+    /** Show the fitted MakeHuman mannequin (buildMannequin() output), dressed as `looks`. */
+    setMannequin(mannequinScene, looks) {
+      mannequin.update(mannequinScene, looks);
+      show(true, mannequinScene.height);
     },
     setView(name) {
       rig.setView(name);
@@ -152,6 +166,7 @@ export function createStudio(container, { onContextChange } = {}) {
       rig.controls.removeEventListener('start', onStart);
       rig.dispose();
       figure.dispose();
+      mannequin.dispose();
       ground.geometry.dispose();
       ground.material.dispose();
       scene.traverse((object) => object.isLight && object.dispose?.());

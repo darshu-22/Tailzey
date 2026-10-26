@@ -9,6 +9,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 export const VIEW_AZIMUTH = { front: 0, side: Math.PI / 2, back: Math.PI };
 const DEFAULT_POLAR = Math.PI / 2 - 0.08;
 const TWEEN_MS = 650;
+// Look slightly below the middle and leave headroom, so the feet clear the floating view toolbar.
+const TARGET_HEIGHT = 0.47;
+const HALF_VIEW = 0.66;
 
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -37,7 +40,7 @@ export function createCameraRig(camera, domElement) {
 
   function fitDistance(aspect) {
     const tanHalf = Math.tan(MathUtils.degToRad(camera.fov / 2));
-    const byHeight = (height * 0.58) / tanHalf;
+    const byHeight = (height * HALF_VIEW) / tanHalf;
     const byWidth = (height * 0.26) / (tanHalf * Math.max(aspect, 0.1));
     return Math.max(byHeight, byWidth) + 0.2;
   }
@@ -72,7 +75,7 @@ export function createCameraRig(camera, domElement) {
       controls.minDistance = homeDistance * 0.4;
       controls.maxDistance = homeDistance * 1.6;
       const angle = framed ? current() : { azimuth: VIEW_AZIMUTH.front, polar: DEFAULT_POLAR };
-      controls.target.set(0, height * 0.5, 0);
+      controls.target.set(0, height * TARGET_HEIGHT, 0);
       place(angle.azimuth, angle.polar, homeDistance);
       controls.update();
       framed = true;

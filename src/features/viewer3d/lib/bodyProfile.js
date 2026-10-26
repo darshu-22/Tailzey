@@ -4,7 +4,8 @@ import { convertValue, isMissing } from '../../../shared/utils/units';
 /**
  * Turn the workspace measurement into the centimetre values the mannequin is built from.
  * Missing values fall back to typical proportions of the height (or of a default height),
- * and every fallback is flagged so the page can say it was estimated.
+ * and every fallback is flagged so the page can say it was estimated. Optional fields
+ * (the underbust, for bust & cup sizing) are only used when measured; they are never guessed.
  */
 
 export const DEFAULT_HEIGHT_CM = 170;
@@ -14,6 +15,7 @@ export const BODY_FIELDS = [
   { id: 'height', label: 'Height', ratio: null },
   { id: 'shoulderWidth', label: 'Shoulders', ratio: 0.259 },
   { id: 'chest', label: 'Chest', ratio: 0.56 },
+  { id: 'underbust', label: 'Underbust', ratio: null, optional: true },
   { id: 'waist', label: 'Waist', ratio: 0.48 },
   { id: 'hip', label: 'Hip', ratio: 0.57 },
   { id: 'armLength', label: 'Arm length', ratio: 0.355 },
@@ -28,7 +30,8 @@ const clampToField = (id, cm) => {
 };
 
 /**
- * @returns {{ cm: Record<string, number>, estimated: Record<string, boolean>, heightKnown: boolean }}
+ * @returns {{ cm: Record<string, number>, estimated: Record<string, boolean>, fields: object[],
+ *   heightKnown: boolean }} `fields` are the BODY_FIELDS in use.
  */
 export function resolveBodyProfile(measurement) {
   const unit = measurement?.unit || 'cm';
@@ -43,10 +46,12 @@ export function resolveBodyProfile(measurement) {
   for (const { id, ratio } of BODY_FIELDS) {
     if (id === 'height') continue;
     const measured = toCm(id);
+    if (ratio === null && measured === null) continue;
     estimated[id] = measured === null;
     cm[id] = clampToField(id, measured ?? height * ratio);
   }
-  return { cm, estimated, heightKnown: measuredHeight !== null };
+  const fields = BODY_FIELDS.filter((f) => f.id in cm);
+  return { cm, estimated, fields, heightKnown: measuredHeight !== null };
 }
 
 /** Half-width `a` of an ellipse with perimeter `p` and depth/width ratio `r` (Ramanujan I). */

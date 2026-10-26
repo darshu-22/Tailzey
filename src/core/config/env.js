@@ -10,3 +10,6 @@ export const ANALYSIS_TIMEOUT_MS = 90_000;
 // In-browser pose detection for hands-free capture (self-hosted by scripts/prepare-vision-assets.mjs).
 export const VISION_WASM_PATH = import.meta.env.VITE_VISION_WASM_PATH || '/mediapipe/wasm';
 export const POSE_MODEL_URL = import.meta.env.VITE_POSE_MODEL_URL || '/mediapipe/pose_landmarker_lite.task';
+
+// 3D studio mannequin and garments (built by backend/scripts/build_mannequin.py, served from public/).
+export const MANNEQUIN_ASSETS_PATH = import.meta.env.VITE_MANNEQUIN_ASSETS_PATH || '/models/mannequin';

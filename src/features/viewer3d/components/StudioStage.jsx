@@ -4,10 +4,10 @@ import StageStatus from './StageStatus';
 import ViewControls from './ViewControls';
 
 /** The 3D canvas area: Three.js scene, view controls and loading / failure states. */
-export default function StudioStage({ bodyCm, spec }) {
+export default function StudioStage({ bodyCm, spec, mannequin }) {
   const containerRef = useRef(null);
   const [autoRotate, setAutoRotate] = useState(false);
-  const { status, setView, reset, retry } = useThreeStudio(containerRef, { bodyCm, spec, autoRotate });
+  const { status, setView, reset, retry } = useThreeStudio(containerRef, { bodyCm, spec, mannequin, autoRotate });
 
   const pickView = (name) => {
     setAutoRotate(false);
